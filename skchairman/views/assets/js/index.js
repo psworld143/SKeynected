@@ -1,78 +1,66 @@
-const baranggayData = [50, 40, 30, 20, 10, 5, 0];
-const baranggays = [
-  "Acmonan",
-  "Bololmala",
-  "Bunao",
-  "Cebuano",
-  "Crossing Rubber",
-  "Kablon",
-  "Kalkam",
-  "Linan",
-];
+const nextBtns = document.querySelectorAll('.nextBtn');
+const prevBtns = document.querySelectorAll('.prevBtn');
+const formProgress = document.getElementById('formProgress');
+const steps = document.querySelectorAll('.card'); // Assuming you have card steps
+const dots = document.querySelectorAll('[data-carousel-dot]');
+const forms = document.querySelectorAll('.form'); // All forms
+let currentStep = 0;
 
-const youthData = [50, 80];
-const youthLabels = ["Yes", "No"];
-
-const sexData = [50, 50];
-const sexLabels = ["Male", "Female"];
-
-const ageData = [50, 40, 30, 20, 10, 5, 0];
-const ageLabels = ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60+"];
-
-const ageClassificationData = [50, 40, 30];
-const ageClassificationLabels = [
-  "CHILD YOUTH (15-17 YEARS OLD)",
-  "CORE YOUTH(15-24 YEARS OLD)",
-  "ADULT YOUTH(25-30 YEARS OLD)",
-];
-
-const genderPrefData = [50, 40, 30];
-const genderPrefLabels = ["Girl", "Boy", "Lesbian", "Gay", "Prefer Not Say"];
-
-const civilStatusData = [50, 40, 30, 20, 10];
-const civilStatusLabels = [
-  "Single",
-  "Married",
-  "Widowed",
-  "Separated",
-  "In Relationship",
-];
-
-const pieHeight = 250;
-
-function createPieChart(containerId, seriesData, labels) {
-  const options = {
-    chart: {
-      type: "pie",
-      height: pieHeight,
-    },
-    series: seriesData,
-    labels: labels,
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: "100%",
-          },
-        },
-      },
-    ],
-  };
-
-  const chart = new ApexCharts(document.querySelector(containerId), options);
-  chart.render();
+function updateFormProgress() {
+    const progressPercent = ((currentStep + 1) / steps.length) * 100;
+    formProgress.style.width = progressPercent + '%';
 }
 
-// Create pie charts
-createPieChart("#chart-barangay-population", baranggayData, baranggays);
-createPieChart("#chart-school-youth-members", youthData, youthLabels);
-createPieChart("#chart-sex", sexData, sexLabels);
-createPieChart("#chart-age", ageData, ageLabels);
-createPieChart(
-  "#chart-age-classification",
-  ageClassificationData,
-  ageClassificationLabels
-);
-createPieChart("#chart-gender-pref", genderPrefData, genderPrefLabels);
-createPieChart("#chart-civil-status", civilStatusData, civilStatusLabels);
+function updateActiveStep() {
+    // Update the visibility of steps
+    steps.forEach((step, index) => {
+        step.classList.toggle('active', index === currentStep);
+    });
+
+    // Update the active state of dots
+    dots.forEach((dot, index) => {
+        if (index === currentStep) {
+            dot.setAttribute('data-active', '');
+        } else {
+            dot.removeAttribute('data-active');
+        }
+    });
+
+    // Update the visibility of forms
+    forms.forEach((form, index) => {
+        form.setAttribute('data-active', index === currentStep ? '' : null);
+    });
+}
+
+nextBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            updateFormProgress();
+            updateActiveStep();
+        }
+    });
+});
+
+prevBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (currentStep > 0) {
+            currentStep--;
+            updateFormProgress();
+            updateActiveStep();
+        }
+    });
+});
+
+// Handle clicks on dots to navigate to specific steps/forms
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        currentStep = index;
+        updateFormProgress();
+        updateActiveStep();
+    });
+});
+
+// Initialize on page load
+updateFormProgress();
+updateActiveStep();

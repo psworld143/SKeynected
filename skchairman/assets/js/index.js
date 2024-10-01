@@ -64,8 +64,8 @@ function createPieChart(containerId, seriesData, labels) {
   chart.render();
 }
 
-// Create pie charts
-createPieChart("#chart-barangay-population", baranggayData, baranggays);
+
+createPieChart("#chart-barangay", baranggayData, baranggays);
 createPieChart("#chart-school-youth-members", youthData, youthLabels);
 createPieChart("#chart-sex", sexData, sexLabels);
 createPieChart("#chart-age", ageData, ageLabels);
