@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="../assets/vendor/remixicon/remixicon.css">
     <link rel="stylesheet" href="../assets/vendor/simple-datatables/style.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
 </head>
 
 <body>

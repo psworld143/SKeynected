@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #000;
+}
+
+:root {
+  --primary-color: #009a3c;
+  --secondary-color: #f3f3f3;
+  --border-color: #e0e0e0;
+  --body-font: "Poppins", sans-serif;
+  --heading-font: "Poppins", sans-serif;
+}
+
+
+

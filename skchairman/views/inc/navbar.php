@@ -3,9 +3,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="" alt="">
-        <span class="d-none d-lg-block">SKEYNECTED</span>
-        
+        <img src="../../views/assets/img/sk.png" alt="">
+        <span class="d-none d-lg-block logo-text" style="color: #fff">SKEYNECTED</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
