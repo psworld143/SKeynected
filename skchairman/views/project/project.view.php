@@ -13,18 +13,7 @@
     <link rel="stylesheet" href="../assets/vendor/boxicons/css/boxicons.min.css">
     <link rel="stylesheet" href="../assets/vendor/remixicon/remixicon.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
-        /* Custom CSS to make cards the same height */
-        .card {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .card-body {
-            flex-grow: 1;
-        }
-    </style>
+    
 </head>
 
 <body>
