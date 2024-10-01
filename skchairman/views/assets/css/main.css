@@ -4,14 +4,18 @@
   box-sizing: border-box;
   color: #000;
 }
-
 :root {
   --primary-color: #009a3c;
-  --secondary-color: #f3f3f3;
+  --secondary-color: #ffff00;
+  --background-color: #f9f9f9;
   --border-color: #e0e0e0;
   --body-font: "Poppins", sans-serif;
   --heading-font: "Poppins", sans-serif;
 }
 
-
-
+body {
+  font-family: var(--body-font);
+  font-size: 1rem;
+  line-height: 1.6;
+  background: var(--background-color);
+}

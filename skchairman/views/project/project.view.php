@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="../assets/vendor/boxicons/css/boxicons.min.css">
     <link rel="stylesheet" href="../assets/vendor/remixicon/remixicon.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
-
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
 </head>
 
 <body>

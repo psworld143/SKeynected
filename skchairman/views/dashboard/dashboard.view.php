@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
 </head>
 
 <body>
@@ -48,7 +49,7 @@
 
         <section class="section charts-section">
             <div class="container">
-                <div class="row">
+                <div class="row mb-4">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -60,13 +61,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section class="section charts-section mb-4">
-            <div class="container">
-                <div class="row d-flex">
-                    <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header">
                                 <h4>Sex:</h4>
@@ -76,7 +73,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+
+                    <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header">
                                 <h4>Member of Out of School Youth:</h4>
@@ -86,15 +84,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-
-        <section class="section charts-section mb-4">
-            <div class="container">
-                <div class="row d-flex">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header">
                                 <h4>Age:</h4>
@@ -104,7 +95,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+
+                    <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header">
                                 <h4>Age Classification:</h4>
@@ -114,14 +106,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <section class="section charts-section">
-            <div class="container">
-                <div class="row d-flex">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header">
                                 <h4>Gender Preference:</h4>
@@ -131,7 +117,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+
+                    <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header">
                                 <h4>Civil Status:</h4>
@@ -147,18 +134,18 @@
     </main>
 
     <!-- Vendor JS Files -->
-  <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="../assets/vendor/echarts/echarts.min.js"></script>
-  <script src="../assets/vendor/quill/quill.js"></script>
-  <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="../assets/vendor/php-email-form/validate.js"></script>
+    <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="../assets/vendor/echarts/echarts.min.js"></script>
+    <script src="../assets/vendor/quill/quill.js"></script>
+    <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="../assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/charts.js"></script>
+    <!-- Template Main JS File -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/charts.js"></script>
 </body>
 
 </html>
