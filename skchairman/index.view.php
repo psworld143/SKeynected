@@ -27,7 +27,7 @@
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <link href="assets/css/style.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="assets/css/index.css">
 </head>
 
 <body>
@@ -65,11 +65,39 @@
       </div>
     </section>
 
-    <section class="section charts-section">
+    <section class="section charts-section mb-4">
       <div class="container">
-        <div class="row d-flex"> 
+        <div class="row d-flex">
           <div class="col-lg-6">
-            <div class="card h-100"> 
+            <div class="card h-100">
+              <div class="card-header">
+                <h4>Sex:</h4>
+              </div>
+              <div class="card-body">
+                <div id="chart-sex"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card h-100">
+              <div class="card-header">
+                <h4>Member of Out of School Youth:</h4>
+              </div>
+              <div class="card-body">
+                <div id="chart-school-youth-members"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section charts-section mb-4">
+      <div class="container">
+        <div class="row d-flex">
+          <div class="col-lg-6">
+            <div class="card h-100">
               <div class="card-header">
                 <h4>Age:</h4>
               </div>
@@ -79,7 +107,7 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <div class="card h-100"> <!-- h-100 for the second card as well -->
+            <div class="card h-100">
               <div class="card-header">
                 <h4>Age Classification:</h4>
               </div>
@@ -92,7 +120,32 @@
       </div>
     </section>
 
-
+    <section class="section charts-section">
+      <div class="container">
+        <div class="row d-flex">
+          <div class="col-lg-6">
+            <div class="card h-100">
+              <div class="card-header">
+                <h4>Gender Preference:</h4>
+              </div>
+              <div class="card-body">
+                <div id="chart-gender-pref"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card h-100">
+              <div class="card-header">
+                <h4>Civil Status:</h4>
+              </div>
+              <div class="card-body">
+                <div id="chart-civil-status"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
 
 
