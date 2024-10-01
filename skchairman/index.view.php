@@ -32,11 +32,10 @@
 
 <body>
 
-
   <main id="main" class="main">
     <?php
-      include 'inc/navbar.php';
-      include 'inc/sidebar.php';
+    include 'inc/navbar.php';
+    include 'inc/sidebar.php';
     ?>
 
     <div class="pagetitle">
@@ -47,12 +46,59 @@
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
-    </div><!-- End Page Title -->
+    </div>
 
-    <section class="section">
+    <section class="section charts-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <h4>Barangay Population Distribution</h4>
+              </div>
+              <div class="card-body">
+                <div id="chart-barangay-population"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
+    <section class="section charts-section">
+      <div class="container">
+        <div class="row d-flex"> 
+          <div class="col-lg-6">
+            <div class="card h-100"> 
+              <div class="card-header">
+                <h4>Age:</h4>
+              </div>
+              <div class="card-body">
+                <div id="chart-age"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card h-100"> <!-- h-100 for the second card as well -->
+              <div class="card-header">
+                <h4>Age Classification:</h4>
+              </div>
+              <div class="card-body">
+                <div id="chart-age-classification"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
   </main><!-- End #main -->
+
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -65,7 +111,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  <script src="assets/js/index.js"></script>
 </body>
 
 </html>

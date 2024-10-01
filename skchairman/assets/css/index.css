@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #f3f3f3;
+  --secondary-color: #f3f3f3;
+  --tertiary-color: #f3f3f3;
+  --quaternary-color: #f3f3f3;
+  --quinary-color: #f3f3f3;
+  --senary-color: #f3f3f3;
+  --septenary-color: #f3f3f3;
+  --octonary-color: #f3f3f3;
+  --nonary-color: #f3f3f3;
+  --denary-color: #f3f3f3;
+  --primary-font: "Poppins", sans-serif;
+  --secondary-font: "Poppins", sans-serif;
+  --tertiary-font: "Poppins", sans-serif;
+  --quaternary-font: "Poppins", sans-serif;
+  --quinary-font: "Poppins", sans-serif;
+  --senary-font: "Poppins", sans-serif;
+  --septenary-font: "Poppins", sans-serif;
+  --octonary-font: "Poppins", sans-serif;
+  --nonary-font: "Poppins", sans-serif;
+  --denary-font: "Poppins", sans-serif;
+}

@@ -11,13 +11,20 @@
     <li class="nav-item">
       <a class="nav-link collapsed" href="#">
         <i class="bi bi-person"></i>
-        <span>User</span>
+        <span>Youth</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" href="#">
-        <i class="bi bi-map"></i>
-        <span>Areas</span>
+        <i class="bi bi-briefcase"></i>
+        <span>Projects</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#">
+        <i class="bi bi-cash-stack"></i>
+        <span>Budget Request</span>
       </a>
     </li>
 
