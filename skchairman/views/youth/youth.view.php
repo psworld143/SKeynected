@@ -352,7 +352,7 @@
                 </section>
             </main>
 
-            <script src="../assets/js/index.js"></script>
+            <script src="../assets/js/progress.js"></script>
         </body>
 
         </html>
