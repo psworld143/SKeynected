@@ -14,6 +14,13 @@
         <span>User</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#">
+        <i class="bi bi-map"></i>
+        <span>Areas</span>
+      </a>
+    </li>
+
 
   </ul>
 
