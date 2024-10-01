@@ -26,7 +26,7 @@
             <link rel="stylesheet" href="../assets/vendor/simple-datatables/style.css">
             <link rel="stylesheet" href="../assets/css/style.css">
             <link rel="stylesheet" href="../assets/css/main.css">
-            <link rel="stylesheet" href="../assets/css/forms.css">
+            <link rel="stylesheet" href="../assets/css/form.css">
             <link rel="stylesheet" href="../assets/css/navbar.css">
             <link rel="stylesheet" href="../assets/css/sidebar.css">
         </head>
@@ -63,13 +63,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="lname" class="form-label">Last name (Apilyedo)</label>
-                                                    <input type="text" id="lname" class="form-control" placeholder="Enter Last Name">
+                                                    <input type="text" id="lname" class="form-control" placeholder="Enter Last Name" req>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="fname">First name (Pangalan)</label>
-                                                    <input type="text" id="fname" class="form-control" placeholder="Enter First Name">
+                                                    <input type="text" id="fname" class="form-control" placeholder="Enter First Name" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,7 +78,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="mname">Middle name (PUT N/A if not Applicable)</label>
-                                                    <input type="text" id="mname" class="form-control" placeholder="Enter Middle Name">
+                                                    <input type="text" id="mname" class="form-control" placeholder="Enter Middle Name" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -340,6 +340,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-12 text-center">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
 
@@ -354,7 +359,20 @@
                 </section>
             </main>
 
-            <script src="../assets/js/progress.js"></script>
+            <script src="../assets/js/prog.js"></script>
+            <script>
+                const navLinks = document.querySelectorAll('.nav-link');
+
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    });
+                });
+            </script>
+        </body>
+
+        </html>
         </body>
 
         </html>

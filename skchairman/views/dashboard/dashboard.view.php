@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 
 <body>
@@ -47,84 +48,73 @@
             </nav>
         </div>
 
-        <section class="section charts-section">
+        <section class="section">
             <div class="container">
-                <div class="row mb-4">
+                <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4>Barangay Population Distribution</h4>
-                            </div>
                             <div class="card-body">
-                                <div id="chart-barangay"></div>
+                                <h5 class="card-title">Barangay</h5>
+                                <div id="chart-barangay" style="min-height: 352.7px;">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>Sex:</h4>
-                            </div>
+                    <div class="col-lg-6">
+                        <div class="card">
                             <div class="card-body">
-                                <div id="chart-sex"></div>
+                                <h5 class="card-title">Sex</h5>
+                                <div id="chart-sex" style="min-height: 352.7px;">
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>Member of Out of School Youth:</h4>
-                            </div>
+                    <div class="col-lg-6">
+                        <div class="card">
                             <div class="card-body">
-                                <div id="chart-school-youth-members"></div>
+                                <h5 class="card-title">Member of Out of School Youth</h5>
+                                <div id="chart-school-youth-members" style="min-height: 352.7px;">
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>Age:</h4>
-                            </div>
+                    <div class="col-lg-6">
+                        <div class="card">
                             <div class="card-body">
-                                <div id="chart-age"></div>
+                                <h5 class="card-title">Age</h5>
+                                <div id="chart-age" style="min-height: 352.7px;">
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>Age Classification:</h4>
-                            </div>
+                    <div class="col-lg-6">
+                        <div class="card">
                             <div class="card-body">
-                                <div id="chart-age-classification"></div>
+                                <h5 class="card-title">Age Classfication</h5>
+                                <div id="chart-age-classification" style="height: 250.7px;">
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>Gender Preference:</h4>
-                            </div>
+                    <div class="col-lg-6">
+                        <div class="card">
                             <div class="card-body">
-                                <div id="chart-gender-pref"></div>
+                                <h5 class="card-title">Gender Preference</h5>
+                                <div id="chart-gender-pref" style="min-height: 352.7px;">
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>Civil Status:</h4>
-                            </div>
+                    <div class="col-lg-6">
+                        <div class="card">
                             <div class="card-body">
-                                <div id="chart-civil-status"></div>
+                                <h5 class="card-title">Civil Status</h5>
+                                <div id="chart-civil-status" style="min-height: 352.7px;">
+                                </div>
                             </div>
                         </div>
                     </div>

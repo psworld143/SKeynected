@@ -58,7 +58,7 @@ select.form-select {
 .form-progress {
   width: 0%;
   height: 100%;
-  background-color: #00ff51;
+  background-color: var(--primary-color);
   border-radius: 3px;
 }
 
@@ -83,7 +83,7 @@ select.form-select {
 
 .form-control:focus,
 .form-select:focus {
-  border-color: #00ff51;
+  border-color: var(--primary-color);
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
 }
 
@@ -121,5 +121,5 @@ input[type="radio"] {
 }
 
 [data-carousel-dot][data-active] {
-  background-color: #00ff51;
+  background-color: var(--primary-color);
 }

@@ -17,11 +17,40 @@
 } */
 
 .sidebar-nav .nav-link:hover {
-  color: #4154f1;
   background: var(--primary-color);
 }
 
+.sidebar-nav .nav-link.active {
+  background: var(--primary-color);
+}
+.sidebar-nav .nav-item .nav-link.active span {
+  color: white;
+}
 
 .sidebar-nav .nav-link:hover i {
-    color: var(--secondary-color);
-  }
+  color: var(--secondary-color);
+}
+
+.sidebar-nav .nav-link i {
+  color: var(--secondary-color);
+}
+
+.sidebar-nav .nav-link span i {
+  color: var(--secondary-color);
+}
+
+.sidebar-nav .nav-link i {
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.sidebar-nav span {
+  color: var(--primary-color);
+}
+.sidebar-nav .nav-item .nav-link:hover span {
+  color: white;
+}
+
+.sidebar-nav .nav-item .nav-link span {
+  color: var(--primary-color);
+}
