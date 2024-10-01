@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SK Chairman / Project</title>
+    <title>SK Chairman / Dashboard</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -35,11 +35,11 @@
         ?>
 
         <div class="pagetitle">
-            <h1>Manage Youth</h1>
+            <h1>Dashboard</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Youth</a></li>
-                    <li class="breadcrumb-item active">Manage Youth</li>
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </nav>
         </div>

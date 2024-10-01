@@ -62,17 +62,6 @@ select.form-select {
   border-radius: 3px;
 }
 
-.card {
-  display: none;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-}
-
-.card.active {
-  display: block;
-}
 
 .form-group label {
   display: block;
@@ -100,6 +89,17 @@ select.form-select {
 
 input[type="radio"] {
   margin-right: 10px;
+}
+.card {
+  display: none;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.card.active {
+  display: block;
 }
 
 [data-carousel-dots] {
