@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../assets/vendor/boxicons/css/boxicons.min.css">
     <link rel="stylesheet" href="../assets/vendor/remixicon/remixicon.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    
+
 </head>
 
 <body>
@@ -70,7 +70,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
@@ -81,7 +81,7 @@
                                     <div class="form-group mb-3">
                                         <label for="project_id">Select Project</label>
                                         <select class="form-control" id="project_id" name="project_id" required>
-                                            
+
                                         </select>
                                     </div>
 
@@ -94,6 +94,7 @@
                                         </select>
                                     </div>
 
+
                                     <button type="submit" class="btn btn-warning">Update Status</button>
                                 </form>
                             </div>
@@ -101,11 +102,22 @@
                     </div>
                 </div>
             </div>
+            
         </section>
     </main>
 
-    <!-- Vendor JS Files -->
+    <script src="../assets/vendor/apexcharts/apexcharts.min.js">
+    </script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="../assets/vendor/echarts/echarts.min.js"></script>
+    <script src="../assets/vendor/quill/quill.js"></script>
+    <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="../assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="../assets/js/main.js"></script>
     <script src="../assets/js/main.js"></script>
 </body>
 

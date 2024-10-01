@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../assets/vendor/boxicons/css/boxicons.min.css">
     <link rel="stylesheet" href="../assets/vendor/simple-datatables/style.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/budget.css">
 </head>
 
 <body>
@@ -30,91 +31,139 @@
                 </ol>
             </nav>
         </div>
-
-        <!-- Budget Management Section -->
         <section class="section">
-            <div class="container">
-                <div class="row">
-                    <!-- View Budget Requests Table with DataTables -->
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>View Budget Requests</h3>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-striped" id="budgetRequestTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Barangay</th>
-                                            <th>Requested Amount</th>
-                                            <th>Current Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Barangay 1</td>
-                                            <td>₱100,000</td>
-                                            <td>Pending</td>
-                                            <td>
-                                                <a href="#" class="btn btn-primary btn-sm">Update</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Barangay 2</td>
-                                            <td>₱150,000</td>
-                                            <td>Approved</td>
-                                            <td>
-                                                <a href="#" class="btn btn-primary btn-sm">Update</a>
-                                            </td>
-                                        </tr>
-                                        <!-- Add more rows dynamically with PHP or JS -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Budget Report <span>| This Month</span></h5>
+
+                    <div id="budgetChart" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);" class="echart" _echarts_instance_="ec_1727786903765">
+                        <div style="position: relative; width: 774px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="967" height="500" style="position: absolute; left: 0px; top: 0px; width: 774px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div>
                     </div>
 
-                    <div class="col-lg-12 mt-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>Update Budget Request</h3>
-                            </div>
-                            <div class="card-body">
-                                <form action="" method="POST">
-                                    <div class="form-group">
-                                        <label for="barangay_select">Select Barangay</label>
-                                        <select class="form-control" id="barangay_select" name="barangay_select" required>
-                                            <option value="Barangay 1">Barangay 1</option>
-                                            <option value="Barangay 2">Barangay 2</option>
-                                            <!-- Dynamically add more barangays here -->
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="requested_amount">Requested Amount</label>
-                                        <input type="number" class="form-control" id="requested_amount" name="requested_amount" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" id="status" name="status" required>
-                                            <option value="Pending">Pending</option>
-                                            <option value="Approved">Approved</option>
-                                            <option value="Rejected">Rejected</option>
-                                        </select>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-success">Update Request</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
+                                legend: {
+                                    data: ['Allocated Budget', 'Actual Spending']
+                                },
+                                radar: {
+                                    // shape: 'circle',
+                                    indicator: [{
+                                            name: 'Sales',
+                                            max: 6500
+                                        },
+                                        {
+                                            name: 'Administration',
+                                            max: 16000
+                                        },
+                                        {
+                                            name: 'Information Technology',
+                                            max: 30000
+                                        },
+                                        {
+                                            name: 'Customer Support',
+                                            max: 38000
+                                        },
+                                        {
+                                            name: 'Development',
+                                            max: 52000
+                                        },
+                                        {
+                                            name: 'Marketing',
+                                            max: 25000
+                                        }
+                                    ]
+                                },
+                                series: [{
+                                    name: 'Budget vs spending',
+                                    type: 'radar',
+                                    data: [{
+                                            value: [4200, 3000, 20000, 35000, 50000, 18000],
+                                            name: 'Allocated Budget'
+                                        },
+                                        {
+                                            value: [5000, 14000, 28000, 26000, 42000, 21000],
+                                            name: 'Actual Spending'
+                                        }
+                                    ]
+                                }]
+                            });
+                        });
+                    </script>
 
                 </div>
             </div>
         </section>
+        <!-- Budget Management Section -->
+        <section class="section">
+            <div class="container">
+                <div class="row">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>View Budget Requests</h3>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+
+                            <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                                <div class="datatable-top">
+                                    <div class="datatable-dropdown">
+                                        <label>
+                                            <select class="datatable-selector" name="per-page" fdprocessedid="z03i59">
+                                                <option value="5">5</option>
+                                                <option value="10" selected="">10</option>
+                                                <option value="15">15</option>
+                                                <option value="-1">All</option>
+                                            </select> entries per page
+                                        </label>
+                                    </div>
+                                    <div class="datatable-search">
+                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                    </div>
+                                </div>
+                                <div class="datatable-container">
+                                    <table class="table table-borderless datatable datatable-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" data-sortable="true" style="width: 10.723514211886306%;"><button class="datatable-sorter" fdprocessedid="ekqhl">#</button></th>
+                                                <th scope="col" data-sortable="true" style="width: 23.51421188630491%;"><button class="datatable-sorter" fdprocessedid="6p2l8">Barangay</button></th>
+                                                <th scope="col" data-sortable="true" style="width: 39.276485788113696%;"><button class="datatable-sorter" fdprocessedid="n9x9zs">Request Amount</button></th>
+                                                <th scope="col" data-sortable="true" style="width: 11.757105943152455%;"><button class="datatable-sorter" fdprocessedid="av8s5">Status</button></th>
+                                                <th scope="col" data-sortable="true" style="width: 11.757105943152455%;"><button class="datatable-sorter" fdprocessedid="av8s5">Action</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-index="0">
+                                                <td scope="row"><a href="#">#2457</a></td>
+                                                <td>TEST</td>
+                                                <td><a href="#" class="text-primary">At praesentium minu</a></td>
+                                                <td class="green"><span class="badge bg-success">Approved</span></td>
+                                                <td>
+                                                    <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#updateBudgetModal" data-barangay="Bridie Kessler" data-amount="15000" data-status="Pending">Update</a>
+                                                </td>
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="datatable-bottom">
+                                    <div class="datatable-info">Showing 1 to 5 of 5 entries</div>
+                                    <nav class="datatable-pagination">
+                                        <ul class="datatable-pagination-list"></ul>
+                                    </nav>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+    <?php include './modal/budget-request-modal.php' ?>
+
 
     <!-- Vendor JS Files -->
     <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -126,7 +175,7 @@
     <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="../assets/vendor/php-email-form/validate.js"></script>
 
-    
+
     <script src="../assets/js/main.js"></script>
 
     <script>

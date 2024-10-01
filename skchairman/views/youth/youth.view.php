@@ -49,7 +49,6 @@
                     <div class="container">
                         <div class="row">
                             <div class="form-container carousel">
-                                <!-- Form Progress Bar -->
                                 <div class="form-progress-bar">
                                     <div class="form-progress" id="formProgress"></div>
                                 </div>
