@@ -9,7 +9,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
+      <a class="nav-link collapsed" href="">
         <i class="bi bi-person"></i>
         <span>Youth</span>
       </a>
