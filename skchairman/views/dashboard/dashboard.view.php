@@ -39,13 +39,6 @@
         include_once '../../core/Database.php';
 
         $db = Database::getConnection();
-
-        try {
-            $query = $db->query('SELECT * FROM users');
-            $data = $query->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo 'Error fetching data: ' . htmlspecialchars($e->getMessage());
-        }
         ?>
 
         <div class="pagetitle">
