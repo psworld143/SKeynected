@@ -1,5 +1,7 @@
 <?php
+session_start();
 $current_page = basename($_SERVER['PHP_SELF']);
+$user = isset($_SESSION['user_id']) ? $_SESSION['user_id']: ''; // Get user_id from session
 ?>
 
 <aside id="sidebar" class="sidebar">
@@ -7,7 +9,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
         <li class="nav-item">
             <a class="nav-link <?php echo ($current_page == 'index.view.php') ? 'active' : ''; ?>"
-                href="index.view.php">
+                href="index.view.php?user_id=<?php echo $user; ?>">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -32,7 +34,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
         <li class="nav-item">
             <a class="nav-link <?php echo ($current_page == 'budget-request.php') ? 'active' : ''; ?>"
-                href="budget-request.php">
+                href="budget-request.php?user_id=<?php echo $user; ?>">
                 <i class="bi bi-cash-stack"></i>
                 <span>Budget Request</span>
             </a>

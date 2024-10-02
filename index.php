@@ -44,18 +44,16 @@
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Login</h5>
                   </div>
-
-                  <form class="row g-3 needs-validation" novalidate>
-
+                  <form class="row g-3 needs-validation" action="backend/login.php" method="POST">
                     <div class="col-12">
                       <div class="input-group has-validation">
-                        <input type="text" name="username" class="form-control" id="yourUsername" placeholder="Enter Username" required>
+                        <input type="text" name="username" class="form-control" id="username" placeholder="Enter Username" required>
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
-                      <input type="password" name="password" class="form-control" id="yourPassword" placeholder="Enter Password" required>
+                      <input type="password" name="password" class="form-control" id="password" placeholder="Enter Password" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
                     <div class="col-12">

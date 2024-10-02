@@ -1,3 +1,11 @@
+<?php
+require('backend/dbcon.php');
+
+// Fetch project data
+$sql = "SELECT project_code, project_name, status, total_cost FROM projects";
+$result = $con->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,170 +58,133 @@
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-
         <section class="section">
             <div class="row">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title">List of Budget</h5>
-                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#adduser" style="margin-right: 12px;">
-                                <i class="bx bx-plus"></i>Request Budget
-                            </button>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">New Project</h5>
+                            <form class="row g-3" action="backend/add_project.php" method="POST">
+                                <div class="col-md-12">
+                                    <label for="inputCity" class="form-label">Project Name</label>
+                                    <input type="text" class="form-control" name="project" id="project">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="inputCity" class="form-label">Start</label>
+                                    <input type="date" name="start" id="start" class="form-control">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="inputCity" class="form-label">End</label>
+                                    <input type="date" name="end" id="end" class="form-control">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="inputCity" class="form-label">Description</label>
+                                    <textarea type="text" class="form-control" style="height: 80px;"
+                                    name="description" id="description"></textarea>
+                                </div>
+                                <div class="button">
+                                    <button class="btn btn-success" type="submit">Submit</button>
+                                </div>
+                            </form>
                         </div>
-                        <button class='btn btn-danger btn-sm mb-3'><i class="bx bxs-trash"></i>
-                            Delete
-                        </button>
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Project</th>
-                                    <th>Adress</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <button class='btn btn-primary btn-sm'>
-                                            View
-                                        </button>
-                                        <button class='btn btn-success btn-sm'>
-                                            Update
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">Project</h5>
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#addproject" style="margin-right: 12px;">
+                                    <i class="bx bx-plus"></i>Add Project
+                                </button>
+                            </div>
+                            <button class='btn btn-danger btn-sm mb-3'><i class="bx bxs-trash"></i> Delete</button>
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Code</th>
+                                        <th>Project Name</th>
+                                        <th>Status</th>
+                                        <th>Total Cost</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td><input type='checkbox' class='tcheck'></td>"; // Checkbox for each row
+                                echo "<td>" . htmlspecialchars($row["project_code"]) . "</td>"; // Project Code
+                                echo "<td>" . htmlspecialchars($row["project_name"]) . "</td>"; // Project Name
+                                echo "<td>" . htmlspecialchars($row["status"]) . "</td>"; // Status
+                                echo "<td>" . htmlspecialchars($row["total_cost"]) . "</td>"; // Total Cost
+                                echo "<td class='button'>
+                                          <button type='button' class='btn s btn-success btn-sm' data-bs-toggle='modal' data-bs-target='#'>Items</button>
+                                          <button type='button' class='btn s btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#'>Update</button>
+                                      </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='6' class='text-center'>No projects found</td></tr>"; // Adjusted colspan to match the table's structure
+                        }
+                        ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Modal Sizes</h5>
-                <p>Modals have three optional sizes, available via modifier classes to be placed on a
-                    <code>.modal-dialog</code>. These sizes kick in at certain breakpoints to avoid horizontal
-                    scrollbars on narrower viewports..</p>
 
-                <!-- Small Modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#smallModal">
-                    Small Modal
-                </button>
 
-                <div class="modal fade" id="smallModal" tabindex="-1">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Small Modal</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+        <form action="backend/add_project.php" method="POST">
+            <div class="modal fade" id="addproject" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-project">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Project</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3 mt-4">
+                                <label for="project" class="col-sm-2 col-form-label">Project</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="project" id="project">
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et
-                                reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit
-                                dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo
-                                sit molestias sint dignissimos.
+                            <div class="row mb-3">
+                                <label for="start" class="col-sm-2 col-form-label">Start</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="start" id="start" class="form-control">
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                            <div class="row mb-3">
+                                <label for="end" class="col-sm-2 col-form-label">End</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="end" id="end" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-4 mt-4">
+                                <label for="description" class="col-sm-4 col-form-label">Description</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" class="form-control" style="height: 80px;" name="description"
+                                        id="description"></textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div><!-- End Small Modal-->
-
-                <!-- Large Modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#largeModal">
-                    Large Modal
-                </button>
-
-                <div class="modal fade" id="largeModal" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Large Modal</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et
-                                reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit
-                                dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo
-                                sit molestias sint dignissimos.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
                         </div>
                     </div>
-                </div><!-- End Large Modal-->
-
-                <!-- Extra Large Modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ExtralargeModal">
-                    Extra Large Modal
-                </button>
-
-                <div class="modal fade" id="ExtralargeModal" tabindex="-1">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Extra Large Modal</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et
-                                reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit
-                                dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo
-                                sit molestias sint dignissimos.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Extra Large Modal-->
-
-                <!-- Full Screen Modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fullscreenModal">
-                    Full Screen Modal
-                </button>
-
-                <div class="modal fade" id="fullscreenModal" tabindex="-1">
-                    <div class="modal-dialog modal-fullscreen">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Full Screen Modal</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et
-                                reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit
-                                dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo
-                                sit molestias sint dignissimos.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Full Screen Modal-->
-
+                </div>
             </div>
-        </div>
+        </form>
 
     </main><!-- End #main -->
     <!-- Vendor JS Files -->
