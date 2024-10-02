@@ -96,8 +96,6 @@
                         <div class="card-body">
                             <h5 class="card-title">Purok Youths</h5>
                             <p>Add lightweight datatables to your project using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library.</p>
-
-                            <!-- Table with stripped rows -->
                             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                 <div class="datatable-top">
                                     <div class="datatable-dropdown">

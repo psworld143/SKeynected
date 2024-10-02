@@ -5,11 +5,11 @@ require('dbcon.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = mysqli_real_escape_string($con, $_POST['username']);
     $password = $_POST['password'];
-    $secret_key = 'Skeynected123'; 
+    $secret_key = 'Skeynected123';
 
     $query = "SELECT * FROM users WHERE username = '$username'";
     $result = mysqli_query($con, $query);
-    
+
     if ($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
         $hashed_input_password = hash_hmac('sha256', $password, $secret_key);
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header("Location: ../admin/index.php?user_id=" . $user['user_id']);
             } else if ($user['account_type'] == 'skchairman') {
                 header("Location: ../skchairman/index.view.php?user_id=" . $user['user_id']);
-            } 
+            }
             exit();
         } else {
             // Invalid password
@@ -33,4 +33,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>alert('Invalid username or password. Please try again.'); window.location.href = '../index.php';</script>";
     }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 include_once '../../controllers/index.controllers.php';
-include_once './controllers/project/project.controllers.php';
+include_once './controllers/project.controllers.php';
 
 $dashboardController = new IndexController();
 $projectController = new ProjectControllers();

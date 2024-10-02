@@ -1,7 +1,7 @@
 <?php
 
 include_once '../../controllers/index.controllers.php';
-include_once './controllers/project/project.controllers.php';
+include_once './controllers/project.controllers.php';
 $dashboardController = new IndexController();
 $projectController = new ProjectControllers();
 $userId = 3;
@@ -92,7 +92,7 @@ $projectData = $projectController->getAllProjects();
                     </p>
 
                     <div class="mb-3">
-                        <span class="badge rounded-pill bg-success"><?= htmlspecialchars($project['status']) ?></span>
+                         <td><span class="badge rounded-pill <?= ($project['status'] == 'completed') ? 'bg-success' : 'bg-warning' ?>"><?= ucfirst($project['status']) ?></span></td>
                     </div>
 
                     <div class="mb-3">

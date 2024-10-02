@@ -1,7 +1,7 @@
 <?php
 require('backend/dbcon.php');
 
-// Fetch project data
+
 $sql = "SELECT project_code, project_name, status, total_cost FROM projects";
 $result = $con->query($sql);
 ?>
@@ -45,9 +45,9 @@ $result = $con->query($sql);
 
     <main id="main" class="main">
         <?php
-      include 'inc/navbar.php';
-      include 'inc/sidebar.php';
-    ?>
+        include 'inc/navbar.php';
+        include 'inc/sidebar.php';
+        ?>
 
         <div class="pagetitle">
             <h1>Budget Request</h1>
@@ -80,7 +80,7 @@ $result = $con->query($sql);
                                 <div class="col-md-12">
                                     <label for="inputCity" class="form-label">Description</label>
                                     <textarea type="text" class="form-control" style="height: 80px;"
-                                    name="description" id="description"></textarea>
+                                        name="description" id="description"></textarea>
                                 </div>
                                 <div class="button">
                                     <button class="btn btn-success" type="submit">Submit</button>
@@ -114,24 +114,24 @@ $result = $con->query($sql);
                                 </thead>
                                 <tbody>
                                     <?php
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td><input type='checkbox' class='tcheck'></td>"; // Checkbox for each row
-                                echo "<td>" . htmlspecialchars($row["project_code"]) . "</td>"; // Project Code
-                                echo "<td>" . htmlspecialchars($row["project_name"]) . "</td>"; // Project Name
-                                echo "<td>" . htmlspecialchars($row["status"]) . "</td>"; // Status
-                                echo "<td>" . htmlspecialchars($row["total_cost"]) . "</td>"; // Total Cost
-                                echo "<td class='button'>
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr>";
+                                            echo "<td><input type='checkbox' class='tcheck'></td>";
+                                            echo "<td>" . htmlspecialchars($row["project_code"]) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row["project_name"]) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row["status"]) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row["total_cost"]) . "</td>";
+                                            echo "<td class='button'>
                                           <button type='button' class='btn s btn-success btn-sm' data-bs-toggle='modal' data-bs-target='#'>Items</button>
                                           <button type='button' class='btn s btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#'>Update</button>
                                       </td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='6' class='text-center'>No projects found</td></tr>"; // Adjusted colspan to match the table's structure
-                        }
-                        ?>
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='6' class='text-center'>No projects found</td></tr>"; // Adjusted colspan to match the table's structure
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
