@@ -54,25 +54,61 @@ class ProjectControllers
         }
     }
 
-    public function addProject($projectId, $projectCode, $projectName, $projectDescription, $totalCost, $startDate, $endDate)
-    {
+    public function addProject(
+        $projectId,
+        $projectCode,
+        $projectName,
+        $projectDescription,
+        $totalCost,
+        $purok,
+        $barangay,
+        $skChairman,
+        $projectDate,
+        $plans,
+        $beneficiaries,
+        $duration
+    ) {
         try {
-            $query = "INSERT INTO projects (project_id, project_code, project_name, description, total_cost, start_date, end_date) VALUES (:project_id, :project_code, :project_name, :description, :total_cost, :start_date, :end_date)";
+            $query = "INSERT INTO projects (project_id, project_code, project_name, project_description, 
+                                             purok_name, barangay_name, sk_chairman, project_date, 
+                                             plans, beneficiaries, duration, total_cost) 
+                      VALUES (:project_id, :project_code, :project_name, :project_description, 
+                              :purok_name, :barangay_name, :sk_chairman, :project_date, 
+                              :plans, :beneficiaries, :duration, :total_cost)";
 
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':project_id', $projectId, PDO::PARAM_STR);
             $stmt->bindParam(':project_code', $projectCode, PDO::PARAM_STR);
             $stmt->bindParam(':project_name', $projectName, PDO::PARAM_STR);
-            $stmt->bindParam(':description', $projectDescription, PDO::PARAM_STR);
+            $stmt->bindParam(':project_description', $projectDescription, PDO::PARAM_STR);
             $stmt->bindParam(':total_cost', $totalCost, PDO::PARAM_STR);
-            $stmt->bindParam(':start_date', $startDate, PDO::PARAM_STR);
-            $stmt->bindParam(':end_date', $endDate, PDO::PARAM_STR);
+            $stmt->bindParam(':purok_name', $purok, PDO::PARAM_STR);
+            $stmt->bindParam(':barangay_name', $barangay, PDO::PARAM_STR);
+            $stmt->bindParam(':sk_chairman', $skChairman, PDO::PARAM_STR);
+            $stmt->bindParam(':project_date', $projectDate, PDO::PARAM_STR);
+            $stmt->bindParam(':plans', $plans, PDO::PARAM_STR);
+            $stmt->bindParam(':beneficiaries', $beneficiaries, PDO::PARAM_STR);
+            $stmt->bindParam(':duration', $duration, PDO::PARAM_STR);
 
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             throw new RuntimeException('Failed to add project', 0, $e);
+        }
+    }
+
+    public function updateStatus($projectId, $status)
+    {
+        try {
+            $query = "UPDATE projects SET status = :status WHERE project_id = :project_id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            $stmt->bindParam(':project_id', $projectId, PDO::PARAM_STR);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            throw new RuntimeException('Failed to update project status', 0, $e);
         }
     }
 

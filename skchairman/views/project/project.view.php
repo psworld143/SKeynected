@@ -27,7 +27,7 @@ $projectData = $projectController->getAllProjects();
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/sidebars.css">
+    <link rel="stylesheet" href="../assets/css/sidebarsss.css">
     <link rel="stylesheet" href="../assets/css/project.css">
 
     <style>

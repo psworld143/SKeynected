@@ -137,6 +137,10 @@ $projectData = $projectController->getProjectById($projectId);
                     <img src="../assets/img/sk.png" alt="SK Logo" style="width: 50px; height: 50px; margin-right: 10px; vertical-align: middle;">
                     <?= htmlspecialchars($projectData['project_name']) ?>
                     <div class="float-end">
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#editProjectModal">
+                            <i class="bi bi-pen"></i> Edit Project
+                        </a>
+                        <span class="mx-2">|</span>
                         <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
                             <i class="bi bi-arrow-repeat"></i> Update Status
                         </a>
@@ -149,8 +153,17 @@ $projectData = $projectController->getProjectById($projectId);
                 <div class="card-body">
                     <p class="card-description"><?= htmlspecialchars($projectData['project_description']) ?></p>
                     <div class="mb-3">
-                        <span class="badge rounded-pill <?= ($projectData['status'] == 'completed') ? 'bg-success' : 'bg-warning' ?>"><?= ucfirst($projectData['status']) ?></span>
+                        <?php
+                        $badgeClass = 'bg-primary';
+                        if ($projectData['status'] == 'Completed') {
+                            $badgeClass = 'bg-success';
+                        } elseif ($projectData['status'] == 'Cancelled') {
+                            $badgeClass = 'bg-danger'; 
+                        }
+                        ?>
+                        <span class="badge rounded-pill <?= $badgeClass ?>"><?= ucfirst($projectData['status']) ?></span>
                     </div>
+
 
                     <div class="budget-info mb-3">
                         <span>Total Cost: ₱<?php echo number_format($projectData['total_cost'], 2); ?></span><br>
@@ -175,30 +188,30 @@ $projectData = $projectController->getProjectById($projectId);
         <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="updateStatusModalLabel">Update Project Status</h5>
+                    <div class="modal-header" style="background-color: rgba(4, 92, 156, 0.85);
+                        backdrop-filter: blur(10px);
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2)">
+                        <h5 class="modal-title" id="updateStatusModalLabel" style="font-weight: bold;">Update Project Status</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="POST" action="../../backend/projects/update.php">
                             <div class="mb-3">
                                 <label for="status" class="form-label">Select New Status</label>
-                                <select class="form-select" id="status">
-                                    <option value="in-progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="on-hold">On Hold</option>
+                                <input type="hidden" value="<?= $projectData['project_id'] ?>" name="project_id">
+                                <select class="form-select" id="status" name="status">
+                                    <option value="Ongoing">On-Going</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Cancelled">Cancelled</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="comments" class="form-label">Comments (optional)</label>
-                                <textarea class="form-control" id="comments" rows="3"></textarea>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update Status</button>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Update Status</button>
-                    </div>
+
                 </div>
             </div>
         </div>
