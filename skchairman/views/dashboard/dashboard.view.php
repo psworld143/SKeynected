@@ -136,7 +136,7 @@
 
     <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/charts.js"></script>
+    <script src="../assets/js/chartss.js"></script>
 </body>
 
 </html>
