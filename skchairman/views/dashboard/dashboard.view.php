@@ -1,3 +1,12 @@
+<?php
+include_once '../../controllers/dashboard/index.php';
+$dashboardController = new DashboardController();
+$userId = 3;
+$userData = $dashboardController->getUserById($userId);
+$userName = $userData['username'];
+$account_type = $userData['account_type'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,13 +48,6 @@
         include_once '../../core/Database.php';
 
         $db = Database::getConnection();
-
-        try {
-            $query = $db->query('SELECT * FROM users');
-            $data = $query->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo 'Error fetching data: ' . htmlspecialchars($e->getMessage());
-        }
         ?>
 
         <div class="pagetitle">
@@ -143,7 +145,7 @@
 
     <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/charts.js"></script>
+    <script src="../assets/js/chartss.js"></script>
 </body>
 
 </html>
