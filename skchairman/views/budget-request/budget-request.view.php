@@ -16,6 +16,12 @@
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <style>
+        .card-title {
+            margin-bottom: 0;
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,139 +40,62 @@
                 </ol>
             </nav>
         </div>
-        <section class="section">
-            <div class="card">
-                <div class="card-body pb-0">
-                    <h5 class="card-title">Budget Report <span>| This Month</span></h5>
 
-                    <div id="budgetChart" style="min-height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);" class="echart" _echarts_instance_="ec_1727786903765">
-                        <div style="position: relative; width: 774px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="967" height="500" style="position: absolute; left: 0px; top: 0px; width: 774px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div>
-                    </div>
-
-                    <script>
-                        document.addEventListener("DOMContentLoaded", () => {
-                            var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                                legend: {
-                                    data: ['Allocated Budget', 'Actual Spending']
-                                },
-                                radar: {
-                                    // shape: 'circle',
-                                    indicator: [{
-                                            name: 'Sales',
-                                            max: 6500
-                                        },
-                                        {
-                                            name: 'Administration',
-                                            max: 16000
-                                        },
-                                        {
-                                            name: 'Information Technology',
-                                            max: 30000
-                                        },
-                                        {
-                                            name: 'Customer Support',
-                                            max: 38000
-                                        },
-                                        {
-                                            name: 'Development',
-                                            max: 52000
-                                        },
-                                        {
-                                            name: 'Marketing',
-                                            max: 25000
-                                        }
-                                    ]
-                                },
-                                series: [{
-                                    name: 'Budget vs spending',
-                                    type: 'radar',
-                                    data: [{
-                                            value: [4200, 3000, 20000, 35000, 50000, 18000],
-                                            name: 'Allocated Budget'
-                                        },
-                                        {
-                                            value: [5000, 14000, 28000, 26000, 42000, 21000],
-                                            name: 'Actual Spending'
-                                        }
-                                    ]
-                                }]
-                            });
-                        });
-                    </script>
-
-                </div>
-            </div>
-        </section>
         <!-- Budget Management Section -->
         <section class="section">
-            <div class="container">
-                <div class="row">
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>View Budget Requests</h3>
+            <!-- Budget Request Form -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Send Budget Request</h5>
+                </div>
+                <div class="card-body">
+                    <form id="budgetRequestForm" method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="requestTitle" class="form-label">Request Title</label>
+                            <input type="text" class="form-control" id="requestTitle" name="requestTitle" required>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-
-                            <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
-                                <div class="datatable-top">
-                                    <div class="datatable-dropdown">
-                                        <label>
-                                            <select class="datatable-selector" name="per-page" fdprocessedid="z03i59">
-                                                <option value="5">5</option>
-                                                <option value="10" selected="">10</option>
-                                                <option value="15">15</option>
-                                                <option value="-1">All</option>
-                                            </select> entries per page
-                                        </label>
-                                    </div>
-                                    <div class="datatable-search">
-                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
-                                    </div>
-                                </div>
-                                <div class="datatable-container">
-                                    <table class="table table-borderless datatable datatable-table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" data-sortable="true" style="width: 10.723514211886306%;"><button class="datatable-sorter" fdprocessedid="ekqhl">#</button></th>
-                                                <th scope="col" data-sortable="true" style="width: 23.51421188630491%;"><button class="datatable-sorter" fdprocessedid="6p2l8">Barangay</button></th>
-                                                <th scope="col" data-sortable="true" style="width: 39.276485788113696%;"><button class="datatable-sorter" fdprocessedid="n9x9zs">Request Amount</button></th>
-                                                <th scope="col" data-sortable="true" style="width: 11.757105943152455%;"><button class="datatable-sorter" fdprocessedid="av8s5">Status</button></th>
-                                                <th scope="col" data-sortable="true" style="width: 11.757105943152455%;"><button class="datatable-sorter" fdprocessedid="av8s5">Action</button></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr data-index="0">
-                                                <td scope="row"><a href="#">#2457</a></td>
-                                                <td>TEST</td>
-                                                <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                                                <td class="green"><span class="badge bg-success">Approved</span></td>
-                                                <td>
-                                                    <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#updateBudgetModal" data-barangay="Bridie Kessler" data-amount="15000" data-status="Pending">Update</a>
-                                                </td>
-
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="datatable-bottom">
-                                    <div class="datatable-info">Showing 1 to 5 of 5 entries</div>
-                                    <nav class="datatable-pagination">
-                                        <ul class="datatable-pagination-list"></ul>
-                                    </nav>
-                                </div>
-                            </div>
-
+                        <div class="mb-3">
+                            <label for="requestDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="requestDescription" name="requestDescription" rows="3" required></textarea>
                         </div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="budgetProposal" class="form-label">Attach Budget Proposal (PDF)</label>
+                            <input type="file" class="form-control" id="budgetProposal" name="budgetProposal" accept=".pdf" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Budget Proposal Status</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped" id="budgetRequestTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Request Title</th>
+                                <th>Description</th>
+                                <th>Submission Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Community Park Development</td>
+                                <td>Proposal for developing a community park.</td>
+                                <td>2024-10-01</td>
+                                <td><span class="badge bg-success">Approved</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
     </main>
-    <?php include './modal/budget-request-modal.php' ?>
-
 
     <!-- Vendor JS Files -->
     <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -178,11 +107,9 @@
     <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="../assets/vendor/php-email-form/validate.js"></script>
 
-
     <script src="../assets/js/main.js"></script>
 
     <script>
-        // Initialize DataTable for the budget requests table
         document.addEventListener("DOMContentLoaded", function() {
             let budgetTable = document.querySelector('#budgetRequestTable');
             if (budgetTable) {

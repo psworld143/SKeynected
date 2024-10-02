@@ -59,72 +59,70 @@
         </div>
 
         <section class="section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Barangay</h5>
-                                <div id="chart-barangay" style="min-height: 352.7px;">
-                                </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Barangay</h5>
+                            <div id="chart-barangay" style="min-height: 352.7px;">
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Sex</h5>
-                                <div id="chart-sex" style="min-height: 352.7px;">
-                                </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Sex</h5>
+                            <div id="chart-sex" style="min-height: 352.7px;">
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Member of Out of School Youth</h5>
-                                <div id="chart-school-youth-members" style="min-height: 352.7px;">
-                                </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Member of Out of School Youth</h5>
+                            <div id="chart-school-youth-members" style="min-height: 352.7px;">
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Age</h5>
-                                <div id="chart-age" style="min-height: 352.7px;">
-                                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Age</h5>
+                            <div id="chart-age" style="min-height: 352.7px;">
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Age Classfication</h5>
-                                <div id="chart-age-classification" style="height: 250.7px;">
-                                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Age Classfication</h5>
+                            <div id="chart-age-classification" style="height: 250.7px;">
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Gender Preference</h5>
-                                <div id="chart-gender-pref" style="min-height: 352.7px;">
-                                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Gender Preference</h5>
+                            <div id="chart-gender-pref" style="min-height: 352.7px;">
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Civil Status</h5>
-                                <div id="chart-civil-status" style="min-height: 352.7px;">
-                                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Civil Status</h5>
+                            <div id="chart-civil-status" style="min-height: 352.7px;">
                             </div>
                         </div>
                     </div>

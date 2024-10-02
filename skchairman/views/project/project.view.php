@@ -17,6 +17,59 @@
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
 </head>
+<style>
+    .project-card {
+        border-left: 8px solid #4caf50;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+        transform: translateY(-3px);
+
+    }
+
+    .progress-bar-custom {
+        background-color: #4caf50;
+
+    }
+
+    .row {
+        margin-bottom: 1rem;
+
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+
+    }
+
+    .card-text {
+        margin-bottom: 0.5rem;
+
+    }
+
+    .progress {
+        height: 0.75rem;
+
+    }
+
+    .project-completion {
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+
+    }
+
+    .purok-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        color: #4caf50;
+    }
+</style>
 
 <body>
     <main id="main" class="main">
@@ -26,90 +79,60 @@
         ?>
 
         <div class="pagetitle">
-            <h1>Manage Youth</h1>
+            <h1>Project Overview</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Youth</a></li>
-                    <li class="breadcrumb-item active">Manage Youth</li>
+                    <li class="breadcrumb-item"><a href="index.html">Overview</a></li>
+                    <li class="breadcrumb-item active">Project Overview</li>
                 </ol>
             </nav>
         </div>
 
         <!-- Project Management Section -->
         <section class="section">
-            <div class="container">
-                <div class="row">
-                    <!-- Add New Project Card -->
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>Add New Project</h3>
-                            </div>
-                            <div class="card-body">
-                                <form action="add_project.php" method="POST">
-                                    <div class="form-group mb-3">
-                                        <label for="project_name">Project Name</label>
-                                        <input type="text" class="form-control" id="project_name" name="project_name" required>
+            <div class="container my-5">
+                <div class="purok-section">
+                    <h2 class="purok-title">Purok 1</h2>
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <a href="overview.php">
+                                <div class="project-card">
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="card-title project-name"></h3>
+                                        
+                                        <span class="card-date project-date"></span>
+                                    </div>
+                                    <p class="card-description project-description"></p>
+
+                                    <div class="team-members">
                                     </div>
 
-                                    <div class="form-group mb-3">
-                                        <label for="budget">Budget Allocation</label>
-                                        <input type="number" class="form-control" id="budget" name="budget" required>
+                                    <div class="tags">
+                                        <span class="tag"></span>
+                                        <span class="tag"></span>
+                                        <span class="tag"></span>
                                     </div>
 
-                                    <div class="form-group mb-3">
-                                        <label for="status">Project Status</label>
-                                        <select class="form-control" id="status" name="status" required>
-                                            <option value="Ongoing">Ongoing</option>
-                                            <option value="Stopped">Stopped</option>
-                                            <option value="Completed">Completed</option>
-                                        </select>
+                                    <div class="mb-3">
+                                        <span class="badge rounded-pill bg-success">Completed</span>
+                                        <!-- Example: Use bg-warning for ongoing, bg-danger for stopped -->
+                                        <!-- <span class="badge rounded-pill bg-warning">Ongoing</span> -->
+                                        <!-- <span class="badge rounded-pill bg-danger">Stopped</span> -->
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Add Project</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>Update Project Status</h3>
-                            </div>
-                            <div class="card-body">
-                                <form action="update_project.php" method="POST">
-                                    <div class="form-group mb-3">
-                                        <label for="project_id">Select Project</label>
-                                        <select class="form-control" id="project_id" name="project_id" required>
-
-                                        </select>
+                                    <div class="card-footer">
+                                        <span class="budget"></span>
                                     </div>
-
-                                    <div class="form-group mb-3">
-                                        <label for="status_update">New Status</label>
-                                        <select class="form-control" id="status_update" name="status_update" required>
-                                            <option value="Ongoing">Ongoing</option>
-                                            <option value="Stopped">Stopped</option>
-                                            <option value="Completed">Completed</option>
-                                        </select>
-                                    </div>
-
-
-                                    <button type="submit" class="btn btn-warning">Update Status</button>
-                                </form>
-                            </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-
         </section>
     </main>
 
-    <script src="../assets/vendor/apexcharts/apexcharts.min.js">
-    </script>
+    <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/vendor/chart.js/chart.umd.js"></script>
     <script src="../assets/vendor/echarts/echarts.min.js"></script>
@@ -119,7 +142,6 @@
     <script src="../assets/vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="../assets/js/main.js"></script>
     <script src="../assets/js/main.js"></script>
 </body>
 

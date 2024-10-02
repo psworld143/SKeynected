@@ -25,8 +25,12 @@
                             <option value="Approved">Approved</option>
                             <option value="Rejected">Rejected</option>
                         </select>
+
+                        <div class="col-lg-6 mt-3">
+                            <button type="submit" class="btn btn-success ">Update Request</button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Update Request</button>
+
                 </form>
             </div>
         </div>
