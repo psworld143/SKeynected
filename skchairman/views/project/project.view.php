@@ -27,12 +27,12 @@ $projectData = $projectController->getAllProjects();
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/sidebars.css">
     <link rel="stylesheet" href="../assets/css/project.css">
 
     <style>
         .project-card {
-            border-left: 8px solid #4caf50;
+            border-left: 8px solid rgba(4, 92, 156, 0.85);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
@@ -41,6 +41,10 @@ $projectData = $projectController->getAllProjects();
 
         .project-card .tags .tag {
             margin-right: 5px;
+        }
+
+        .card-title {
+            color: rgba(4, 92, 156, 0.85);
         }
     </style>
 </head>

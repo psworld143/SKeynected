@@ -26,16 +26,18 @@ $projectData = $projectController->getProjectById($projectId);
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/sidebarsss.css">
     <style>
         .project-card {
-            border-left: 8px solid #4caf50;
+            border-left: 8px solid rgba(4, 92, 156, 0.85);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
             transition: all 0.3s ease;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
         }
+
 
         .badge-plan {
             margin-right: 5px;
@@ -59,7 +61,10 @@ $projectData = $projectController->getProjectById($projectId);
             flex: 1;
             min-width: 150px;
             padding: 10px;
-            background: #4caf50;
+            background-color: rgba(4, 92, 156, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
             margin-right: 10px;
             color: #fff;
@@ -70,12 +75,17 @@ $projectData = $projectController->getProjectById($projectId);
         }
 
         .card-header {
-            background-color: #4caf50;
+            background-color: rgba(4, 92, 156, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: #fff;
             border-radius: 8px 8px 0 0;
             font-weight: bold;
             position: relative;
+
         }
+
 
         .action-buttons {
             position: absolute;

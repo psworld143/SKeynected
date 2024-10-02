@@ -24,14 +24,20 @@ $projectData = $projectController->getAllProjects();
     <link rel="stylesheet" href="../assets/vendor/boxicons/css/boxicons.min.css">
     <link rel="stylesheet" href="../assets/vendor/simple-datatables/style.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/budget.css">
+
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/sidebarsss.css">
     <style>
         .card-title {
             margin-bottom: 0;
             color: #fff;
+        }
+
+        .project-header {
+            background-color: rgba(4, 92, 156, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2)
         }
     </style>
 </head>
@@ -55,7 +61,9 @@ $projectData = $projectController->getAllProjects();
 
         <section class="section">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header" style=" background-color: rgba(4, 92, 156, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2)">
                     <h5 class="card-title">Add Project</h5>
                 </div>
                 <div class="card-body p-3">
@@ -122,7 +130,9 @@ $projectData = $projectController->getAllProjects();
 
             <!-- Project Status -->
             <div class="card">
-                <div class="card-header">
+                <div class="card-header" style=" background-color: rgba(4, 92, 156, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2)">
                     <h5 class="card-title">Project Status</h5>
                 </div>
                 <div class="card-body">

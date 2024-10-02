@@ -15,11 +15,11 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/sidebarsss.css">
 </head>
 <style>
     .project-card {
-        border-left: 8px solid #4caf50;
+        border-left: 8px solid rgba(4, 92, 156, 0.85);
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         padding: 20px;

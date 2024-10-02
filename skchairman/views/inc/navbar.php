@@ -1,8 +1,13 @@
-<header id="header" class="header fixed-top d-flex align-items-center">
+<header id="header" class="header fixed-top d-flex align-items-center" style="
+  background-color: rgba(4, 92, 156, 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  color: white;
+  font-weight: bold;">
   <div class="d-flex align-items-center justify-content-between">
     <a href="index.html" class="logo d-flex align-items-center">
       <img src="../../views/assets/img/sk.png" alt="">
-      <span class="d-none d-lg-block logo-text" style="color: #fff">SKEYNECTED</span>
+      <span class="d-none d-lg-block" style="color: #fff; font-weight:bold">SKEYNECTED</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div>

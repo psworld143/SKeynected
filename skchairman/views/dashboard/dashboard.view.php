@@ -33,10 +33,10 @@ $userData = $dashboardController->getUserById($userId);
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/sidebarsss.css">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
-
+s
 <body>
     <main id="main" class="main">
         <?php

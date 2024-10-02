@@ -25,7 +25,7 @@ $userData = $dashboardController->getUserById($userId);
     <link rel="stylesheet" href="../assets/css/budget.css">
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/sidebarsss.css">
     <style>
         .card-title {
             margin-bottom: 0;
@@ -52,7 +52,9 @@ $userData = $dashboardController->getUserById($userId);
         </div>
         <section class="section">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header" style=" background-color: rgba(4, 92, 156, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2)">
                     <h5 class="card-title">Send Budget Request</h5>
                 </div>
                 <div class="card-body">
@@ -75,7 +77,9 @@ $userData = $dashboardController->getUserById($userId);
             </div>
 
             <div class="card">
-                <div class="card-header">
+                <div class="card-header" style=" background-color: rgba(4, 92, 156, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2)">
                     <h5 class="card-title">Budget Proposal Status</h5>
                 </div>
                 <div class="card-body">
