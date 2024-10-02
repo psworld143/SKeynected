@@ -124,6 +124,7 @@ $projectData = $projectController->getProjectById($projectId);
 
             <div class="project-card">
                 <div class="card-header">
+                    <img src="../assets/img/sk.png" alt="SK Logo" style="width: 50px; height: 50px; margin-right: 10px; vertical-align: middle;">
                     <?= htmlspecialchars($projectData['project_name']) ?>
                     <div class="float-end">
                         <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
