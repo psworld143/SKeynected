@@ -1227,3 +1227,8 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+.modal-project{
+  max-width: 1000px;
+  width: 30%;
+}
