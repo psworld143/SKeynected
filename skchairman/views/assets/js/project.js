@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Add expense function
+   
     function addExpense(expenseType, expenseAmount) {
       const currentBudgetElement = document.getElementById("current-budget");
       let currentBudget = parseFloat(
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
   
-      // Add expense to the list
+     
       const expenseList = document.getElementById("expense-list");
       const newExpenseItem = document.createElement("li");
       newExpenseItem.className =
@@ -22,20 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
               <span class="remove-expense" data-amount="${expenseAmount}">&minus;</span>`;
       expenseList.appendChild(newExpenseItem);
   
-      // Update current budget
+    
       updateBudget(currentBudget - expenseAmount);
   
       clearExpenseInputs();
     }
   
-    // Update budget
+
     function updateBudget(newBudget) {
       const currentBudgetElement = document.getElementById("current-budget");
       currentBudgetElement.textContent = newBudget.toFixed(2);
       hideErrorMessage();
     }
-  
-    // Clear input fields
+ 
     function clearExpenseInputs() {
       document.getElementById("expense-type").value = "";
       document.getElementById("expense-amount").value = "";

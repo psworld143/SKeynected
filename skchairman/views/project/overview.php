@@ -6,11 +6,7 @@ $dashboardController = new IndexController();
 $projectController = new ProjectControllers();
 $userId = 3;
 $userData = $dashboardController->getUserById($userId);
-$projectData = $projectController->getAllProjects();
-
-
 $projectId = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
 
 $projectData = $projectController->getProjectById($projectId);
 ?>
@@ -34,11 +30,11 @@ $projectData = $projectController->getProjectById($projectId);
     <style>
         .project-card {
             border-left: 8px solid #4caf50;
-
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
             transition: all 0.3s ease;
+            background-color: #ffffff;
         }
 
         .badge-plan {
@@ -52,26 +48,61 @@ $projectData = $projectController->getProjectById($projectId);
             margin-top: 20px;
         }
 
-        .expense-item {
+        .horizontal-layout {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
-            align-items: center;
+            margin-bottom: 10px;
         }
 
-        .remove-expense {
-            cursor: pointer;
-            color: red;
-            margin-left: 10px;
+        .horizontal-item {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px;
+            background: #4caf50;
+            border-radius: 8px;
+            margin-right: 10px;
+            color: #fff;
         }
 
-        #error-message {
-            display: none;
+        .horizontal-item:last-child {
+            margin-right: 0;
+        }
+
+        .card-header {
+            background-color: #4caf50;
+            color: #fff;
+            border-radius: 8px 8px 0 0;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .action-buttons {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+
+        .action-buttons button {
+            margin-left: 5px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .float-end a {
+            color: #fff;
+        }
+
+        .float-end i {
+            color: #ffff00;
         }
     </style>
 </head>
 
 <body>
-   <main id="main" class="main">
+    <main id="main" class="main">
         <?php
         include '../inc/navbar.php';
         include '../inc/sidebar.php';
@@ -88,84 +119,111 @@ $projectData = $projectController->getProjectById($projectId);
         </div>
 
         <!-- Project Management Section -->
+        <img src="https://www.iied.org/sites/default/files/styles/scale_lg/public/images/2021/07/27/4_planting_vegetable_seedlings_0.jpeg" alt="Project Image" class="card-image" style="width: 100%; height: auto; object-fit: cover;">
         <section class="section">
-            <img src="https://www.iied.org/sites/default/files/styles/scale_lg/public/images/2021/07/27/4_planting_vegetable_seedlings_0.jpeg" alt="Project Image" class="card-image" style="width: 100%; height: auto; object-fit: cover;">
 
             <div class="project-card">
-                <h3 class="card-title"><?= htmlspecialchars($projectData['project_name']) ?></h3>
-                <p class="card-description">
-                    <?= htmlspecialchars($projectData['description']) ?>
-                </p>
-
-                <div class="mb-3">
-                    <td><span class="badge rounded-pill <?= ($projectData['status'] == 'completed') ? 'bg-success' : 'bg-warning' ?>"><?= ucfirst($projectData['status']) ?></span></td>
-                </div>
-
-                <div class="mb-3">
-                    <strong>Start Date:</strong>
-                    <?= htmlspecialchars($projectData['start_date']) ?>
-                    <br>
-                    <strong>End Date:</strong> <?= htmlspecialchars($projectData['end_date']) ?>
-                </div>
-
-                <div class="budget-info">
-                    <span>Initial Budget: ₱<?php echo number_format($projectData['initial_budget'], 2); ?></span><br>
-                    <span>Current Budget: ₱<span id="current-budget"><?php echo number_format($projectData['current_budget'], 2); ?></span></span>
-                </div>
-
-                <div id="error-message" class="alert alert-danger mt-2"></div>
-
-                <div class="mb-3">
-                    <h5>Budget Allocations</h5>
-                    <div id="expense-container">
-                        <div class="input-group mb-2">
-                            <input type="text" class="form-control" placeholder="Expense Type" id="expense-type">
-                            <input type="number" class="form-control" placeholder="Amount" id="expense-amount" min="0" step="0.01">
-                            <button class="btn btn-outline-secondary" type="button" id="add-expense-btn">Add</button>
-                        </div>
-                    </div>
-                    <h6>Current Budget Allocations:</h6>
-                    <ul id="expense-list" class="list-group"></ul>
-                </div>
-
-                <div class="mb-3">
-                    <label for="project-plans" class="form-label">Project Plans</label>
-                    <div id="tags-container" class="mb-2"></div>
-                    <div class="input-group">
-                        <input type="text" id="project-plan-input" class="form-control" placeholder="Add project plan" aria-label="Add project plan">
-                        <button class="btn btn-outline-secondary" type="button" id="add-plan-btn">Add</button>
+                <div class="card-header">
+                    <?= htmlspecialchars($projectData['project_name']) ?>
+                    <div class="float-end">
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                            <i class="bi bi-arrow-repeat"></i> Update Status
+                        </a>
+                        <span class="mx-2">|</span>
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#setBudgetModal">
+                            <i class="bi bi-cash"></i> Set Budget Allocation
+                        </a>
                     </div>
                 </div>
+                <div class="card-body">
+                    <p class="card-description"><?= htmlspecialchars($projectData['project_description']) ?></p>
+                    <div class="mb-3">
+                        <span class="badge rounded-pill <?= ($projectData['status'] == 'completed') ? 'bg-success' : 'bg-warning' ?>"><?= ucfirst($projectData['status']) ?></span>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="status" class="form-label">Status</label>
-                    <select class="form-select" id="status">
-                        <option selected>Choose status</option>
-                        <option value="ongoing">Ongoing</option>
-                        <option value="stopped">Stopped</option>
-                        <option value="completed">Completed</option>
-                    </select>
-                </div>
+                    <div class="budget-info mb-3">
+                        <span>Total Cost: ₱<?php echo number_format($projectData['total_cost'], 2); ?></span><br>
+                        <span>Project Date: <?= htmlspecialchars($projectData['project_date']) ?></span><br>
+                        <span><strong>Duration:</strong> <?= htmlspecialchars($projectData['duration']) ?></span>
+                    </div>
 
-                <div class="card-footer">
-                    <button class="btn btn-outline-secondary" type="button" id="update-project-btn" data-project-id="<?= $projectId ?>">Update Project</button>
+                    <div class="horizontal-layout">
+                        <div class="horizontal-item"><strong>SK Chairman:</strong> <?= htmlspecialchars($projectData['sk_chairman']) ?></div>
+                        <div class="horizontal-item"><strong>Purok Assigned:</strong> <?= htmlspecialchars($projectData['purok_name']) ?></div>
+                        <div class="horizontal-item"><strong>Barangay:</strong> <?= htmlspecialchars($projectData['barangay_name']) ?></div>
+                    </div>
+                    <div class="horizontal-layout">
+                        <div class="horizontal-item"><strong>Plans:</strong> <?= htmlspecialchars($projectData['plans']) ?></div>
+                        <div class="horizontal-item"><strong>Beneficiaries:</strong> <?= htmlspecialchars($projectData['beneficiaries']) ?></div>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- Update Status Modal -->
+        <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateStatusModalLabel">Update Project Status</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Select New Status</label>
+                                <select class="form-select" id="status">
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="on-hold">On Hold</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="comments" class="form-label">Comments (optional)</label>
+                                <textarea class="form-control" id="comments" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Update Status</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Set Budget Allocation Modal -->
+        <div class="modal fade" id="setBudgetModal" tabindex="-1" aria-labelledby="setBudgetModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="setBudgetModalLabel">Set Budget Allocation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="budget" class="form-label">Total Budget</label>
+                                <input type="number" class="form-control" id="budget" placeholder="₱0.00">
+                            </div>
+                            <div class="mb-3">
+                                <label for="budgetDetails" class="form-label">Budget Details</label>
+                                <textarea class="form-control" id="budgetDetails" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Set Budget Allocation</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-    <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="../assets/vendor/echarts/echarts.min.js"></script>
-    <script src="../assets/vendor/quill/quill.js"></script>
-    <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="../assets/vendor/php-email-form/validate.js"></script>
-
     <script src="../assets/js/main.js"></script>
-
-    <script src="../assets/js/project.js"></script>
 </body>
 
 </html>

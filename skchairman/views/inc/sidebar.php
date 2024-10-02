@@ -27,7 +27,7 @@
           </a>
         </li>
         <li>
-          <a href=" ../project/add.view.php">
+          <a href=" ../project/create-project.view.php">
               <i class="bi bi-plus" style="font-size: 20px; color: #899bbd""></i><span>Add Project</span>
           </a>
         </li>

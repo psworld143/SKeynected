@@ -5,7 +5,7 @@ include_once './controllers/project.controllers.php';
 $dashboardController = new IndexController();
 $projectController = new ProjectControllers();
 
-$userId = 3;
+$userId = 3; // Example user ID
 $userData = $dashboardController->getUserById($userId);
 $projectData = $projectController->getAllProjects();
 ?>
@@ -61,6 +61,7 @@ $projectData = $projectController->getAllProjects();
                 </ol>
             </nav>
         </div>
+
         <section class="section">
             <div class="purok-section">
                 <div class="row g-3">
@@ -72,18 +73,13 @@ $projectData = $projectController->getAllProjects();
                                     <div class="d-flex justify-content-between">
                                         <h3 class="card-title project-name"><?= htmlspecialchars($project['project_name']) ?></h3>
                                     </div>
-                                    <p class="card-description project-description"><?= htmlspecialchars($project['description']) ?></p>
+                                    <p class="card-description project-description"><?= htmlspecialchars($project['project_description']) ?></p>
                                     <div class="mb-3">
-                                        <strong>Initial Budget:</strong> <?= htmlspecialchars($project['initial_budget']) ?><br>
-                                        <strong>Allocated Budget:</strong> <?= htmlspecialchars($project['allocated_budget']) ?><br>
-                                        <strong>Spent Budget:</strong> <?= htmlspecialchars($project['spent_budget']) ?><br>
-                                        <strong>Current Budget:</strong> <?= htmlspecialchars($project['current_budget']) ?>
-                                    </div>
-                                    <div class="tags">
-                                        <span class="tag"><?= htmlspecialchars($project['plans']) ?></span>
+                                        <strong>Total Cost:</strong> <?= htmlspecialchars($project['total_cost']) ?><br>
+                                        <strong>Plans:</strong> <?= htmlspecialchars($project['plans']) ?><br>
                                     </div>
                                     <div class="mb-3">
-                                        <span class="badge rounded-pill status"><?= htmlspecialchars($project['status']) ?></span>
+                                        <span class="badge rounded-pill <?= ($project['status'] == 'completed') ? 'bg-success' : 'bg-warning' ?>"><?= ucfirst($project['status']) ?></span>
                                     </div>
                                 </div>
                             </a>
@@ -92,10 +88,6 @@ $projectData = $projectController->getAllProjects();
                 </div>
             </div>
         </section>
-
-
-
-
     </main>
 
     <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
