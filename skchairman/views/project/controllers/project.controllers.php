@@ -90,4 +90,13 @@ class ProjectControllers
             throw new RuntimeException('Failed to retrieve project ID', 0, $e);
         }
     }
+
+    public function getProjectById($projectId)
+    {
+        $query = "SELECT * FROM projects WHERE project_id = :projectId";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

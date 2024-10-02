@@ -61,19 +61,16 @@ $projectData = $projectController->getAllProjects();
                 </ol>
             </nav>
         </div>
-
         <section class="section">
             <div class="purok-section">
-                <?php foreach ($projectData as $project): ?>
-                    <h2 class="purok-title"><?= htmlspecialchars($project['purok_assigned']) ?></h2>
-                    <div class="row g-3">
-                        <div class="col-lg-6">
-                            <img src="https://www.iied.org/sites/default/files/styles/scale_lg/public/images/2021/07/27/4_planting_vegetable_seedlings_0.jpeg" alt="Project Image" class="card-image" style="width: 100%; height: auto; object-fit: cover;">
+                <div class="row g-3">
+                    <?php foreach ($projectData as $project): ?>
+                        <div class="col-lg-4">
                             <a href="overview.php?id=<?= htmlspecialchars($project['project_id']) ?>">
+                                <img src="https://www.iied.org/sites/default/files/styles/scale_lg/public/images/2021/07/27/4_planting_vegetable_seedlings_0.jpeg" alt="Project Image" class="card-image" style="width: 100%; height: auto; object-fit: cover;">
                                 <div class="project-card">
                                     <div class="d-flex justify-content-between">
                                         <h3 class="card-title project-name"><?= htmlspecialchars($project['project_name']) ?></h3>
-                                        <span class="card-date project-date"><?= htmlspecialchars($project['start_date']) ?></span>
                                     </div>
                                     <p class="card-description project-description"><?= htmlspecialchars($project['description']) ?></p>
                                     <div class="mb-3">
@@ -91,10 +88,13 @@ $projectData = $projectController->getAllProjects();
                                 </div>
                             </a>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </section>
+
+
+
 
     </main>
 

@@ -7,6 +7,12 @@ $projectController = new ProjectControllers();
 $userId = 3;
 $userData = $dashboardController->getUserById($userId);
 $projectData = $projectController->getAllProjects();
+
+
+$projectId = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+
+$projectData = $projectController->getProjectById($projectId);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +71,7 @@ $projectData = $projectController->getAllProjects();
 </head>
 
 <body>
-    <main id="main" class="main">
+   <main id="main" class="main">
         <?php
         include '../inc/navbar.php';
         include '../inc/sidebar.php';
@@ -84,72 +90,67 @@ $projectData = $projectController->getAllProjects();
         <!-- Project Management Section -->
         <section class="section">
             <img src="https://www.iied.org/sites/default/files/styles/scale_lg/public/images/2021/07/27/4_planting_vegetable_seedlings_0.jpeg" alt="Project Image" class="card-image" style="width: 100%; height: auto; object-fit: cover;">
-            <?php foreach ($projectData as $project) : ?>
-                <div class="project-card">
-                    <h3 class="card-title"><?= htmlspecialchars($project['project_name']) ?></h3>
-                    <p class="card-description">
-                        <?= htmlspecialchars($project['description']) ?>
-                    </p>
 
-                    <div class="mb-3">
-                         <td><span class="badge rounded-pill <?= ($project['status'] == 'completed') ? 'bg-success' : 'bg-warning' ?>"><?= ucfirst($project['status']) ?></span></td>
-                    </div>
+            <div class="project-card">
+                <h3 class="card-title"><?= htmlspecialchars($projectData['project_name']) ?></h3>
+                <p class="card-description">
+                    <?= htmlspecialchars($projectData['description']) ?>
+                </p>
 
-                    <div class="mb-3">
-                        <strong>Start Date:</strong>
-                        <?= htmlspecialchars($project['start_date']) ?>
-                        <br>
-                        <strong>End Date:</strong> <?= htmlspecialchars($project['end_date']) ?>
-                    </div>
+                <div class="mb-3">
+                    <td><span class="badge rounded-pill <?= ($projectData['status'] == 'completed') ? 'bg-success' : 'bg-warning' ?>"><?= ucfirst($projectData['status']) ?></span></td>
+                </div>
 
+                <div class="mb-3">
+                    <strong>Start Date:</strong>
+                    <?= htmlspecialchars($projectData['start_date']) ?>
+                    <br>
+                    <strong>End Date:</strong> <?= htmlspecialchars($projectData['end_date']) ?>
+                </div>
 
-                    <div class="budget-info">
-                        <span>Initial Budget: ₱<?php echo number_format($project['initial_budget'], 2); ?></span><br>
-                        <span>Current Budget: ₱<span id="current-budget"><?php echo number_format($project['current_budget'], 2); ?></span></span>
-                    </div>
+                <div class="budget-info">
+                    <span>Initial Budget: ₱<?php echo number_format($projectData['initial_budget'], 2); ?></span><br>
+                    <span>Current Budget: ₱<span id="current-budget"><?php echo number_format($projectData['current_budget'], 2); ?></span></span>
+                </div>
 
-                    <div id="error-message" class="alert alert-danger mt-2"></div>
+                <div id="error-message" class="alert alert-danger mt-2"></div>
 
-
-                    <div class="mb-3">
-                        <h5>Budget Allocations</h5>
-                        <div id="expense-container">
-                            <div class="input-group mb-2">
-                                <input type="text" class="form-control" placeholder="Expense Type" id="expense-type">
-                                <input type="number" class="form-control" placeholder="Amount" id="expense-amount" min="0">
-                                <button class="btn btn-outline-secondary" type="button" id="add-expense-btn">Add</button>
-                            </div>
-                        </div>
-                        <h6>Current Budget Allocations:</h6>
-                        <ul id="expense-list" class="list-group"></ul>
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="project-plans" class="form-label">Project Plans</label>
-                        <div id="tags-container" class="mb-2"></div>
-                        <div class="input-group">
-                            <input type="text" id="project-plan-input" class="form-control" placeholder="Add project plan" aria-label="Add project plan">
-                            <button class="btn btn-outline-secondary" type="button" id="add-plan-btn">Add</button>
+                <div class="mb-3">
+                    <h5>Budget Allocations</h5>
+                    <div id="expense-container">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" placeholder="Expense Type" id="expense-type">
+                            <input type="number" class="form-control" placeholder="Amount" id="expense-amount" min="0" step="0.01">
+                            <button class="btn btn-outline-secondary" type="button" id="add-expense-btn">Add</button>
                         </div>
                     </div>
+                    <h6>Current Budget Allocations:</h6>
+                    <ul id="expense-list" class="list-group"></ul>
+                </div>
 
-
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" id="status">
-                            <option selected>Choose status</option>
-                            <option value="ongoing">Ongoing</option>
-                            <option value="stopped">Stopped</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-
-                    <div class="card-footer">
-                        <button class="btn btn-outline-secondary" type="button" id="add-plan-btn" data-project-id="<?= $project['project_id'] ?>">Add</button>
+                <div class="mb-3">
+                    <label for="project-plans" class="form-label">Project Plans</label>
+                    <div id="tags-container" class="mb-2"></div>
+                    <div class="input-group">
+                        <input type="text" id="project-plan-input" class="form-control" placeholder="Add project plan" aria-label="Add project plan">
+                        <button class="btn btn-outline-secondary" type="button" id="add-plan-btn">Add</button>
                     </div>
                 </div>
-            <?php endforeach; ?>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status">
+                        <option selected>Choose status</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="stopped">Stopped</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn btn-outline-secondary" type="button" id="update-project-btn" data-project-id="<?= $projectId ?>">Update Project</button>
+                </div>
+            </div>
         </section>
     </main>
 
