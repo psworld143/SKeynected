@@ -1,3 +1,12 @@
+<?php
+include_once '../../controllers/dashboard/index.php';
+$dashboardController = new DashboardController();
+$userId = 3;
+$userData = $dashboardController->getUserById($userId);
+$userName = $userData['username'];
+$account_type = $userData['account_type'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
