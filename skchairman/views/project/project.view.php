@@ -1,3 +1,15 @@
+<?php
+include_once '../../controllers/index.controllers.php';
+include_once './controllers/project/project.controllers.php';
+
+$dashboardController = new IndexController();
+$projectController = new ProjectControllers();
+
+$userId = 3;
+$userData = $dashboardController->getUserById($userId);
+$projectData = $projectController->getAllProjects();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,60 +28,22 @@
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/project.css">
+
+    <style>
+        .project-card {
+            border-left: 8px solid #4caf50;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card .tags .tag {
+            margin-right: 5px;
+        }
+    </style>
 </head>
-<style>
-    .project-card {
-        border-left: 8px solid #4caf50;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-        transition: all 0.3s ease;
-    }
-
-    .project-card:hover {
-        transform: translateY(-3px);
-
-    }
-
-    .progress-bar-custom {
-        background-color: #4caf50;
-
-    }
-
-    .row {
-        margin-bottom: 1rem;
-
-    }
-
-    .card-title {
-        margin-bottom: 0.5rem;
-
-    }
-
-    .card-text {
-        margin-bottom: 0.5rem;
-
-    }
-
-    .progress {
-        height: 0.75rem;
-
-    }
-
-    .project-completion {
-        font-size: 0.85rem;
-        margin-top: 0.25rem;
-
-    }
-
-    .purok-title {
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        color: #4caf50;
-    }
-</style>
 
 <body>
     <main id="main" class="main">
@@ -88,48 +62,40 @@
             </nav>
         </div>
 
-        <!-- Project Management Section -->
         <section class="section">
-            <div class="container my-5">
-                <div class="purok-section">
-                    <h2 class="purok-title">Purok 1</h2>
+            <div class="purok-section">
+                <?php foreach ($projectData as $project): ?>
+                    <h2 class="purok-title"><?= htmlspecialchars($project['purok_assigned']) ?></h2>
                     <div class="row g-3">
                         <div class="col-lg-6">
-                            <a href="overview.php">
+                            <img src="https://www.iied.org/sites/default/files/styles/scale_lg/public/images/2021/07/27/4_planting_vegetable_seedlings_0.jpeg" alt="Project Image" class="card-image" style="width: 100%; height: auto; object-fit: cover;">
+                            <a href="overview.php?id=<?= htmlspecialchars($project['project_id']) ?>">
                                 <div class="project-card">
                                     <div class="d-flex justify-content-between">
-                                        <h3 class="card-title project-name"></h3>
-                                        
-                                        <span class="card-date project-date"></span>
+                                        <h3 class="card-title project-name"><?= htmlspecialchars($project['project_name']) ?></h3>
+                                        <span class="card-date project-date"><?= htmlspecialchars($project['start_date']) ?></span>
                                     </div>
-                                    <p class="card-description project-description"></p>
-
-                                    <div class="team-members">
-                                    </div>
-
-                                    <div class="tags">
-                                        <span class="tag"></span>
-                                        <span class="tag"></span>
-                                        <span class="tag"></span>
-                                    </div>
-
+                                    <p class="card-description project-description"><?= htmlspecialchars($project['description']) ?></p>
                                     <div class="mb-3">
-                                        <span class="badge rounded-pill bg-success">Completed</span>
-                                        <!-- Example: Use bg-warning for ongoing, bg-danger for stopped -->
-                                        <!-- <span class="badge rounded-pill bg-warning">Ongoing</span> -->
-                                        <!-- <span class="badge rounded-pill bg-danger">Stopped</span> -->
+                                        <strong>Initial Budget:</strong> <?= htmlspecialchars($project['initial_budget']) ?><br>
+                                        <strong>Allocated Budget:</strong> <?= htmlspecialchars($project['allocated_budget']) ?><br>
+                                        <strong>Spent Budget:</strong> <?= htmlspecialchars($project['spent_budget']) ?><br>
+                                        <strong>Current Budget:</strong> <?= htmlspecialchars($project['current_budget']) ?>
                                     </div>
-
-                                    <div class="card-footer">
-                                        <span class="budget"></span>
+                                    <div class="tags">
+                                        <span class="tag"><?= htmlspecialchars($project['plans']) ?></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <span class="badge rounded-pill status"><?= htmlspecialchars($project['status']) ?></span>
                                     </div>
                                 </div>
                             </a>
                         </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </section>
+
     </main>
 
     <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>

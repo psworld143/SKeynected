@@ -12,12 +12,12 @@
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <img src="" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $userName; ?></span>
+          <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $userData['username']; ?></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
-            <h6><?php echo $userName; ?></h6>
-            <span><?php echo $account_type; ?></span>
+            <h6><?php echo $userData['username']; ?></h6>
+            <span><?php echo $userData['account_type']; ?></span>
           </li>
           <li>
             <hr class="dropdown-divider">

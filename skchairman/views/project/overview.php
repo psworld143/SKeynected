@@ -1,3 +1,13 @@
+<?php
+
+include_once '../../controllers/index.controllers.php';
+include_once './controllers/project/project.controllers.php';
+$dashboardController = new IndexController();
+$projectController = new ProjectControllers();
+$userId = 3;
+$userData = $dashboardController->getUserById($userId);
+$projectData = $projectController->getAllProjects();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +16,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SK Chairman / Project Overview</title>
     <link rel="icon" href="../assets/img/sk-logo.png">
-    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Nunito:300,400,600,700|Poppins:300,400,500,600,700">
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.css">
@@ -16,26 +25,44 @@
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <style>
+        .project-card {
+            border-left: 8px solid #4caf50;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-plan {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .budget-info {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .remove-expense {
+            cursor: pointer;
+            color: red;
+            margin-left: 10px;
+        }
+
+        #error-message {
+            display: none;
+        }
+    </style>
 </head>
-<style>
-    .project-card {
-        border-left: 8px solid #4caf50;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-        transition: all 0.3s ease;
-    }
-
-    .project-card:hover {
-        transform: translateY(-3px);
-    }
-
-    .badge-plan {
-        margin-right: 5px;
-        margin-bottom: 5px;
-    }
-</style>
 
 <body>
     <main id="main" class="main">
@@ -56,23 +83,48 @@
 
         <!-- Project Management Section -->
         <section class="section">
-            <div class="container my-5">
-                <h2 class="purok-title">Project Details</h2>
+            <img src="https://www.iied.org/sites/default/files/styles/scale_lg/public/images/2021/07/27/4_planting_vegetable_seedlings_0.jpeg" alt="Project Image" class="card-image" style="width: 100%; height: auto; object-fit: cover;">
+            <?php foreach ($projectData as $project) : ?>
                 <div class="project-card">
-                    <h3 class="card-title">Project Name</h3>
-                    <p class="card-description">Project Description</p>
+                    <h3 class="card-title"><?= htmlspecialchars($project['project_name']) ?></h3>
+                    <p class="card-description">
+                        <?= htmlspecialchars($project['description']) ?>
+                    </p>
 
                     <div class="mb-3">
-                        <span class="badge rounded-pill bg-success">Completed</span>
+                        <span class="badge rounded-pill bg-success"><?= htmlspecialchars($project['status']) ?></span>
                     </div>
 
-                    <!-- Budget Allocation -->
                     <div class="mb-3">
-                        <label for="budget" class="form-label">Budget Allocation</label>
-                        <input type="number" class="form-control" id="budget" placeholder="Enter budget allocation">
+                        <strong>Start Date:</strong>
+                        <?= htmlspecialchars($project['start_date']) ?>
+                        <br>
+                        <strong>End Date:</strong> <?= htmlspecialchars($project['end_date']) ?>
                     </div>
 
-                    <!-- Project Plans with Tags -->
+
+                    <div class="budget-info">
+                        <span>Initial Budget: ₱<?php echo number_format($project['initial_budget'], 2); ?></span><br>
+                        <span>Current Budget: ₱<span id="current-budget"><?php echo number_format($project['current_budget'], 2); ?></span></span>
+                    </div>
+
+                    <div id="error-message" class="alert alert-danger mt-2"></div>
+
+
+                    <div class="mb-3">
+                        <h5>Budget Allocations</h5>
+                        <div id="expense-container">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" placeholder="Expense Type" id="expense-type">
+                                <input type="number" class="form-control" placeholder="Amount" id="expense-amount" min="0">
+                                <button class="btn btn-outline-secondary" type="button" id="add-expense-btn">Add</button>
+                            </div>
+                        </div>
+                        <h6>Current Budget Allocations:</h6>
+                        <ul id="expense-list" class="list-group"></ul>
+                    </div>
+
+
                     <div class="mb-3">
                         <label for="project-plans" class="form-label">Project Plans</label>
                         <div id="tags-container" class="mb-2"></div>
@@ -82,11 +134,11 @@
                         </div>
                     </div>
 
-                    <!-- Project Status -->
+
                     <div class="mb-3">
-                        <label for="status" class="form-label">Update Project Status</label>
+                        <label for="status" class="form-label">Status</label>
                         <select class="form-select" id="status">
-                            <option selected>Choose status...</option>
+                            <option selected>Choose status</option>
                             <option value="ongoing">Ongoing</option>
                             <option value="stopped">Stopped</option>
                             <option value="completed">Completed</option>
@@ -94,10 +146,10 @@
                     </div>
 
                     <div class="card-footer">
-                        <button class="btn btn-primary">Save Changes</button>
+                        <button class="btn btn-outline-secondary" type="button" id="add-plan-btn" data-project-id="<?= $project['project_id'] ?>">Add</button>
                     </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </section>
     </main>
 
@@ -110,25 +162,9 @@
     <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="../assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
 
-    <script>
-        
-        document.getElementById('add-plan-btn').addEventListener('click', function() {
-            const input = document.getElementById('project-plan-input');
-            const planText = input.value.trim();
-
-            if (planText) {
-                const tagsContainer = document.getElementById('tags-container');
-                const newBadge = document.createElement('span');
-                newBadge.className = 'badge rounded-pill bg-info badge-plan';
-                newBadge.textContent = planText;
-                tagsContainer.appendChild(newBadge);
-                input.value = '';
-            }
-        });
-    </script>
+    <script src="../assets/js/project.js"></script>
 </body>
 
 </html>

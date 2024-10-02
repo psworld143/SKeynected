@@ -1,12 +1,9 @@
 <?php
-include_once '../../controllers/dashboard/index.php';
-$dashboardController = new DashboardController();
+include_once '../../controllers/index.php';
+$dashboardController = new IndexController();
 $userId = 3;
 $userData = $dashboardController->getUserById($userId);
-$userName = $userData['username'];
-$account_type = $userData['account_type'];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -145,7 +142,7 @@ $account_type = $userData['account_type'];
 
     <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/chartss.js"></script>
+    <script src="../assets/js/charts.js"></script>
 </body>
 
 </html>
