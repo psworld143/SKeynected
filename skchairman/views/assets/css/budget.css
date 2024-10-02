@@ -1,0 +1,10 @@
+.text-primary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.text-primary:hover {
+  color: #0056b3;
+}
+
+
