@@ -1,3 +1,10 @@
+<?php
+
+include_once '../../controllers/index.controllers.php';
+$dashboardController = new IndexController();
+$userId = 3;
+$userData = $dashboardController->getUserById($userId);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
