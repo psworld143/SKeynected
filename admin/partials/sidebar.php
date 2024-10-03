@@ -1,16 +1,33 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="dashboard.php">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="manage-users/manage-users.php">
+            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                 <i class="icon-head menu-icon"></i>
-                <span class="menu-title">User Management</span>
+                <span class="menu-title mr-2">User Management </span>
+                <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="auth">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="manage-users/manage-admin.php">
+                            <img src="assets/images/SK-logo.png" alt="Barangay SK" style="width: 20px; height: 20px; margin-right: 5px;">
+                            Barangay SK
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="manage-users/manage-admin.php">
+                            <img src="assets/images/LYDO-logo.png" alt="Admin" style="width: 20px; height: 20px; margin-right: 5px;">
+                            Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </li>
 
         <!-- <li class="nav-item">
