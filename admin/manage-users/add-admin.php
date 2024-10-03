@@ -12,28 +12,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'] ?? null;
     $email = $_POST['email'] ?? null;
     $password = $_POST['password'] ?? null;
-    $role = $_POST['role'] ?? null;
 
-    if (empty($fname) || empty($lname) || empty($username) || empty($email) || empty($role)) {
+    if (empty($fname) || empty($lname) || empty($username) || empty($email)) {
         $error = "All fields are required!";
     } else {
-        if ($role === 'skchairman') {
-            $password = 'skchairman123';
-        } elseif ($role === 'admin') {
+        if (empty($password)) {
             $password = 'admin123';
-        } elseif (empty($password)) {
-            $error = "Password is required for other roles!";
         }
+        $role = 'admin';
 
         if (!$error) {
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-            $result = $userController->createUser($fname, $lname, $mname, $username, $email, $hashedPassword, $role);
-
+            $result = $userController->createAdmin($fname, $lname, $mname, $username, $email, $hashedPassword, $role);
             if ($result) {
-                header("Location: manage-users.php");
+                $success = "Admin added successfully!";
+                header("Location: manage-admin.php");
                 exit;
             } else {
-                $error = "Failed to add user!";
+                $error = "Failed to add admin!";
             }
         }
     }

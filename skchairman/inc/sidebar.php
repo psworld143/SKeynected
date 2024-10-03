@@ -1,7 +1,7 @@
 <?php
 session_start();
 $current_page = basename($_SERVER['PHP_SELF']);
-$user = isset($_SESSION['user_id']) ? $_SESSION['user_id']: ''; // Get user_id from session
+$user = isset($_SESSION['user_id']) ? $_SESSION['user_id']: ''; 
 ?>
 
 <aside id="sidebar" class="sidebar">

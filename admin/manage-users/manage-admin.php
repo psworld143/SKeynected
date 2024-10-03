@@ -2,7 +2,7 @@
 require_once '../core/Database.php';
 require_once '../core/userController.php';
 
-$users = (new userController())->getUsers();
+$users = (new userController())->getAdminUsers();
 
 
 $success = '';
@@ -18,7 +18,7 @@ $error = '';
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>LYDO - Admin</title>
+  <title>LYDO - Manage Admin</title>
   <link rel="stylesheet" href="assets/vendors/feather/feather.css">
   <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -58,7 +58,7 @@ $error = '';
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3 class="font-weight-bold">User Management</h3>
+                  <h3 class="font-weight-bold">LYDO  Management</h3>
                 </div>
               </div>
             </div>
@@ -94,9 +94,6 @@ $error = '';
                           Username
                         </th>
                         <th>
-                          Role
-                        </th>
-                        <th>
                           Actions
                         </th>
                       </tr>
@@ -109,7 +106,6 @@ $error = '';
                             <td><?php echo htmlspecialchars($user['firstname'] . ' ' . $user['middlename'] . ' ' . $user['lastname']); ?></td>
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
                             <td><?php echo htmlspecialchars($user['username']); ?></td>
-                            <td><?php echo htmlspecialchars($user['role']); ?></td>
                             <td>
                               <i class="ti-pencil" style="cursor:pointer;" data-id="<?php echo $user['id']; ?>" onclick="editUser(this)"></i> <!-- Edit Icon -->
                               <i class="ti-trash" style="cursor:pointer; margin-left:10px;" data-id="<?php echo $user['id']; ?>" onclick="deleteUser(this)"></i> <!-- Delete Icon -->
@@ -138,7 +134,7 @@ $error = '';
                 </button>
               </div>
               <div class="modal-body custom-modal">
-                <form method="POST" action="add-users.php">
+                <form method="POST" action="add-admin.php">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -170,15 +166,6 @@ $error = '';
                       <div class="form-group">
                         <label for="userEmail">Email</label>
                         <input type="email" class="form-control" id="userEmail" placeholder="Enter email" name="email">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="userRole">Role</label>
-                        <select class="form-control" id="userRole" name="role">
-                          <option value="admin">Admin</option>
-                          <option value="skchairman">SK Chairman</option>
-                        </select>
                       </div>
                     </div>
                   </div>

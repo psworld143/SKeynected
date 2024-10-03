@@ -1,7 +1,11 @@
+<?php
+$base_url = '/Skeynected/admin/';
+$base_url2 = '/Skeynected/admin/manage-users/';
+?>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link" href="dashboard.php">
+            <a class="nav-link" href="<?php echo $base_url; ?>index.php">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
             </a>
@@ -15,13 +19,13 @@
             <div class="collapse" id="auth">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="manage-users/manage-admin.php">
+                        <a class="nav-link" href="<?php echo $base_url2; ?>manage-sk.php">
                             <img src="assets/images/SK-logo.png" alt="Barangay SK" style="width: 20px; height: 20px; margin-right: 5px;">
                             Barangay SK
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="manage-users/manage-admin.php">
+                        <a class="nav-link" href="<?php echo $base_url2; ?>manage-admin.php">
                             <img src="assets/images/LYDO-logo.png" alt="Admin" style="width: 20px; height: 20px; margin-right: 5px;">
                             Admin
                         </a>
