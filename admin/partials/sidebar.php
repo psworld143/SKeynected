@@ -1,6 +1,7 @@
 <?php
 $base_url = '/Skeynected/admin/';
 $base_url2 = '/Skeynected/admin/manage-users/';
+$base_url3 = '/Skeynected/admin/manage-budget/';
 ?>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
@@ -32,6 +33,12 @@ $base_url2 = '/Skeynected/admin/manage-users/';
                     </li>
                 </ul>
             </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo $base_url3; ?>budget.php">
+                <i class="icon-bar-graph menu-icon"></i>
+                <span class="menu-title">Budgets</span>
+            </a>
         </li>
 
         <!-- <li class="nav-item">

@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($name) || empty($username) || empty($email) || empty($role) || empty($bgid)) {
         $error = "All fields are required!";
     } else {
-        // Set a default password
         $password = 'sk123'; 
 
         if (!$error) {
