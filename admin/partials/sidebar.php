@@ -6,7 +6,7 @@ $base_url3 = '/Skeynected/admin/manage-budget/';
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo $base_url; ?>index.php">
+            <a class="nav-link" href="<?php echo $base_url; ?>dashboard.php">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
             </a>

@@ -1,7 +1,5 @@
 <?php
-session_start();
 include_once './core/Database.php';
-
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
   header('Location: index.php');
   exit();
@@ -216,7 +214,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                  <h3 class="font-weight-bold">Welcome Bro</h3>
+                  <h1 class="font-weight-bold">Welcome</h1>
                 </div>
               </div>
             </div>
