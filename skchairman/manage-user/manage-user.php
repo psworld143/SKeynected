@@ -36,6 +36,13 @@ $users = (new userController())->getSecretaryUsers();
         margin-top: 10px;
         width: 100%;
     }
+
+    .icon-bg {
+        background-color: #f0f0f0;
+        padding: 5px;
+        border-radius: 4px;
+        width: 30px;
+    }
 </style>
 
 <body>
@@ -103,9 +110,13 @@ $users = (new userController())->getSecretaryUsers();
                                                 <td class="align-middle"><?php echo htmlspecialchars($user['username']); ?></td>
                                                 <td class="align-middle"><?php echo htmlspecialchars($user['email']); ?></td>
                                                 <td class="text-center">
-                                                    <div class="d-flex justify-content-around">
-                                                        <i class="bi bi-pencil"></i>
-                                                        <i class="bi bi-trash"></i>
+                                                    <div class="d-flex justify-content-center">
+                                                        <span class="icon-bg me-3">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </span>
+                                                        <span class="icon-bg">
+                                                            <i class="bi bi-trash"></i>
+                                                        </span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -116,6 +127,7 @@ $users = (new userController())->getSecretaryUsers();
                                         </tr>
                                     <?php endif; ?>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
