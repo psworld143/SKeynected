@@ -1,4 +1,6 @@
 <?php
+session_start(); // Ensure session is started to access session variables
+
 $base_url = '/Skeynected/admin/';
 $base_url2 = '/Skeynected/admin/partials/';
 require_once '../core/Database.php';
@@ -18,19 +20,19 @@ $barangay_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 $sk_members = [];
 $barangay_name = '';
+$member_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($barangay_id) {
-    $stmt = $conn->prepare("SELECT name, position, gender, civil_status, birth_date, contact, term, status FROM sk_members WHERE barangay_id = :barangay_id");
+
+    $stmt = $conn->prepare("SELECT id, name, position, gender, civil_status, birth_date, contact, term, status FROM sk_members WHERE barangay_id = :barangay_id");
     $stmt->bindParam(':barangay_id', $barangay_id);
     $stmt->execute();
     $sk_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
     $stmt_barangay = $conn->prepare("SELECT name FROM barangays WHERE id = :barangay_id");
     $stmt_barangay->bindParam(':barangay_id', $barangay_id);
     $stmt_barangay->execute();
     $barangay = $stmt_barangay->fetch(PDO::FETCH_ASSOC);
-
 
     if ($barangay) {
         $barangay_name = $barangay['name'];
@@ -41,6 +43,15 @@ if ($barangay_id) {
 
 if (empty($sk_members)) {
     $error = "No SK members found for the selected barangay.";
+}
+
+
+$member_details = [];
+if ($member_id) {
+    $stmt_member = $conn->prepare("SELECT * FROM sk_members WHERE id = :member_id");
+    $stmt_member->bindParam(':member_id', $member_id);
+    $stmt_member->execute();
+    $member_details = $stmt_member->fetch(PDO::FETCH_ASSOC);
 }
 ?>
 <!DOCTYPE html>
@@ -64,7 +75,6 @@ if (empty($sk_members)) {
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-bottom: 20px;
         }
 
         .profile-card img {
@@ -96,54 +106,80 @@ if (empty($sk_members)) {
             font-size: 1.2rem;
         }
 
-        .profile-details {
-            text-align: left;
-        }
-
         .profile-details h4 {
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
         }
 
         .profile-details p {
             color: #555;
+            margin-bottom: 5px;
+        }
+
+        .profile-details p span {
+            color: #888;
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
         }
 
         .tabs {
-            margin-top: 20px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .tabs a {
-            margin-right: 20px;
+            margin-right: 30px;
             color: #007bff;
             text-decoration: none;
             cursor: pointer;
+            padding-bottom: 5px;
         }
 
         .tabs a.active {
             font-weight: bold;
             color: #000;
+            border-bottom: 3px solid #007bff;
         }
 
         .tab-content {
             display: none;
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-bottom: 20px;
         }
 
         .tab-content.active {
             display: block;
+            background-color: #ffffff;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .tab-content p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .container-fluid {
+            padding: 20px;
         }
     </style>
 </head>
 
 <body>
     <div class="container-scroller">
-        <?php include_once '../partials/navbar.php' ?>
+        <?php include_once '../partials/navbar.php'; ?>
         <div class="container-fluid page-body-wrapper">
             <?php include_once '../partials/sidebar.php'; ?>
             <div class="main-panel">
@@ -152,8 +188,8 @@ if (empty($sk_members)) {
                         <div class="col-md-4">
                             <div class="profile-card">
                                 <img src="assets/images/profile-picture.png" alt="Profile Picture">
-                                <h3>Kevin Anderson</h3>
-                                <p>Web Designer</p>
+                                <h3><?php echo $member_details['name'] ?? 'Unknown Member'; ?></h3>
+                                <p><?php echo $member_details['position'] ?? 'Position not specified'; ?></p>
                                 <div class="social-icons">
                                     <a href="#"><i class="ti-twitter"></i></a>
                                     <a href="#"><i class="ti-facebook"></i></a>
@@ -173,33 +209,106 @@ if (empty($sk_members)) {
 
                             <div class="tab-content active" id="overview">
                                 <h4>About</h4>
-                                <p>Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus...</p>
+                                <p><?php echo $member_details['bio'] ?? 'Biography not available.'; ?></p>
 
                                 <div class="profile-details">
                                     <h4>Profile Details</h4>
-                                    <p><strong>Full Name:</strong> Kevin Anderson</p>
-                                    <p><strong>Company:</strong> Lueilwitz, Wisoky and Leuschke</p>
-                                    <p><strong>Job:</strong> Web Designer</p>
-                                    <p><strong>Country:</strong> USA</p>
-                                    <p><strong>Address:</strong> A108 Adam Street, New York, NY 535022</p>
-                                    <p><strong>Phone:</strong> (436) 486-3538 x29071</p>
-                                    <p><strong>Email:</strong> k.anderson@example.com</p>
+                                    <p><span>Full Name:</span> <?php echo $member_details['name']; ?></p>
+                                    <p><span>Position:</span> <?php echo $member_details['position']; ?></p>
+                                    <p><span>Gender:</span> <?php echo $member_details['gender']; ?></p>
+                                    <p><span>Civil Status:</span> <?php echo $member_details['civil_status']; ?></p>
+                                    <p><span>Birth Date:</span> <?php echo $member_details['birth_date']; ?></p>
+                                    <p><span>Contact:</span> <?php echo $member_details['contact']; ?></p>
+                                    <p><span>Term:</span> <?php echo $member_details['term']; ?></p>
+                                    <p><span>Status:</span> <?php echo $member_details['status']; ?></p>
                                 </div>
                             </div>
 
                             <div class="tab-content" id="edit-profile">
                                 <h4>Edit Profile</h4>
                                 <!-- Add edit profile form here -->
+                                <form action="edit_member.php?id=<?php echo $member_id; ?>" method="POST">
+                                    <div class="form-group">
+                                        <label for="name">Full Name</label>
+                                        <input type="text" class="form-control" name="name" value="<?php echo $member_details['name']; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="position">Position</label>
+                                        <input type="text" class="form-control" name="position" value="<?php echo $member_details['position']; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <select class="form-control" name="gender" required>
+                                            <option value="Male" <?php echo ($member_details['gender'] == 'Male') ? 'selected' : ''; ?>>Male</option>
+                                            <option value="Female" <?php echo ($member_details['gender'] == 'Female') ? 'selected' : ''; ?>>Female</option>
+                                            <option value="Other" <?php echo ($member_details['gender'] == 'Other') ? 'selected' : ''; ?>>Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="civil_status">Civil Status</label>
+                                        <select class="form-control" name="civil_status" required>
+                                            <option value="Single" <?php echo ($member_details['civil_status'] == 'Single') ? 'selected' : ''; ?>>Single</option>
+                                            <option value="Married" <?php echo ($member_details['civil_status'] == 'Married') ? 'selected' : ''; ?>>Married</option>
+                                            <option value="Divorced" <?php echo ($member_details['civil_status'] == 'Divorced') ? 'selected' : ''; ?>>Divorced</option>
+                                            <option value="Widowed" <?php echo ($member_details['civil_status'] == 'Widowed') ? 'selected' : ''; ?>>Widowed</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="birth_date">Birth Date</label>
+                                        <input type="date" class="form-control" name="birth_date" value="<?php echo $member_details['birth_date']; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact">Contact</label>
+                                        <input type="text" class="form-control" name="contact" value="<?php echo $member_details['contact']; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="term">Term</label>
+                                        <input type="text" class="form-control" name="term" value="<?php echo $member_details['term']; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select class="form-control" name="status" required>
+                                            <option value="Active" <?php echo ($member_details['status'] == 'Active') ? 'selected' : ''; ?>>Active</option>
+                                            <option value="Inactive" <?php echo ($member_details['status'] == 'Inactive') ? 'selected' : ''; ?>>Inactive</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                                </form>
                             </div>
 
                             <div class="tab-content" id="settings">
-                                <h4>Settings</h4>
-                                <!-- Add settings form here -->
+                                <h4>Account Settings</h4>
+                                <form action="update-account-status.php" method="POST">
+                                    <div class="form-group">
+                                        <label for="account-status">Account Status</label>
+                                        <input type="hidden" name="id" value="<?php echo $member_id; ?>">
+                                        <select id="account-status" name="status" class="form-control">
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" name="update_status" class="btn btn-primary">Save Changes</button>
+                                </form>
                             </div>
+
 
                             <div class="tab-content" id="change-password">
                                 <h4>Change Password</h4>
-                                <!-- Add change password form here -->
+                                <form action="change_password.php?id=<?php echo $member_id; ?>" method="POST">
+                                    <div class="form-group">
+                                        <label for="current_password">Current Password</label>
+                                        <input type="password" class="form-control" name="current_password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new_password">New Password</label>
+                                        <input type="password" class="form-control" name="new_password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm_password">Confirm New Password</label>
+                                        <input type="password" class="form-control" name="confirm_password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -209,35 +318,26 @@ if (empty($sk_members)) {
     </div>
 
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="assets/vendors/chart.js/Chart.min.js"></script>
     <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-    <script src="assets/js/dataTables.select.min.js"></script>
-    <script src="assets/js/off-canvas.js"></script>
-    <script src="assets/js/hoverable-collapse.js"></script>
-    <script src="assets/js/template.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
-    <script src="assets/js/dashboard.js"></script>
-    <script src="assets/js/Chart.roundedBarCharts.js"></script>
-
+    <script src="assets/js/vertical-layout-light.js"></script>
     <script>
-        // JavaScript for Tab Functionality
-        const tabs = document.querySelectorAll('.tab-link');
-        const contents = document.querySelectorAll('.tab-content');
+        // Tab functionality
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', (event) => {
-                event.preventDefault();
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetTab = e.target.dataset.tab;
 
-                // Remove 'active' class from all tabs and contents
-                tabs.forEach(item => item.classList.remove('active'));
-                contents.forEach(content => content.classList.remove('active'));
+                // Remove active class from all tabs and contents
+                tabLinks.forEach(link => link.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
 
-                // Add 'active' class to clicked tab and corresponding content
-                tab.classList.add('active');
-                const contentId = tab.getAttribute('data-tab');
-                document.getElementById(contentId).classList.add('active');
+                // Add active class to the clicked tab and corresponding content
+                e.target.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
             });
         });
     </script>
