@@ -14,7 +14,8 @@ class userController
 
     public function createSecretaryAccount($name, $username, $email, $password, $role, $position, $status)
     {
-        $query = "INSERT INTO sk_members(name, username, email, password, role) VALUES (:name, :username, :email, :password, :role, :position, :status)";
+
+        $query = "INSERT INTO sk_members(name, username, email, password, role, position, status) VALUES (:name, :username, :email, :password, :role, :position, :status)";
         $stmt = $this->db->prepare($query);
         $params = [
             ':name' => $name,
@@ -28,6 +29,31 @@ class userController
         $stmt->execute($params);
         return $stmt->rowCount();
     }
+
+
+    public function updateSecretaryAccount($id, $name, $username, $email)
+    {
+        $query = "UPDATE sk_members SET name = :name, username = :username, email = :email WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $params = [
+            ':id' => $id,
+            ':name' => $name,
+            ':email' => $email,
+            ':username' => $username
+        ];
+        $stmt->execute($params);
+        return $stmt->rowCount();
+    }
+
+    public function deleteSecretaryAccount($id)
+    {
+        $query = "DELETE FROM sk_members WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $params = [':id' => $id];
+        $stmt->execute($params);
+        return $stmt->rowCount();
+    }
+
 
     public function getSecretaryUsers()
     {

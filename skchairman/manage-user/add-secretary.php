@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "All fields are required!";
     } else {
         if (empty($password)) {
-            $password = 'secretary123';
+            $password = 'secretary123'; // TEST ONLY
         }
-        $position = 'SK Chairman';
+        $position = 'SK Secretary'; // TEST ONLY
         $role = 'secretary';
         $status = 'Inactive';
 
