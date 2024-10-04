@@ -4,7 +4,7 @@
         <a class="navbar-brand brand-logo mr-2" href="index.html"><img src="assets/images/LYDO-logo.png" class="mr-2" alt="logo" />Skeynected</a>
         <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/LYDO-logo.png" alt="logo" /></a>
     </div>
-    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end" >
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <span class="icon-menu"></span>
         </button>
