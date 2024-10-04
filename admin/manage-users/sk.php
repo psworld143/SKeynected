@@ -20,7 +20,7 @@ $sk_members = [];
 $barangay_name = '';
 
 if ($barangay_id) {
-    $stmt = $conn->prepare("SELECT name, role, gender, civil_status, birth_date, contact, term, status FROM sk_members WHERE barangay_id = :barangay_id");
+    $stmt = $conn->prepare("SELECT id, name, position, gender, civil_status, birth_date, contact, term, status FROM sk_members WHERE barangay_id = :barangay_id");
     $stmt->bindParam(':barangay_id', $barangay_id);
     $stmt->execute();
     $sk_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -62,11 +62,13 @@ if (empty($sk_members)) {
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            background-color: #f8f9fa;
         }
 
         .member-header {
             padding: 15px;
             color: white;
+            text-align: center;
         }
 
         .member-body {
@@ -75,11 +77,12 @@ if (empty($sk_members)) {
         }
 
         .member-avatar {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
+            margin-bottom: 10px;
         }
 
         .status-dot {
@@ -96,6 +99,58 @@ if (empty($sk_members)) {
 
         .status-inactive {
             background-color: #dc3545;
+        }
+
+        .member-info {
+            margin-bottom: 5px;
+        }
+
+        .view-btn {
+            background-color: transparent;
+            border: 1px solid #007bff;
+            color: #007bff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .view-btn:hover {
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .sk-chairman-card {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .sk-chairman-card .member-header {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sk-chairman-card .member-body {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sk-chairman-card .member-avatar {
+            width: 120px;
+            height: 120px;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
         }
     </style>
 </head>
@@ -114,7 +169,7 @@ if (empty($sk_members)) {
                                     <h3 class="font-weight-bold">Barangay <?= htmlspecialchars($barangay_name) ?> SK</h3>
                                 </div>
                                 <div class="col-12 col-xl-4">
-                                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addMemberModal">Add SK Member</button>
+                                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addMemberModal">Add Account</button>
                                 </div>
                             </div>
                         </div>
@@ -126,22 +181,33 @@ if (empty($sk_members)) {
                             </div>
                         <?php else: ?>
                             <?php foreach ($sk_members as $index => $member): ?>
+                                <?php
+                                $cardColor = '';
+                                switch ($member['position']) {
+                                    case 'SK Chairman':
+                                        $cardColor = '#248AFD';
+                                        break;
+                                    case 'SK Secretary':
+                                        $cardColor = '#FFC100';
+                                        break;
+                                    default:
+                                        $cardColor = ['#4B49AC', '#FF4747', '#57B657', '#7978E9'][$index % 4];
+                                }
+                                ?>
                                 <div class="col-md-4">
                                     <div class="member-card">
-                                        <div class="member-header" style="background-color: <?php echo ['#4B49AC', '#248AFD', '#FFC100', '#FF4747', '#57B657', '#7978E9'][$index % 6]; ?>;">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <h5 class="mb-0"><?php echo $member['role']; ?></h5>
-                                                <img src="https://via.placeholder.com/150" alt="avatar" class="member-avatar">
-                                            </div>
-                                            <p class="mb-0"><?php echo $member['name']; ?></p>
+                                        <div class="member-header" style="background-color: <?php echo $cardColor; ?>;">
+                                            <img src="https://via.placeholder.com/150" alt="avatar" class="member-avatar">
+                                            <h5 class="mb-0"><?php echo htmlspecialchars($member['position']); ?></h5>
+                                            <p class="mb-0"><?php echo htmlspecialchars($member['name']); ?></p>
                                         </div>
                                         <div class="member-body">
-                                            <p>
+                                            <div class="member-info">
                                                 <strong>Status:</strong>
                                                 <span class="status-dot <?php echo $member['status'] == 'Active' ? 'status-active' : 'status-inactive'; ?>"></span>
                                                 <?php echo $member['status']; ?>
-                                            </p>
-                                            <button class="btn btn-outline-primary btn-sm">View</button>
+                                            </div>
+                                            <button class="view-btn" onclick="location.href='sk-profile.php?id=<?php echo $member['id']; ?>'">View</button>
                                         </div>
                                     </div>
                                 </div>
@@ -189,10 +255,15 @@ if (empty($sk_members)) {
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="memberName">Role</label>
-                                    <input type="text" class="form-control" id="memberName" name="role" required>
+                                    <label for="position">Position</label>
+                                    <select class="form-control" id="position" name="position" required>
+                                        <option value="" disabled selected>Select Position</option>
+                                        <option value="SK Chairman">SK Chairman</option>
+                                        <option value="SK Secretary">SK Secretary</option>
+                                    </select>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
