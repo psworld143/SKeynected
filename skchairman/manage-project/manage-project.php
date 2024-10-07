@@ -1,3 +1,8 @@
+<?php
+require_once '../core/projectController.php';
+$projectController = new projectController();
+$projects = $projectController->getProjects();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,23 +186,20 @@
                 <!-- Project Cards -->
                 <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="project-card" style="background-color: #FFE5B4;">
-                                <h3>Mobile App</h3>
-                                <p>Shopping</p>
-                                <div class="progress">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="project-meta">
-                                    <div class="project-team">
-                                        <img src="https://via.placeholder.com/30" alt="Team Member 1">
-                                        <img src="https://via.placeholder.com/30" alt="Team Member 2">
+                        <?php foreach ($projects as $project): ?>
+                            <div class="col-md-4">
+                                <div class="project-card" style="background-color: #FFE5B4;">
+                                    <h3><?php echo htmlspecialchars($project['project_name']); ?></h3>
+                                    <p><?php echo htmlspecialchars($project['project_description']); ?></p>
+                                    <!-- <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: <?php echo htmlspecialchars($project['status']); ?>%" aria-valuenow="<?php echo htmlspecialchars($project['status']); ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div> -->
+                                    <div class="project-meta">
+                                        <span class="time-left"><?php echo htmlspecialchars($project['project_duration']); ?> left</span>
                                     </div>
-                                    <span class="time-left">1 week left</span>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Add more project cards as needed -->
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -216,70 +218,59 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="projectName" class="form-label">Project Name</label>
-                                <input type="text" class="form-control" id="projectName" required>
+                                <input type="text" class="form-control" id="projectName" name="projectName" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="projectCode" class="form-label">Project Code</label>
-                                <input type="text" class="form-control" id="projectCode" value="SKP-0001" readonly>
+                                <input type="text" class="form-control" id="projectCode" name="projectCode" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="projectCode" class="form-label">Project Duration (In Days)</label>
+                                <input type="text" class="form-control" id="projectCode" name="projectDuration">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="projectDescription" class="form-label">Project Description</label>
-                            <textarea class="form-control" id="projectDescription" rows="3" required></textarea>
+                            <textarea class="form-control" id="projectDescription" name="projectDescription" rows="3" required></textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="projectDuration" class="form-label">Project Duration (in days)</label>
-                                <input type="number" class="form-control" id="projectDuration" required>
+                                <label for="specificJob" class="form-label">Specific Job</label>
+                                <input type="text" class="form-control" id="specificJob" name="specificJob" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="selectProject" class="form-label">Select Project Name</label>
-                                <select class="form-select" id="selectProject" required>
-                                    <option value="">Choose a project</option>
-                                    <!-- Add options dynamically based on your projects -->
-                                </select>
+                                <label for="operations" class="form-label">Operations</label>
+                                <input type="text" class="form-control" id="operations" name="operations" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="materials" class="form-label">Material</label>
-                                <input type="text" class="form-control" id="materials" placeholder="e.g., Cement" required>
+                                <input type="text" class="form-control" id="materials" placeholder="e.g., Cement">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" placeholder="e.g., 5" required>
+                                <input type="number" class="form-control" id="quantity" placeholder="e.g., 5">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="amount" class="form-label">Amount (₱ per unit)</label>
-                                <input type="number" class="form-control" id="amount" placeholder="e.g., 100" required>
+                                <input type="number" class="form-control" id="amount" placeholder="e.g., 100">
                             </div>
                         </div>
-                        <div id="materialList"></div>
                         <button type="button" class="btn btn-info mb-3" onclick="addMaterial()">Add Material</button>
-
-                        <!-- Textarea for receipt -->
+                        <div id="materialList"></div>
                         <div class="mb-3">
                             <label for="receipt" class="form-label">Materials Total Cost</label>
                             <textarea class="form-control" id="receipt" rows="8" readonly></textarea>
                         </div>
-
                         <div class="mb-3">
-                            <input type="hidden" class="form-control" id="totalCost" readonly>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="specificJob" class="form-label">Specific Job</label>
-                                <input type="text" class="form-control" id="specificJob" placeholder="e.g., Waiting Shed" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="operations" class="form-label">Operations</label>
-                                <input type="text" class="form-control" id="operations" placeholder="e.g., Flooring, Roofing, Painting" required>
-                            </div>
+                            <input type="hidden" class="form-control" id="totalCost" name="totalCost" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="proposal" class="form-label">Project Proposal</label>
-                            <input type="file" class="form-control" id="proposal" accept=".pdf,.doc,.docx">
+                            <input type="file" class="form-control" id="proposal" name="proposal" accept=".pdf,.doc,.docx">
                         </div>
+                        <button type="button" class="btn btn-primary" onclick="submitProject()">Submit Project</button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -299,6 +290,18 @@
     <script>
         let materialsArray = [];
 
+        function generateProjectCode() {
+            const prefix = "SKP-";
+            const randomNum = Math.floor(Math.random() * 9000) + 1000;
+            return prefix + randomNum;
+        }
+
+        function setProjectCode() {
+            document.getElementById('projectCode').value = generateProjectCode();
+        }
+
+        window.onload = setProjectCode;
+
         function addMaterial() {
             const materialName = document.getElementById('materials').value;
             const quantity = parseFloat(document.getElementById('quantity').value);
@@ -315,12 +318,10 @@
                 amount
             });
 
-            // Clear the inputs
             document.getElementById('materials').value = '';
             document.getElementById('quantity').value = '';
             document.getElementById('amount').value = '';
 
-            // Render the material list and calculate the total cost
             renderMaterialsList();
             calculateTotalCost();
             updateReceipt();
@@ -332,30 +333,19 @@
 
             materialsArray.forEach((material, index) => {
                 const materialItem = document.createElement('div');
-                materialItem.className = 'row';
+                materialItem.className = 'row mb-2';
                 materialItem.innerHTML = `
-                <div class="col-md-4 mb-3">
-                    <input type="hidden" class="form-control" value="${material.materialName}" readonly>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <input type="hidden" class="form-control" value="${material.quantity}" readonly>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <input type="hidden" class="form-control" value="${material.amount}" readonly>
-                </div>
-            `;
+                    <div class="col-md-4">${material.materialName}</div>
+                    <div class="col-md-4">${material.quantity}</div>
+                    <div class="col-md-4">₱${material.amount}</div>
+                `;
                 materialListDiv.appendChild(materialItem);
             });
         }
 
         function calculateTotalCost() {
-            let totalCost = 0;
-
-            materialsArray.forEach(material => {
-                totalCost += material.quantity * material.amount;
-            });
-
-            document.getElementById('totalCost').value = `₱ ${totalCost.toFixed(2)}`;
+            let totalCost = materialsArray.reduce((sum, material) => sum + material.quantity * material.amount, 0);
+            document.getElementById('totalCost').value = totalCost.toFixed(2);
         }
 
         function updateReceipt() {
@@ -377,24 +367,44 @@
         }
 
         function submitProject() {
-            console.log('Materials: ', materialsArray);
-        }
+            const formData = new FormData(document.getElementById('addProjectForm'));
+            formData.append('materials', JSON.stringify(materialsArray));
+            formData.append('status', 'hearing'); // Set default status
 
-        // Function to generate random project code
-        function generateProjectCode() {
-            const prefix = "SKP-";
-            const randomNum = Math.floor(Math.random() * 9000) + 1000; // Generates a random number between 1000 and 9999
-            return prefix + randomNum;
+            fetch('addProject.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    try {
+                        const data = JSON.parse(text);
+                        console.log(data);
+                        if (data.success) {
+                            alert(data.message || "Project submitted successfully!");
+                            document.getElementById('addProjectForm').reset();
+                            materialsArray = [];
+                            renderMaterialsList();
+                            updateReceipt();
+                        } else {
+                            alert(data.message || "Failed to submit the project.");
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        console.log('Raw response:', text);
+                        alert("An error occurred while processing the response.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An error occurred: " + error.message);
+                });
         }
-
-        function setProjectCode() {
-            document.getElementById('projectCode').value = generateProjectCode();
-        }
-
-        // Set the project code when the modal is opened
-        document.getElementById('addProjectModal').addEventListener('show.bs.modal', function() {
-            setProjectCode();
-        });
     </script>
 
 </body>
