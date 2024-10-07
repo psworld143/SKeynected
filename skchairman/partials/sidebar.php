@@ -28,25 +28,12 @@ $base_url3 = '/Skeynected/skchairman/manage-project/';
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="projects-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="#" class="dropdown-item">
-                        <i class="bi bi-circle"></i>
-                        <span>Project 1</span>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo $base_url3; ?>manage-project.php">
+                        <span>SK Project</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#" class="dropdown-item">
-                        <i class="bi bi-circle"></i>
-                        <span>Project 2</span>
-                    </a>
-                </li>
-                <!-- Add more projects here -->
-                <li>
-                    <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addProjectModal">
-                        <i class="bi bi-plus-circle"></i> <span>Add Project</span>
-                    </button>
 
-                </li>
             </ul>
         </li>
 

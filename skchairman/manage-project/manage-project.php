@@ -5,16 +5,9 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title></title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-
-
-    <link href="../assets/img/favicon.png" rel="icon">
-    <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
-
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <title>Project Management</title>
+    <meta content="Project Management Dashboard" name="description">
+    <meta content="projects, management, dashboard" name="keywords">
 
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -23,10 +16,74 @@
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
     <link href="../assets/css/style.css" rel="stylesheet">
+    <style>
+        .project-card {
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
+        .project-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
 
+        .project-card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress {
+            height: 10px;
+            margin-bottom: 10px;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-team img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: -10px;
+            border: 2px solid #fff;
+        }
+
+        .time-left {
+            font-size: 12px;
+            background-color: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .add-project-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .add-project-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,246 +94,308 @@
 
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
-            <h1>Manage Projects</h1>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>Projects</h1>
+                <div class="header-actions">
+                    <button class="add-project-btn" data-bs-toggle="modal" data-bs-target="#addProjectModal">
+                        <i class="bi bi-plus"></i> Add Project
+                    </button>
+                </div>
+            </div>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Projects</a></li>
-                    <li class="breadcrumb-item active">Manage Projects</li>
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Projects</li>
                 </ol>
             </nav>
         </div>
 
         <section class="section dashboard">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title">Recent Activity <span>| Today</span></h5>
-
-                            <div class="activity">
-
-                                <div class="activity-item d-flex">
-                                    <div class="activite-label">32 min</div>
-                                    <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-                                    <div class="activity-content">
-                                        Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                <div class="col-lg-12">
+                    <div class="row">
+                        <!-- Project Summary -->
+                        <div class="col-xxl-3 col-md-6">
+                            <div class="card info-card sales-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Hearing</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-clock-history"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6></h6>
+                                        </div>
                                     </div>
-                                </div><!-- End activity item-->
-
-                                <div class="activity-item d-flex">
-                                    <div class="activite-label">56 min</div>
-                                    <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
-                                    <div class="activity-content">
-                                        Voluptatem blanditiis blanditiis eveniet
-                                    </div>
-                                </div><!-- End activity item-->
-
-                                <div class="activity-item d-flex">
-                                    <div class="activite-label">2 hrs</div>
-                                    <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
-                                    <div class="activity-content">
-                                        Voluptates corrupti molestias voluptatem
-                                    </div>
-                                </div><!-- End activity item-->
-
-                                <div class="activity-item d-flex">
-                                    <div class="activite-label">1 day</div>
-                                    <i class="bi bi-circle-fill activity-badge text-info align-self-start"></i>
-                                    <div class="activity-content">
-                                        Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                                    </div>
-                                </div><!-- End activity item-->
-
-                                <div class="activity-item d-flex">
-                                    <div class="activite-label">2 days</div>
-                                    <i class="bi bi-circle-fill activity-badge text-warning align-self-start"></i>
-                                    <div class="activity-content">
-                                        Est sit eum reiciendis exercitationem
-                                    </div>
-                                </div><!-- End activity item-->
-
-                                <div class="activity-item d-flex">
-                                    <div class="activite-label">4 weeks</div>
-                                    <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-                                    <div class="activity-content">
-                                        Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                                    </div>
-                                </div><!-- End activity item-->
-
+                                </div>
                             </div>
-
                         </div>
+                        <div class="col-xxl-3 col-md-6">
+                            <div class="card info-card revenue-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Approved</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-check-circle"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-md-6">
+                            <div class="card info-card customers-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Declined</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-x-circle"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-md-6">
+                            <div class="card info-card sales-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Projects</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-folder"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Cards -->
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="project-card" style="background-color: #FFE5B4;">
+                                <h3>Mobile App</h3>
+                                <p>Shopping</p>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="project-meta">
+                                    <div class="project-team">
+                                        <img src="https://via.placeholder.com/30" alt="Team Member 1">
+                                        <img src="https://via.placeholder.com/30" alt="Team Member 2">
+                                    </div>
+                                    <span class="time-left">1 week left</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add more project cards as needed -->
                     </div>
                 </div>
-
             </div>
         </section>
-        <!-- Modal -->
-        <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addProjectModalLabel">Create New Project</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Start of collapsible sections -->
-                        <div class="accordion" id="projectAccordion">
+    </main>
 
-                            <!-- Project Management Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingManagement">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseManagement" aria-expanded="true" aria-controls="collapseManagement">
-                                        Project Management
-                                    </button>
-                                </h2>
-                                <div id="collapseManagement" class="accordion-collapse collapse show" aria-labelledby="headingManagement" data-bs-parent="#projectAccordion">
-                                    <div class="accordion-body">
-                                        <div class="mb-3">
-                                            <label for="projectName" class="form-label">Project Name</label>
-                                            <input type="text" class="form-control" id="projectName" name="projectName" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="projectDescription" class="form-label">Project Description</label>
-                                            <textarea class="form-control" id="projectDescription" name="projectDescription" rows="3" required></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="projectCode" class="form-label">Project Code</label>
-                                            <input type="text" class="form-control" id="projectCode" name="projectCode" placeholder="e.g., SKP-0001" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="projectDuration" class="form-label">Project Duration</label>
-                                            <input type="text" class="form-control" id="projectDuration" name="projectDuration" required>
-                                        </div>
-                                    </div>
-                                </div>
+    <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProjectModalLabel">Add New Project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProjectForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="projectName" class="form-label">Project Name</label>
+                                <input type="text" class="form-control" id="projectName" required>
                             </div>
-
-                            <!-- Project Costs Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingCosts">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCosts" aria-expanded="false" aria-controls="collapseCosts">
-                                        Project Costs
-                                    </button>
-                                </h2>
-                                <div id="collapseCosts" class="accordion-collapse collapse" aria-labelledby="headingCosts" data-bs-parent="#projectAccordion">
-                                    <div class="accordion-body">
-                                        <div class="mb-3">
-                                            <label for="materialName" class="form-label">Material Name</label>
-                                            <input type="text" class="form-control" id="materialName" name="materialName" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="materialQuantity" class="form-label">Material Quantity</label>
-                                            <input type="number" class="form-control" id="materialQuantity" name="materialQuantity" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="materialAmount" class="form-label">Material Amount</label>
-                                            <input type="number" class="form-control" id="materialAmount" name="materialAmount" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="totalCost" class="form-label">Total Cost</label>
-                                            <input type="number" class="form-control" id="totalCost" name="totalCost" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Project Operation Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOperation">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOperation" aria-expanded="false" aria-controls="collapseOperation">
-                                        Project Operation
-                                    </button>
-                                </h2>
-                                <div id="collapseOperation" class="accordion-collapse collapse" aria-labelledby="headingOperation" data-bs-parent="#projectAccordion">
-                                    <div class="accordion-body">
-                                        <div class="mb-3">
-                                            <label for="specificJob" class="form-label">Specific Job</label>
-                                            <input type="text" class="form-control" id="specificJob" name="specificJob" placeholder="e.g., Flooring, Roofing, etc." required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Project Finalization Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingFinalization">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFinalization" aria-expanded="false" aria-controls="collapseFinalization">
-                                        Project Finalization
-                                    </button>
-                                </h2>
-                                <div id="collapseFinalization" class="accordion-collapse collapse" aria-labelledby="headingFinalization" data-bs-parent="#projectAccordion">
-                                    <div class="accordion-body">
-                                        <div class="mb-3">
-                                            <label for="proposalFile" class="form-label">Attach Soft Copy of Project Proposal</label>
-                                            <input type="file" class="form-control" id="proposalFile" name="proposalFile" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="proposalReview" class="form-label">Review Proposal</label>
-                                            <textarea class="form-control" id="proposalReview" name="proposalReview" rows="3" placeholder="Project Name, Project Cost, etc." required></textarea>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="projectCode" class="form-label">Project Code</label>
+                                <input type="text" class="form-control" id="projectCode" value="SKP-0001" readonly>
                             </div>
                         </div>
-                        <!-- End of collapsible sections -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Create Project</button>
-                    </div>
+                        <div class="mb-3">
+                            <label for="projectDescription" class="form-label">Project Description</label>
+                            <textarea class="form-control" id="projectDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="projectDuration" class="form-label">Project Duration (in days)</label>
+                                <input type="number" class="form-control" id="projectDuration" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="selectProject" class="form-label">Select Project Name</label>
+                                <select class="form-select" id="selectProject" required>
+                                    <option value="">Choose a project</option>
+                                    <!-- Add options dynamically based on your projects -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="materials" class="form-label">Material</label>
+                                <input type="text" class="form-control" id="materials" placeholder="e.g., Cement" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" placeholder="e.g., 5" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="amount" class="form-label">Amount (₱ per unit)</label>
+                                <input type="number" class="form-control" id="amount" placeholder="e.g., 100" required>
+                            </div>
+                        </div>
+                        <div id="materialList"></div>
+                        <button type="button" class="btn btn-info mb-3" onclick="addMaterial()">Add Material</button>
+
+                        <!-- Textarea for receipt -->
+                        <div class="mb-3">
+                            <label for="receipt" class="form-label">Materials Total Cost</label>
+                            <textarea class="form-control" id="receipt" rows="8" readonly></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="hidden" class="form-control" id="totalCost" readonly>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="specificJob" class="form-label">Specific Job</label>
+                                <input type="text" class="form-control" id="specificJob" placeholder="e.g., Waiting Shed" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="operations" class="form-label">Operations</label>
+                                <input type="text" class="form-control" id="operations" placeholder="e.g., Flooring, Roofing, Painting" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="proposal" class="form-label">Project Proposal</label>
+                            <input type="file" class="form-control" id="proposal" accept=".pdf,.doc,.docx">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitProject()">Submit Project</button>
                 </div>
             </div>
         </div>
+    </div>
 
-    </main><!-- End #main -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
-    <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <!-- Your existing JS files -->
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/vendor/bootstrap/css/bootstrap.min.css"></script>
-    <script src="../assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="../assets/vendor/echarts/echarts.min.js"></script>
-    <script src="../assets/vendor/quill/quill.js"></script>
-    <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="../assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
-    <script>
-        document.getElementById('addProjectBtn').addEventListener('click', function() {
-            var myModal = new bootstrap.Modal(document.getElementById('addProjectModal'), {
-                keyboard: true
-            });
-            myModal.show();
-        });
 
-        document.getElementById('materialQuantity').addEventListener('input', calculateTotalCost);
-        document.getElementById('materialAmount').addEventListener('input', calculateTotalCost);
+    <script>
+        let materialsArray = [];
+
+        function addMaterial() {
+            const materialName = document.getElementById('materials').value;
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (!materialName || isNaN(quantity) || isNaN(amount)) {
+                alert('Please enter valid values for all material fields.');
+                return;
+            }
+
+            materialsArray.push({
+                materialName,
+                quantity,
+                amount
+            });
+
+            // Clear the inputs
+            document.getElementById('materials').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('amount').value = '';
+
+            // Render the material list and calculate the total cost
+            renderMaterialsList();
+            calculateTotalCost();
+            updateReceipt();
+        }
+
+        function renderMaterialsList() {
+            const materialListDiv = document.getElementById('materialList');
+            materialListDiv.innerHTML = '';
+
+            materialsArray.forEach((material, index) => {
+                const materialItem = document.createElement('div');
+                materialItem.className = 'row';
+                materialItem.innerHTML = `
+                <div class="col-md-4 mb-3">
+                    <input type="hidden" class="form-control" value="${material.materialName}" readonly>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <input type="hidden" class="form-control" value="${material.quantity}" readonly>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <input type="hidden" class="form-control" value="${material.amount}" readonly>
+                </div>
+            `;
+                materialListDiv.appendChild(materialItem);
+            });
+        }
 
         function calculateTotalCost() {
-            let quantity = document.getElementById('materialQuantity').value;
-            let amount = document.getElementById('materialAmount').value;
-            let totalCost = quantity * amount;
-            document.getElementById('totalCost').value = totalCost;
-        }
-    </script>
+            let totalCost = 0;
 
+            materialsArray.forEach(material => {
+                totalCost += material.quantity * material.amount;
+            });
+
+            document.getElementById('totalCost').value = `₱ ${totalCost.toFixed(2)}`;
+        }
+
+        function updateReceipt() {
+            let receiptText = `--- MATERIALS TOTAL COST ---\n\n`;
+            receiptText += `Item             Qty     Price     Total\n`;
+            receiptText += `-----------------------------------------\n`;
+
+            materialsArray.forEach(material => {
+                const total = material.quantity * material.amount;
+                receiptText += `${material.materialName.padEnd(15)} ${material.quantity.toString().padEnd(6)} ₱${material.amount.toFixed(2).padEnd(8)} ₱${total.toFixed(2)}\n`;
+            });
+
+            let totalCost = materialsArray.reduce((sum, material) => sum + material.quantity * material.amount, 0);
+
+            receiptText += `-----------------------------------------\n`;
+            receiptText += `Total Cost:                         ₱${totalCost.toFixed(2)}\n`;
+
+            document.getElementById('receipt').value = receiptText;
+        }
+
+        function submitProject() {
+            console.log('Materials: ', materialsArray);
+        }
+
+        // Function to generate random project code
+        function generateProjectCode() {
+            const prefix = "SKP-";
+            const randomNum = Math.floor(Math.random() * 9000) + 1000; // Generates a random number between 1000 and 9999
+            return prefix + randomNum;
+        }
+
+        function setProjectCode() {
+            document.getElementById('projectCode').value = generateProjectCode();
+        }
+
+        // Set the project code when the modal is opened
+        document.getElementById('addProjectModal').addEventListener('show.bs.modal', function() {
+            setProjectCode();
+        });
+    </script>
 
 </body>
 
