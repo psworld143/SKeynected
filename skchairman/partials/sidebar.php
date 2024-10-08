@@ -2,6 +2,7 @@
 $base_url = '/Skeynected/skchairman/';
 $base_url2 = '/Skeynected/skchairman/manage-user/';
 $base_url3 = '/Skeynected/skchairman/manage-project/';
+$base_url4 = '/Skeynected/skchairman/manage-youth/';
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
@@ -45,5 +46,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </li>
             </ul>
         </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'manage-youth.php') ? 'active' : ''; ?>" href="<?php echo $base_url4; ?>manage-youth.php">
+                <i class="bi bi-people"></i>
+                <span>Manage Youth</span>
+            </a>
+        </li>
+        
     </ul>
 </aside><!-- End Sidebar-->

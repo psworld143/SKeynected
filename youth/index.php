@@ -1,7 +1,7 @@
 <?php
 require_once 'core/surveyController.php';
 $youth = new surveyController();
-$barangays = $youth->getBarangay();
+// $barangays = $youth->getBarangay();
 
 
 ?>

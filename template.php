@@ -72,3 +72,32 @@
 </body>
 
 </html>
+
+
+
+<div class="col-lg-4">
+                    <div class="add-batch-form">
+                        <h3>Add New Batch</h3>
+                        <form method="POST">
+                            <input type="hidden" name="action" value="add">
+                            <div class="mb-3">
+                                <label for="batchName" class="form-label">Batch Name:</label>
+                                <input type="text" class="form-control" id="batchName" name="batchName" placeholder="Enter Batch Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="yearGraduated" class="form-label">Year Graduated:</label>
+                                <select class="form-select" id="yearGraduated" name="yearGraduated" required>
+                                    <option value="">Select Year Graduated</option>
+                                    <?php
+                                    $currentYear = date('Y');
+                                    for ($year = $currentYear; $year >= $currentYear - 10; $year--) {
+                                        echo "<option value=\"$year\">$year</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
