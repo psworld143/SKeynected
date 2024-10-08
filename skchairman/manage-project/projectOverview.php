@@ -1,3 +1,17 @@
+<?php
+require_once '../core/projectController.php';
+$projectController = new projectController();
+$projects = [];
+
+
+$project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : 0;
+
+if ($project_id > 0) {
+    $projects = $projectController->getProjectById($project_id);
+    $materials = $projectController->getMaterialsByProjectId($project_id);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,6 +40,29 @@
     <link href="../assets/css/style.css" rel="stylesheet">
 
     <style>
+        table {
+            table-layout: auto;
+            width: 100%;
+            word-wrap: break-word;
+        }
+
+        th {
+            white-space: nowrap;
+            /* Keeps text from wrapping */
+            padding: 8px 16px;
+        }
+
+        th:nth-child(1) {
+            width: 20%;
+        }
+
+        th:nth-child(2),
+        th:nth-child(3),
+        th:nth-child(4) {
+            width: 10%;
+        }
+
+
         @media (min-width: 992px) {
             .datatable-container {
                 overflow-x: auto;
@@ -42,7 +79,7 @@
 
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
-            <h1>Project and Materials Tables</h1>
+            <h1><b><?= $projects['project_name'] ?></b> and Materials Tables</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -80,43 +117,54 @@
                                                 <th><b>Project Name</b></th>
                                                 <th>Code</th>
                                                 <th>Description</th>
+                                                <th>Duration</th>
                                                 <th>Status</th>
+                                                <th>Specific Job</th>
+                                                <th>Operation</th>
                                                 <th>Cost</th>
+                                                <th>Proposal</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php if (!empty($projects)) : ?>
-                                                <?php foreach ($projects as $project) : ?>
-                                                    <tr>
-                                                        <td><strong><?php echo htmlspecialchars($project['project_name']) ?></strong></td>
-                                                        <td><?php echo htmlspecialchars($project['project_code']); ?></td>
-                                                        <td><?php echo htmlspecialchars($project['project_description']); ?></td>
-                                                        <td><?php echo htmlspecialchars($project['status']); ?></td>
-                                                        <td><?php echo htmlspecialchars($project['total_cost']); ?></td>
-                                                        <td>
-                                                            <div class="d-flex justify-content-center">
-                                                                <span class="icon-bg edit me-2" data-bs-toggle="modal" data-bs-target="#editModal"
-                                                                    data-id="<?php echo $project['project_id']; ?>"
-                                                                    data-name="<?php echo htmlspecialchars($project['project_name']); ?>"
-                                                                    data-code="<?php echo htmlspecialchars($project['project_code']); ?>"
-                                                                    data-description="<?php echo htmlspecialchars($project['project_description']); ?>">
-                                                                    <i class="bi bi-pencil"></i>
-                                                                </span>
-                                                                <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                                    data-id="<?php echo $project['project_id']; ?>">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
+                                                <tr>
+                                                    <td><strong><?php echo htmlspecialchars($projects['project_name']) ?></strong></td>
+                                                    <td><?php echo htmlspecialchars($projects['project_code']); ?></td>
+                                                    <td><?php echo htmlspecialchars($projects['project_description']); ?></td>
+                                                    <td><?php echo htmlspecialchars($projects['project_duration']); ?></td>
+                                                    <td><?php echo htmlspecialchars($projects['status']); ?></td>
+                                                    <td><?php echo htmlspecialchars($projects['specific_job']); ?></td>
+                                                    <td><?php echo htmlspecialchars($projects['operations']); ?></td>
+                                                    <td><?php echo htmlspecialchars($projects['total_cost']); ?></td>
+                                                    <td>
+                                                        <a href="<?php echo htmlspecialchars($projects['proposal_file_path']); ?>" download>
+                                                            Download Proposal
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <span class="icon-bg edit me-2" data-bs-toggle="modal" data-bs-target="#editModal"
+                                                                data-id="<?php echo $projects['project_id']; ?>"
+                                                                data-name="<?php echo htmlspecialchars($projects['project_name']); ?>"
+                                                                data-code="<?php echo htmlspecialchars($projects['project_code']); ?>"
+                                                                data-description="<?php echo htmlspecialchars($projects['project_description']); ?>">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </span>
+                                                            <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                                data-id="<?php echo $projects['project_id']; ?>">
+                                                                <i class="bi bi-trash"></i>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="6">No projects found.</td>
+                                                    <td colspan="10">No projects found.</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
+
                                     </table>
                                 </div>
                                 <div class="datatable-bottom">

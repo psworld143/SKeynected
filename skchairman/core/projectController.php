@@ -73,4 +73,21 @@ class projectController
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public function getProjectByID($project_id)
+    {
+        $query = "SELECT * FROM projects WHERE project_id = :project_id";
+        $stmt = $this->db->prepare($query);
+        $params = [':project_id' => $project_id];
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
+    public function getMaterialsByProjectId($project_id) {
+        $query = "SELECT * FROM materials WHERE project_id = :project_id";
+        $stmt = $this->db->prepare($query);
+        $params = [':project_id' => $project_id];
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
 }

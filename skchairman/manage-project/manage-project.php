@@ -183,21 +183,19 @@ $projects = $projectController->getProjects();
                     </div>
                 </div>
 
-                <!-- Project Cards -->
                 <div class="col-lg-12">
                     <div class="row">
                         <?php foreach ($projects as $project): ?>
                             <div class="col-md-4">
-                                <div class="project-card" style="background-color: #FFE5B4;">
-                                    <h3><?php echo htmlspecialchars($project['project_name']); ?></h3>
-                                    <p><?php echo htmlspecialchars($project['project_description']); ?></p>
-                                    <!-- <div class="progress">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: <?php echo htmlspecialchars($project['status']); ?>%" aria-valuenow="<?php echo htmlspecialchars($project['status']); ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div> -->
-                                    <div class="project-meta">
-                                        <span class="time-left"><?php echo htmlspecialchars($project['project_duration']); ?> left</span>
+                                <a href="<?php echo 'projectOverview.php?project_id=' . $project['project_id']; ?>">
+                                    <div class="project-card" style="background-color: #FFE5B4;">
+                                        <h3><?php echo htmlspecialchars($project['project_name']); ?></h3>
+                                        <p><?php echo htmlspecialchars($project['project_description']); ?></p>
+                                        <div class="project-meta">
+                                            <span class="time-left"><?php echo htmlspecialchars($project['project_duration']); ?> </span>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         <?php endforeach; ?>
                     </div>
