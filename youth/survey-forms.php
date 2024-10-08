@@ -1,7 +1,7 @@
 <?php
 require_once 'core/surveyController.php';
-$youth = new surveyController();
-$barangays = $youth->getBarangay();
+$barangay = new surveyController();
+$barangays = $barangay->getBarangay();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -202,12 +202,11 @@ $barangays = $youth->getBarangay();
                                 <label for="" class="form-label">Age</label>
                                 <input type="text" name="age" id="" class="form-control" placeholder="Age" required>
                                 <label for="" class="form-label">Barangay</label>
-                                <select name="barangayName" id="barangayName" class="form-control" required>
+                                <select name="barangayId" id="barangayName" class="form-control" required>
                                     <?php foreach ($barangays as $barangay): ?>
-                                        <option value="<?php echo $barangay['name']; ?>"><?php echo $barangay['name']; ?></option>
+                                        <option value="<?php echo $barangay['id']; ?>"><?php echo $barangay['name']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-
                                 <label for="" class="form-label">Date of Birth</label>
                                 <input type="date" name="dob" id="" class="form-control">
                             </div>
@@ -393,12 +392,13 @@ $barangays = $youth->getBarangay();
                                     <option value="no">No</option>
                                 </select>
                             </div>
-                            <div class="col-lg-12 mt-4">
-                                <button type="button" class="btn btn-submit prev-btn">Previous</button>
-                                <button type="submit" class="btn btn-submit">Submit</button>
-                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-4">
+                            <button type="button" class="btn btn-submit prev-btn">Previous</button>
+                            <button type="button" class="btn btn-submit" id="submitBtn">Submit</button>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -419,6 +419,7 @@ $barangays = $youth->getBarangay();
             const nextBtns = document.querySelectorAll('.next-btn');
             const prevBtns = document.querySelectorAll('.prev-btn');
             const progressBar = document.querySelector('.progress-bar');
+            const submitBtn = document.getElementById('submitBtn');
             let currentSection = parseInt(localStorage.getItem('currentSection')) || 0;
 
             // Restore input values from localStorage
@@ -435,9 +436,8 @@ $barangays = $youth->getBarangay();
                 }
             }
 
-            // Save input values to localStorage
             function saveInputs() {
-                sections.forEach((section, index) => {
+                sections.forEach((section) => {
                     const inputs = section.querySelectorAll('input, select, textarea');
                     inputs.forEach(input => {
                         if (input.type === 'radio' || input.type === 'checkbox') {
@@ -456,6 +456,7 @@ $barangays = $youth->getBarangay();
             function updateProgress() {
                 const progress = ((currentSection + 1) / sections.length) * 100;
                 progressBar.style.width = `${progress}%`;
+                submitBtn.style.display = (currentSection === sections.length - 1) ? 'block' : 'none';
             }
 
             function showSection(index) {
@@ -472,7 +473,6 @@ $barangays = $youth->getBarangay();
                 saveInputs();
             }
 
-
             nextBtns.forEach((btn) => {
                 btn.addEventListener('click', function() {
                     if (currentSection < sections.length - 1) {
@@ -480,7 +480,6 @@ $barangays = $youth->getBarangay();
                     }
                 });
             });
-
 
             prevBtns.forEach((btn) => {
                 btn.addEventListener('click', function() {
@@ -490,12 +489,17 @@ $barangays = $youth->getBarangay();
                 });
             });
 
+            submitBtn.addEventListener('click', function() {
+                form.submit();
+            });
+
             restoreInputs();
             showSection(currentSection);
-
             updateProgress();
         });
     </script>
+
+
 </body>
 
 </html>

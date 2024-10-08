@@ -16,7 +16,7 @@ class surveyController
         $query = "SELECT * FROM barangays";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
 
 

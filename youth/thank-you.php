@@ -1,8 +1,4 @@
-<?php
-require_once 'core/youthController.php';
-$youth = new youthController();
-$barangays = $youth->getBarangay();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
