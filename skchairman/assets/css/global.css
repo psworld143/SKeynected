@@ -14,8 +14,8 @@
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
-  background: #f6f9ff;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background: #fefefe;
   color: #444444;
 }
 .main {
@@ -45,7 +45,6 @@ h6 {
 # Main
 --------------------------------------------------------------*/
 #main {
-  margin-top: 60px;
   padding: 20px 30px;
   transition: all 0.3s;
 }
@@ -63,12 +62,16 @@ h6 {
   margin-bottom: 10px;
 }
 
+
+
 .pagetitle h1 {
   font-size: 24px;
   margin-bottom: 0;
   font-weight: 600;
-  color: #012970;
+  color: #1916a3;
 }
+
+
 
 /*--------------------------------------------------------------
 # Back to top button
@@ -89,13 +92,13 @@ h6 {
 
 .back-to-top i {
   font-size: 24px;
-  color: #fff;
+  color: #1916a3;
   line-height: 0;
 }
 
 .back-to-top:hover {
   background: #6776f4;
-  color: #fff;
+  color: #1916a3;
 }
 
 .back-to-top.active {
@@ -116,6 +119,8 @@ h6 {
   border: 0;
   box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
 }
+
+
 
 .dropdown-menu .dropdown-header,
 .dropdown-menu .dropdown-footer {
@@ -154,6 +159,7 @@ h6 {
   background-color: #f6f9ff;
 }
 
+
 @media (min-width: 768px) {
   .dropdown-menu-arrow::before {
     content: "";
@@ -183,7 +189,13 @@ h6 {
   }
 }
 
+
 /* Light Backgrounds */
+.bg-dark {
+  /* background-color: #f8f9fc; */
+  color: black;
+}
+
 .bg-primary-light {
   background-color: #cfe2ff;
   border-color: #cfe2ff;
@@ -382,9 +394,9 @@ h6 {
 .header {
   transition: all 0.5s;
   z-index: 997;
-  height: 57px;
+  height: 60px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-  background: linear-gradient(to right, #00aaff, #6abedf, #3b90ba);
+  background: #1916a3;
   color: #ffffff;
   padding-left: 20px;
   /* Toggle Sidebar Button */
@@ -395,12 +407,17 @@ h6 {
   font-size: 32px;
   padding-left: 10px;
   cursor: pointer;
-  color: #012970;
+  color: white;
 }
 
 .header .search-bar {
   min-width: 360px;
   padding: 0 20px;
+}
+
+.header span {
+  color: white;
+  font-family:  'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 @media (max-width: 1199px) {
@@ -455,7 +472,7 @@ h6 {
 }
 
 .header .search-form button i {
-  color: #012970;
+  color: #1916a3;
 }
 
 /*--------------------------------------------------------------
@@ -472,13 +489,13 @@ h6 {
 
 .header-nav .nav-icon {
   font-size: 22px;
-  color: #012970;
+  color: yellow;
   margin-right: 25px;
   position: relative;
 }
 
 .header-nav .nav-profile {
-  color: #012970;
+  color: white;
 }
 
 .header-nav .nav-profile img {
@@ -604,24 +621,46 @@ h6 {
 .sidebar {
   font-family: "Trebuchet MS", sans-serif;
   position: fixed;
-  top: 40%; /* Position from the top of the viewport */
-  left: 0;
-  width: 230px;
+  top: 46%;
+  left: 0px;
+  width: 250px;
   z-index: 996;
-  padding: 20px;
+  padding: 0px;
   transition: all 0.3s;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #ffffff transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
   background: #ffffff;
-  border-radius: 8px;
   border: 1px solid #e2dcdc;
-  transform: translateY(-40%); /* Center vertically */
-  margin-left: 2vh; /* Optional: Adjusts horizontal positioning */
+  transform: translateY(-40%);
+  margin-left: 2vh;
 }
 
+.sidebar-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.sidebar-logo .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-logo .logo img {
+  max-height: 130px;
+}
+
+.welcome-message {
+  text-align: center;
+  font-size: 16px;
+  color: #000000;
+  padding: 5px;
+  font-weight: bold;
+}
 @media (max-width: 1199px) {
   .sidebar {
     left: -300px;
@@ -663,26 +702,25 @@ h6 {
 }
 
 .sidebar-nav {
-  padding: 0;
+  padding: 20px;
   margin: 0;
   list-style: none;
 }
 
-.sidebar-nav li {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.sidebar span {
+  font-weight: bold;
+  margin-left: 10px;
 }
-.sidebar-nav {
-  padding: 0;
-  margin: -20px;
+
+.sidebar-nav li {
+  padding-bottom: 10px;
+  margin: 0;
   list-style: none;
 }
 
 .sidebar .nav-item img {
   width: 30px;
   height: 30px;
-  /* border-radius: 50%; */
   margin: 0;
 }
 
@@ -690,7 +728,6 @@ h6 {
   display: flex;
   align-items: center;
   font-size: 16px;
-  /* font-weight: 600; */
   color: #000000;
   background: transparent;
   padding: 10px 10px;
@@ -698,12 +735,18 @@ h6 {
 }
 
 .sidebar-nav .nav-link i {
-  font-size: 18px;
+  font-size: 20px;
   margin-right: 5px;
   color: #000000;
+  font-weight: bold;
 }
+
+.sidebar .nav-link {
+  transition: background-color 0.3s;
+}
+
 .sidebar-nav .nav-link:hover {
-  color: #064a94;
+  color: #1916a3;
   background: #f6f9ff;
 }
 
@@ -731,7 +774,7 @@ h6 {
   align-items: center;
   font-size: 14px;
   font-weight: 600;
-  color: #0bbb5a;
+  color: #1916a3;
   transition: 0.3s;
   padding: 10px 0 10px 40px;
 }
@@ -744,7 +787,8 @@ h6 {
 }
 .sidebar-nav .nav-link.active {
   color: #ffffff;
-  background: #c4851d;
+  background: #1916a3;
+  border-radius: 5px;
 }
 
 .sidebar-nav .nav-link.active i {
