@@ -37,7 +37,7 @@ class projectController
         $params = [':project_id' => $project_id];
         $stmt->execute($params);
         return $stmt->fetchAll();
-    }
+    }   
 
     public function updateStatus($project_id, $status, $hearing_date = null)
     {

@@ -1,6 +1,10 @@
 <?php
 require_once '../core/userController.php';
+require_once '../core/projectController.php';
 
+$notif = new projectController();
+$notifications = $notif->getProjectNotif();
+$notificationCount = $notif->getNotificationCount();
 $users = (new userController())->getSecretaryUsers();
 $success = '';
 $error = '';

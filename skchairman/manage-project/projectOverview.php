@@ -1,6 +1,9 @@
 <?php
 require_once '../core/projectController.php';
 $projectController = new projectController();
+$notif = new projectController();
+$notifications = $notif->getProjectNotif();
+$notificationCount = $notif->getNotificationCount();
 $projects = [];
 
 

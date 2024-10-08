@@ -20,6 +20,7 @@
             </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
+            
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                     <img src="assets/images/faces/face5.jpg" alt="profile" />

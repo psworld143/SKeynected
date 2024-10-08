@@ -1,3 +1,11 @@
+<?php
+include_once './core/projectController.php';
+
+$notif = new projectController();
+$notifications = $notif->getProjectNotif();
+$notificationCount = $notif->getNotificationCount();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +39,7 @@
 <style>
 
 </style>
+
 <body>
   <?php
   include_once 'partials/navbar.php';
@@ -50,7 +59,7 @@
 
     <section class="section dashboard">
       <div class="row">
-        
+
 
       </div>
     </section>
