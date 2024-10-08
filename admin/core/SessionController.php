@@ -16,7 +16,6 @@ class SessionController
 
     public function login()
     {
-        var_dump($_POST);
         $query = "SELECT * FROM admins WHERE username = :username";
         $params = [':username' => $_POST['username']];
         $stmt = $this->db->prepare($query);
