@@ -9,6 +9,7 @@ $barangay_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($barangay_id) {
     $youthProfiles = $youthController->getAllYouthProfiles($barangay_id);
+    $barangay = (new youthController())->getBarangayByID($barangay_id);
 }
 $success = '';
 $error = '';
@@ -33,7 +34,7 @@ $error = '';
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/global.css" rel="stylesheet">
+    <link href="../assets/css/globalss.css" rel="stylesheet">
 
     <style>
         .youth-card {
@@ -117,7 +118,7 @@ $error = '';
 
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
-            <h1>Barangay Youth</h1>
+            <h1><?= $barangay['name'] ?> Youth</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -134,28 +135,30 @@ $error = '';
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <section class="section">
+        <section class="section">       
             <div class="row">
                 <?php foreach ($youthProfiles as $youth): ?>
                     <div class="col-md-4">
                         <div class="youth-card">
-                            <img src="<?php echo $youth['profile_picture'] ?? '../assets/img/profile.png'; ?>" alt="<?php echo $youth['firstname']; ?>" class="youth-img">
-                            <div class="youth-name"><?php echo $youth['firstname'] . ' ' . $youth['lastname']; ?></div>
-                            <div class="youth-details">
-                                <div class="youth-detail">
-                                    <span class="detail-label">Gender</span>
-                                    <span class="detail-value"><i class="bi bi-gender-ambiguous"></i><?php echo $youth['sex']; ?></span>
-                                </div>
-                                <div class="youth-detail">
-                                    <span class="detail-label">Birth Date</span>
-                                    <span class="detail-value"><i class="bi bi-calendar"></i><?php echo date('jS M y', strtotime($youth['dob'])); ?></span>
-                                </div>
+                            <a href="youthProfile.php?id=<?php echo urlencode($youth['response_id']); ?>">
+                                <img src="<?php echo $youth['profile_picture'] ?? '../assets/img/profile.png'; ?>" alt="<?php echo $youth['firstname']; ?>" class="youth-img">
+                                <div class="youth-name"><?php echo $youth['firstname'] . ' ' . $youth['lastname']; ?></div>
+                                <div class="youth-details">
+                                    <div class="youth-detail">
+                                        <span class="detail-label">Gender</span>
+                                        <span class="detail-value"><i class="bi bi-gender-ambiguous"></i><?php echo $youth['sex']; ?></span>
+                                    </div>
+                                    <div class="youth-detail">
+                                        <span class="detail-label">Birth Date</span>
+                                        <span class="detail-value"><i class="bi bi-calendar"></i><?php echo date('jS M y', strtotime($youth['dob'])); ?></span>
+                                    </div>
 
-                                <div class="youth-detail">
-                                    <span class="detail-label">Age</span>
-                                    <span class="detail-value"><i class="bi bi-person"></i><?php echo $youth['age']; ?></span>
+                                    <div class="youth-detail">
+                                        <span class="detail-label">Age</span>
+                                        <span class="detail-value"><i class="bi bi-person"></i><?php echo $youth['age']; ?></span>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>

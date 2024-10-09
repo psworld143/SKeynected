@@ -20,6 +20,15 @@ class youthController
         return $stmt->fetchAll();
     }
 
+    public function getBarangayByID($barangay_id)
+    {
+        $query = "SELECT * FROM barangays WHERE id = :barangay_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':barangay_id', $barangay_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
 
     public function getYouthCountByBarangay()
     {
@@ -48,5 +57,17 @@ class youthController
         $stmt->bindParam(':barangay_id', $barangay_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function getYouthProfileByID($youthId)
+    {
+        $query = "SELECT * FROM survey_responses WHERE response_id = :response_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':response_id', $youthId, PDO::PARAM_INT);
+        $stmt->execute();
+        $youthProfile = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $youthProfile ?: [];
+
     }
 }

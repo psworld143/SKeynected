@@ -24,7 +24,7 @@ $member_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($barangay_id) {
 
-    $stmt = $conn->prepare("SELECT id, name, position, gender, civil_status, birth_date, contact, term, status FROM sk_members WHERE barangay_id = :barangay_id");
+    $stmt = $conn->prepare("SELECT * FROM sk_members WHERE barangay_id = :barangay_id");
     $stmt->bindParam(':barangay_id', $barangay_id);
     $stmt->execute();
     $sk_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
