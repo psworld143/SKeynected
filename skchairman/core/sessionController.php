@@ -17,23 +17,28 @@ class SessionController
 
 
 
-    public function login()
+    public function login($username, $password)
     {
-        $query = "SELECT * FROM sk_members WHERE username = :username";
-        $params = [':username' => $_POST['username']];
-        $stmt = $this->db->prepare($query);
-        $stmt->execute($params);
-        $user = $stmt->fetch();
 
-        if ($user && password_verify($_POST['password'], $user['password'])) {
+        $query = "SELECT * FROM sk_members WHERE username = :username";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        if ($user && password_verify($password, $user['password'])) {
             $_SESSION['id'] = $user['id'];
             $_SESSION['u'] = $user['name'];
             $_SESSION['user'] = $user;
             $_SESSION['logged_in'] = true;
+
             header("Location: dashboard.php");
             exit;
         } else {
-            echo "Invalid username or password";
+            $_SESSION['error'] = 'Invalid username or password';
+            header("Location: index.php");
+            exit;
         }
     }
 }

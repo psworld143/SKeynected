@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +53,6 @@
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your username &amp; password to login</p>
                   </div>
-
                   <form class="row g-3 needs-validation" method="POST" action="auth.php">
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
@@ -62,13 +62,22 @@
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
-
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required="">
                       <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
+                    </div>  
+                    <?php
+                    if (isset($_SESSION['error'])) {
+                      echo '<div class="alert alert-danger" role="alert">' . $_SESSION['error'] . '</div>';
+                      unset($_SESSION['error']);
+                    }
 
+                    if (isset($_SESSION['success'])) {
+                      echo '<div class="alert alert-success" role="alert">' . $_SESSION['success'] . '</div>';
+                      unset($_SESSION['success']);
+                    }
+                    ?>
                     <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">

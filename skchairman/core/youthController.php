@@ -60,14 +60,21 @@ class youthController
     }
 
 
-    public function getYouthProfileByID($youthId)
+    public function getSurveyResponsesByResponseId($response_id)
     {
-        $query = "SELECT * FROM survey_responses WHERE response_id = :response_id";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':response_id', $youthId, PDO::PARAM_INT);
-        $stmt->execute();
-        $youthProfile = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $youthProfile ?: [];
+    
+        $query = "
+            SELECT sr.*, b.name AS barangay_name 
+            FROM survey_responses sr 
+            JOIN barangays b ON sr.barangay_id = b.id 
+            WHERE sr.response_id = :response_id
+        ";
 
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':response_id', $response_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+       
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
