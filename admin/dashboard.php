@@ -21,7 +21,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
   <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
 
-  <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="assets/css/vertical-layout-light/global.css">
 
   <link rel="shortcut icon" href="assets/images/LYDO-logo.png" />
 
@@ -223,7 +223,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card ">
                 <div class="card-people mt-auto">
-                  <img src="assets/images/dashboard/CV.png" alt="people">
+                  <img src="assets/images/LYDOO.jpg" alt="people" height="320px" style="object-fit: cover">
                   <div class="weather-info">
                     <div class="d-flex">
                       <div class="ml-2">

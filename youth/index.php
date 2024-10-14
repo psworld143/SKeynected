@@ -71,23 +71,6 @@ $youth = new surveyController();
 </head>
 
 <body class="d-flex align-items-center justify-content-center min-vh-100">
-
-    <header id="header" class="header fixed-top d-flex align-items-center">
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
-                <span class="d-none d-lg-block">SKeynected</span>
-            </a>
-        </div><!-- End Logo -->
-        <nav class="header-nav ms-auto">
-            <ul class="d-flex align-items-center">
-                <li class="nav-item d-block d-lg-none">
-                    <a class="nav-link nav-icon search-bar-toggle" href="#">
-                        <i class="bi bi-search"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
     <div class="container survey-container">
         <div class="row g-0 bg-white rounded-3 shadow-lg overflow-hidden">
             <div class="col-md-6 p-4 p-md-5">
