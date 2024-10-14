@@ -22,7 +22,7 @@ $notificationCount = $notif->getNotificationCount();
   <meta content="" name="keywords">
 
 
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/SK-logo.png" rel="icon">
   <link href="assets/img/SK-logo.png" rel="apple-touch-icon">
 
   <link href="https://fonts.gstatic.com" rel="preconnect">

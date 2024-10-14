@@ -19,6 +19,8 @@ $projects = $projectController->getProjects();
     <meta content="Project Management Dashboard" name="description">
     <meta content="projects, management, dashboard" name="keywords">
 
+    <link href="../assets/img/SK-logo.png" rel="icon">
+
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -92,6 +94,26 @@ $projects = $projectController->getProjects();
 
         .add-project-btn:hover {
             background-color: #45a049;
+        }
+
+        .bg-pending {
+            background-color: orange;
+            color: white;
+        }
+
+        .bg-hearing {
+            background-color: blue;
+            color: white;
+        }
+
+        .bg-approved {
+            background-color: green;
+            color: white;
+        }
+
+        .bg-declined {
+            background-color: red;
+            color: white;
         }
     </style>
 </head>
@@ -191,13 +213,32 @@ $projects = $projectController->getProjects();
                 <div class="col-lg-12">
                     <div class="row">
                         <?php foreach ($projects as $project): ?>
-                            <div class="col-md-4">
-                                <a href="<?php echo 'projectOverview.php?project_id=' . $project['project_id']; ?>">
-                                    <div class="project-card" style="background-color: #FFE5B4;">
-                                        <h3><?php echo htmlspecialchars($project['project_name']); ?></h3>
-                                        <p><?php echo htmlspecialchars($project['project_description']); ?></p>
-                                        <div class="project-meta">
-                                            <span class="time-left"><?php echo htmlspecialchars($project['project_duration']); ?> </span>
+                            <div class="col-md-3">
+                                <a href="projectOverview.php?project_id=<?php echo $project['project_id']; ?>">
+                                    <div class="card">
+                                        <img class="card-img-top" src="../assets/img/bg-blue.jpg" alt="Unsplash" width="100%" height="150px" style="object-fit: cover;">
+                                        <div class="card-header px-4 pt-4">
+                                            <h5 class="card-title mb-0"><?php echo htmlspecialchars($project['project_name']); ?></h5>
+                                            <div class="badge 
+                                                <?php 
+                                                    if ($project['status'] == 'Pending') {
+                                                        echo 'bg-pending';
+                                                    } elseif ($project['status'] == 'Hearing') {
+                                                        echo 'bg-hearing';
+                                                    } elseif ($project['status'] == 'Approved') {
+                                                        echo 'bg-approved';
+                                                    } elseif ($project['status'] == 'Declined') {
+                                                        echo 'bg-declined';
+                                                    }
+                                                ?> my-2">
+                                                <?php echo htmlspecialchars($project['status']); ?>
+                                            </div>
+                                        </div>
+                                        <div class="card-body px-4 pt-2">
+                                            <p style="font-size: 12px;"><?php echo htmlspecialchars($project['project_description']); ?></p>
+                                            <!-- <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28"> -->
                                         </div>
                                     </div>
                                 </a>
@@ -228,8 +269,8 @@ $projects = $projectController->getProjects();
                                 <input type="text" class="form-control" id="projectCode" name="projectCode" readonly>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="projectCode" class="form-label">Project Duration (In Days)</label>
-                                <input type="text" class="form-control" id="projectCode" name="projectDuration">
+                                <label for="projectDuration" class="form-label">Project Duration (In Days)</label>
+                                <input type="text" class="form-control" id="projectDuration" name="projectDuration">
                             </div>
                         </div>
                         <div class="mb-3">
@@ -249,22 +290,22 @@ $projects = $projectController->getProjects();
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="materials" class="form-label">Material</label>
-                                <input type="text" class="form-control" id="materials" placeholder="e.g., Cement">
+                                <input type="text" class="form-control" id="materials" name="materials" placeholder="e.g., Cement">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" placeholder="e.g., 5">
+                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="e.g., 5">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="amount" class="form-label">Amount (₱ per unit)</label>
-                                <input type="number" class="form-control" id="amount" placeholder="e.g., 100">
+                                <input type="number" class="form-control" id="amount" name="amount" placeholder="e.g., 100">
                             </div>
                         </div>
                         <button type="button" class="btn btn-info mb-3" onclick="addMaterial()">Add Material</button>
                         <div id="materialList"></div>
                         <div class="mb-3">
                             <label for="receipt" class="form-label">Materials Total Cost</label>
-                            <textarea class="form-control" id="receipt" rows="8" readonly></textarea>
+                            <textarea class="form-control" id="receipt" name="receipt" rows="3" readonly></textarea>
                         </div>
                         <div class="mb-3">
                             <input type="hidden" class="form-control" id="totalCost" name="totalCost" readonly>
@@ -273,16 +314,16 @@ $projects = $projectController->getProjects();
                             <label for="proposal" class="form-label">Project Proposal</label>
                             <input type="file" class="form-control" id="proposal" name="proposal" accept=".pdf,.doc,.docx">
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="submitProject()">Submit Project</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="submitProject()">Submit Project</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitProject()">Submit Project</button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

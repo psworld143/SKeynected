@@ -37,75 +37,99 @@ $error = '';
     <link href="../assets/css/globalss.css" rel="stylesheet">
 
     <style>
-        .youth-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
+        .card {
+            margin-bottom: 24px;
+            /* box-shadow: 0 2px 3px #e4e8f0; */
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-clip: border-box;
+            border: 1px solid #eff0f2;
+            border-radius: 1rem;
+            padding: 5px;
         }
 
-        .youth-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
+        .avatar-md {
+            height: 4rem;
+            width: 4rem;
         }
 
-        .youth-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            float: left;
-            margin-right: 15px;
+        .rounded-circle {
+            border-radius: 50% !important;
         }
 
-        .youth-name {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 5px;
+        .img-thumbnail {
+            padding: 0.25rem;
+            background-color: #f1f3f7;
+            border: 1px solid #eff0f2;
+            border-radius: 0.75rem;
         }
 
-        .youth-details {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            font-size: 12px;
-            text-transform: uppercase;
-            margin-top: 70px;
-            color: #666;
-        }
-
-        .youth-detail {
-            /* flex-basis: 50%; */
-            margin-bottom: 5px;
-        }
-
-        .detail-label {
-            font-weight: bold;
-            color: #999;
-            text-transform: uppercase;
-            display: block;
-        }
-
-        .detail-value {
-            display: flex;
+        .avatar-title {
             align-items: center;
+            background-color: #3b76e1;
+            color: #fff;
+            display: flex;
+            font-weight: 500;
+            height: 100%;
+            justify-content: center;
+            width: 100%;
         }
 
-        .detail-value i {
-            margin-right: 5px;
-            font-size: 14px;
+        .bg-soft-primary {
+            background-color: rgba(59, 118, 225, .25) !important;
         }
 
-        .warning {
-            color: #ff4444;
+        a {
+            text-decoration: none !important;
         }
 
-        .score {
-            color: #4CAF50;
+        .badge-soft-danger {
+            color: #f56e6e !important;
+            background-color: rgba(245, 110, 110, .1);
+        }
+
+        .badge-soft-success {
+            color: #63ad6f !important;
+            background-color: rgba(99, 173, 111, .1);
+        }
+
+        .mb-0 {
+            margin-bottom: 0 !important;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            font-size: 75%;
+            font-weight: 500;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.75rem;
+        }
+
+        .badge-soft-pink {
+            background-color: #f8bbd0;
+            color: #fff;
+        }
+
+        .badge-soft-blue {
+            background-color: #add8e6;
+            color: #fff;
+        }
+
+        .badge-soft-warning {
+            background-color: #ffeeba;
+            color: #212529;
         }
     </style>
 </head>
@@ -135,34 +159,52 @@ $error = '';
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <section class="section">       
+        <section class="section">
             <div class="row">
-                <?php foreach ($youthProfiles as $youth): ?>
-                    <div class="col-md-4">
-                        <div class="youth-card">
-                            <a href="youthProfile.php?id=<?php echo urlencode($youth['response_id']); ?>">
-                                <img src="<?php echo $youth['profile_picture'] ?? '../assets/img/profile.png'; ?>" alt="<?php echo $youth['firstname']; ?>" class="youth-img">
-                                <div class="youth-name"><?php echo $youth['firstname'] . ' ' . $youth['lastname']; ?></div>
-                                <div class="youth-details">
-                                    <div class="youth-detail">
-                                        <span class="detail-label">Gender</span>
-                                        <span class="detail-value"><i class="bi bi-gender-ambiguous"></i><?php echo $youth['sex']; ?></span>
+                <div class="col-lg-12">
+                    <?php foreach ($youthProfiles as $youth): ?>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="dropdown float-end">
+                                        <a class="text-muted dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="bx bx-dots-horizontal-rounded"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Edit</a><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Remove</a></div>
                                     </div>
-                                    <div class="youth-detail">
-                                        <span class="detail-label">Birth Date</span>
-                                        <span class="detail-value"><i class="bi bi-calendar"></i><?php echo date('jS M y', strtotime($youth['dob'])); ?></span>
+                                    <div class="d-flex align-items-center">
+                                        <div><img src="<?php echo $youth['profile_picture'] ?? '../assets/img/profile.png'; ?>" alt="<?php echo $youth['firstname']; ?>" alt="" class="avatar-md rounded-circle img-thumbnail" /></div>
+                                        <div class="flex-1 ms-3">
+                                            <h5 class="font-size-16 mb-1"><a href="#" class="text-dark"><?php echo $youth['firstname'] . ' ' . $youth['lastname']; ?></a></h5>
+                                            <span class="badge 
+                                            <?php
+                                            if ($youth['sex'] == 'female') {
+                                                echo 'badge-soft-pink';
+                                            } elseif ($youth['sex'] == 'male') {
+                                                echo 'badge-soft-blue';
+                                            } else {
+                                                echo 'badge-soft-warning';
+                                            }
+                                            ?> mb-0">
+                                                <i class="bi bi-gender-ambiguous"></i>
+                                                <?php echo $youth['sex']; ?>
+                                            </span>
+                                        </div>
                                     </div>
-
-                                    <div class="youth-detail">
-                                        <span class="detail-label">Age</span>
-                                        <span class="detail-value"><i class="bi bi-person"></i><?php echo $youth['age']; ?></span>
+                                    <div class="mt-3 pt-1">
+                                        <p class="text-muted mb-0"><i class="bx bx-phone font-size-15 align-middle pe-2 text-primary"></i><?php echo $youth['phoneno']; ?> </p>
+                                        <p class="text-muted mb-0 mt-2"><i class="bx bx-church font-size-15 align-middle pe-2 text-primary"></i> <?php echo $youth['religion']; ?></p>
+                                        <p class="text-muted mb-0 mt-2"><i class="bx bx-home font-size-15 align-middle pe-2 text-primary"></i> <?php echo $youth['address']; ?></p>
+                                    </div>
+                                    <div class="d-flex gap-2 pt-4">
+                                        <button type="button" class="btn btn-soft-primary btn-sm w-50" onclick="window.location.href='youthProfile.php?id=<?php echo urlencode($youth['response_id']); ?>'">
+                                            <i class="bx bx-user me-1"></i> Profile
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm w-50"><i class="bx bx-trash"></i> Delete</button>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                    <?php endforeach; ?>
+                </div>
         </section>
     </main>
 

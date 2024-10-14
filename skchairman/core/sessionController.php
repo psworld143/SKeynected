@@ -31,6 +31,7 @@ class SessionController
             $_SESSION['id'] = $user['id'];
             $_SESSION['u'] = $user['name'];
             $_SESSION['user'] = $user;
+            $_SESSION['role'] = $user['role'];
             $_SESSION['logged_in'] = true;
 
             header("Location: dashboard.php");

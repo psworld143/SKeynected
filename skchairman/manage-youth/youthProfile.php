@@ -99,10 +99,16 @@ if ($youthId) {
                     </div>
 
                     <div class="col-xl-8">
-                        <div class="card">
-                            <div class="card-body pt-3">
-                                <h5 class="card-title">Youth Details</h5>
 
+                        <div class="card">
+
+                            <div class="card-body pt-3">
+                                <div class="flex-end">
+                                    <button type="button" class="btn btn-primary btn-update" data-bs-toggle="modal" data-bs-target="#updateModal">
+                                        Update Details
+                                    </button>
+                                </div>
+                                <h5 class="card-title">Youth Details</h5>
                                 <div class="row">
                                     <div class="col-md-6 survey-section">
                                         <h6 class="survey-section-title">Personal Information</h6>
@@ -240,6 +246,53 @@ if ($youthId) {
                 <p>No survey response data found for the selected youth.</p>
             <?php endif; ?>
         </section>
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel">Update Youth Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="updateForm" method="POST">
+                            <input type="hidden" name="update_youth" value="1">
+                            <!-- Personal Information -->
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="firstname" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" value="<?= htmlspecialchars($responseData['firstname']) ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="middlename" class="form-label">Middle Name</label>
+                                    <input type="text" class="form-control" id="middlename" name="middlename" value="<?= htmlspecialchars($responseData['middlename']) ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="lastname" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" value="<?= htmlspecialchars($responseData['lastname']) ?>">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="age" name="age" value="<?= htmlspecialchars($responseData['age']) ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="sex" class="form-label">Sex</label>
+                                    <select class="form-select" id="sex" name="sex">
+                                        <option value="Male" <?= $responseData['sex'] == 'Male' ? 'selected' : '' ?>>Male</option>
+                                        <option value="Female" <?= $responseData['sex'] == 'Female' ? 'selected' : '' ?>>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
 
