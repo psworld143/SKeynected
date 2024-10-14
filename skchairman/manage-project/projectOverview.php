@@ -26,7 +26,7 @@ if ($project_id > 0) {
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/SK-logo.png" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -43,34 +43,7 @@ if ($project_id > 0) {
     <link href="../assets/css/globalss.css" rel="stylesheet">
 
     <style>
-        table {
-            table-layout: auto;
-            width: 100%;
-            word-wrap: break-word;
-        }
-
-        th {
-            white-space: nowrap;
-            /* Keeps text from wrapping */
-            padding: 8px 16px;
-        }
-
-        th:nth-child(1) {
-            width: 20%;
-        }
-
-        th:nth-child(2),
-        th:nth-child(3),
-        th:nth-child(4) {
-            width: 10%;
-        }
-
-
-        @media (min-width: 992px) {
-            .datatable-container {
-                overflow-x: auto;
-            }
-        }
+        
     </style>
 </head>
 
@@ -93,10 +66,10 @@ if ($project_id > 0) {
 
         <section class="section dashboard">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Manage Projects</h5>
+                            <h5 class="card-title"><?= $projects['project_name'] ?> </h5>
                             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                 <div class="datatable-top">
                                     <div class="datatable-dropdown">
@@ -141,10 +114,11 @@ if ($project_id > 0) {
                                                     <td><?php echo htmlspecialchars($projects['operations']); ?></td>
                                                     <td><?php echo htmlspecialchars($projects['total_cost']); ?></td>
                                                     <td>
-                                                        <a href="<?php echo htmlspecialchars($projects['proposal_file_path']); ?>" download>
+                                                        <a href="download.php?file=<?php echo urlencode(basename($projects['proposal_file_path'])); ?>" download>
                                                             Download Proposal
                                                         </a>
                                                     </td>
+
                                                     <td>
                                                         <div class="d-flex justify-content-center">
                                                             <span class="icon-bg edit me-2" data-bs-toggle="modal" data-bs-target="#editModal"
@@ -189,7 +163,7 @@ if ($project_id > 0) {
                     </div>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Materials Used</h5>
@@ -212,7 +186,9 @@ if ($project_id > 0) {
                                             <tr>
                                                 <th><b>Material</b></th>
                                                 <th>Qty</th>
-                                                <th>Total</th>
+                                                <th>Amount</th>
+                                                <th>OR #</th>
+                                                <th>Cost</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -222,6 +198,8 @@ if ($project_id > 0) {
                                                     <tr>
                                                         <td><strong><?php echo htmlspecialchars($material['material_name']) ?></strong></td>
                                                         <td><?php echo htmlspecialchars($material['quantity']); ?></td>
+                                                        <td><?php echo htmlspecialchars($material['amount']); ?></td>
+                                                        <td><?php echo htmlspecialchars($material['or_number']); ?></td>
                                                         <td><?php echo htmlspecialchars($material['total']); ?></td>
                                                         <td>
                                                             <div class="d-flex justify-content-center">
@@ -230,6 +208,7 @@ if ($project_id > 0) {
                                                                     data-name="<?php echo htmlspecialchars($material['material_name']); ?>"
                                                                     data-quantity="<?php echo htmlspecialchars($material['quantity']); ?>"
                                                                     data-amount="<?php echo htmlspecialchars($material['amount']); ?>">
+
                                                                     <i class="bi bi-pencil"></i>
                                                                 </span>
                                                                 <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteMaterialModal"

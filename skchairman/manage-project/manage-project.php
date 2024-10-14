@@ -5,7 +5,9 @@ $projectController = new projectController();
 $notif = new projectController();
 $notifications = $notif->getProjectNotif();
 $notificationCount = $notif->getNotificationCount();
-$projects = $projectController->getProjects();
+$user_id = $_SESSION['id'] ?? null;
+
+$projects = $projectController->getProjects($user_id);
 
 ?>
 <!DOCTYPE html>
@@ -115,6 +117,19 @@ $projects = $projectController->getProjects();
             background-color: red;
             color: white;
         }
+
+        .card-custom {
+            height: 150px;
+        }
+
+        .card-custom i {
+            font-size: 20px;
+        }
+
+        .card-custom .rounded-circle {
+            width: 50px;
+            height: 50px;
+        }
     </style>
 </head>
 
@@ -137,6 +152,7 @@ $projects = $projectController->getProjects();
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item">Manage</li>
                     <li class="breadcrumb-item active">Projects</li>
                 </ol>
             </nav>
@@ -145,63 +161,68 @@ $projects = $projectController->getProjects();
         <section class="section dashboard">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="row">
-                        <!-- Project Summary -->
-                        <div class="col-xxl-3 col-md-6">
-                            <div class="card info-card sales-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Hearing</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-clock-history"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-md-6">
-                            <div class="card info-card revenue-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Approved</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-check-circle"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6></h6>
+                    <div class="background-image-container" style="background-image: url('../assets/img/bg-blue.jpg'); background-size: cover; background-position: center; padding: 40px; border-radius: 5px; margin-bottom: 20px;">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-xxl-3 col-md-6">
+                                        <div class="card info-card sales-card card-custom">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Hearing</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-clock-history"></i>
+                                                    </div>
+                                                    <div class="ps-3">
+                                                        <h6></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-md-6">
-                            <div class="card info-card customers-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Declined</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-x-circle"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6></h6>
+                                    <div class="col-xxl-3 col-md-6">
+                                        <div class="card info-card revenue-card card-custom">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Approved</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-check-circle"></i>
+                                                    </div>
+                                                    <div class="ps-3">
+                                                        <h6></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-md-6">
-                            <div class="card info-card sales-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Total Projects</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-folder"></i>
+                                    <div class="col-xxl-3 col-md-6">
+                                        <div class="card info-card customers-card card-custom">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Declined</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-x-circle"></i>
+                                                    </div>
+                                                    <div class="ps-3">
+                                                        <h6></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="ps-3">
-                                            <h6></h6>
+                                    </div>
+                                    <div class="col-xxl-3 col-md-6">
+                                        <div class="card info-card sales-card card-custom">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Total Projects</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-folder"></i>
+                                                    </div>
+                                                    <div class="ps-3">
+                                                        <h6></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +230,6 @@ $projects = $projectController->getProjects();
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-12">
                     <div class="row">
                         <?php foreach ($projects as $project): ?>
@@ -217,20 +237,20 @@ $projects = $projectController->getProjects();
                                 <a href="projectOverview.php?project_id=<?php echo $project['project_id']; ?>">
                                     <div class="card">
                                         <img class="card-img-top" src="../assets/img/bg-blue.jpg" alt="Unsplash" width="100%" height="150px" style="object-fit: cover;">
-                                        <div class="card-header px-4 pt-4">
+                                        <div class="card-header">
                                             <h5 class="card-title mb-0"><?php echo htmlspecialchars($project['project_name']); ?></h5>
                                             <div class="badge 
-                                                <?php 
-                                                    if ($project['status'] == 'Pending') {
-                                                        echo 'bg-pending';
-                                                    } elseif ($project['status'] == 'Hearing') {
-                                                        echo 'bg-hearing';
-                                                    } elseif ($project['status'] == 'Approved') {
-                                                        echo 'bg-approved';
-                                                    } elseif ($project['status'] == 'Declined') {
-                                                        echo 'bg-declined';
-                                                    }
-                                                ?> my-2">
+                                                <?php
+                                                if ($project['status'] == 'pending') {
+                                                    echo 'bg-pending';
+                                                } elseif ($project['status'] == 'hearing') {
+                                                    echo 'bg-hearing';
+                                                } elseif ($project['status'] == 'approved') {
+                                                    echo 'bg-approved';
+                                                } elseif ($project['status'] == 'declined') {
+                                                    echo 'bg-declined';
+                                                }
+                                                ?>">
                                                 <?php echo htmlspecialchars($project['status']); ?>
                                             </div>
                                         </div>
@@ -249,9 +269,26 @@ $projects = $projectController->getProjects();
             </div>
         </section>
     </main>
-
+    <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="validationModalLabel">Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalMessageContent">
+                    <!-- Message content will be injected here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addProjectModalLabel">Add New Project</h5>
@@ -288,17 +325,21 @@ $projects = $projectController->getProjects();
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label for="materials" class="form-label">Material</label>
                                 <input type="text" class="form-control" id="materials" name="materials" placeholder="e.g., Cement">
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
                                 <input type="number" class="form-control" id="quantity" name="quantity" placeholder="e.g., 5">
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label for="amount" class="form-label">Amount (₱ per unit)</label>
                                 <input type="number" class="form-control" id="amount" name="amount" placeholder="e.g., 100">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="amount" class="form-label">OR Number</label>
+                                <input type="text" class="form-control" id="or_number" name="or_number" placeholder="">
                             </div>
                         </div>
                         <button type="button" class="btn btn-info mb-3" onclick="addMaterial()">Add Material</button>
@@ -306,6 +347,7 @@ $projects = $projectController->getProjects();
                         <div class="mb-3">
                             <label for="receipt" class="form-label">Materials Total Cost</label>
                             <textarea class="form-control" id="receipt" name="receipt" rows="3" readonly></textarea>
+                            <button type="button" class="btn btn-info mt-2" onclick="printReceipt()"><i class="bi bi-printer"></i> Print Receipt</button>
                         </div>
                         <div class="mb-3">
                             <input type="hidden" class="form-control" id="totalCost" name="totalCost" readonly>
@@ -323,6 +365,7 @@ $projects = $projectController->getProjects();
             </div>
         </div>
     </div>
+
 
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -350,8 +393,9 @@ $projects = $projectController->getProjects();
             const materialName = document.getElementById('materials').value;
             const quantity = parseFloat(document.getElementById('quantity').value);
             const amount = parseFloat(document.getElementById('amount').value);
+            const or_number = document.getElementById('or_number').value;
 
-            if (!materialName || isNaN(quantity) || isNaN(amount)) {
+            if (!materialName || isNaN(quantity) || isNaN(amount) || !or_number) {
                 alert('Please enter valid values for all material fields.');
                 return;
             }
@@ -359,12 +403,14 @@ $projects = $projectController->getProjects();
             materialsArray.push({
                 materialName,
                 quantity,
-                amount
+                amount,
+                or_number
             });
 
             document.getElementById('materials').value = '';
             document.getElementById('quantity').value = '';
             document.getElementById('amount').value = '';
+            document.getElementById('or_number').value = '';
 
             renderMaterialsList();
             calculateTotalCost();
@@ -379,10 +425,15 @@ $projects = $projectController->getProjects();
                 const materialItem = document.createElement('div');
                 materialItem.className = 'row mb-2';
                 materialItem.innerHTML = `
-                    <div class="col-md-4">${material.materialName}</div>
-                    <div class="col-md-4">${material.quantity}</div>
-                    <div class="col-md-4">₱${material.amount}</div>
-                `;
+            <div class="col-lg-12">
+                <div class="row">
+                    <div>Material name: <strong>${material.materialName}</strong></div>
+                    <div>Quantity: <strong>${material.quantity}</strong></div>
+                    <div>Amount: <strong>₱${material.amount.toFixed(2)}</strong></div>
+                    <div>OR number: <strong>${material.or_number}</strong></div>
+                </div>
+            </div>
+        `;
                 materialListDiv.appendChild(materialItem);
             });
         }
@@ -394,18 +445,18 @@ $projects = $projectController->getProjects();
 
         function updateReceipt() {
             let receiptText = `--- MATERIALS TOTAL COST ---\n\n`;
-            receiptText += `Item             Qty     Price     Total\n`;
-            receiptText += `-----------------------------------------\n`;
+            receiptText += `Item             Qty     Price     OR No.    Total     \n`;
+            receiptText += `-----------------------------------------------\n`;
 
             materialsArray.forEach(material => {
                 const total = material.quantity * material.amount;
-                receiptText += `${material.materialName.padEnd(15)} ${material.quantity.toString().padEnd(6)} ₱${material.amount.toFixed(2).padEnd(8)} ₱${total.toFixed(2)}\n`;
+                receiptText += `${material.materialName.padEnd(15)} ${material.quantity.toString().padEnd(6)} ₱${material.amount.toFixed(2).padEnd(8)} ${material.or_number.padEnd(8)} ₱${total.toFixed(2)}\n`;
             });
 
             let totalCost = materialsArray.reduce((sum, material) => sum + material.quantity * material.amount, 0);
 
-            receiptText += `-----------------------------------------\n`;
-            receiptText += `Total Cost:                         ₱${totalCost.toFixed(2)}\n`;
+            receiptText += `-----------------------------------------------\n`;
+            receiptText += `Total Cost:                             ₱${totalCost.toFixed(2)}\n`;
 
             document.getElementById('receipt').value = receiptText;
         }
@@ -449,6 +500,59 @@ $projects = $projectController->getProjects();
                     alert("An error occurred: " + error.message);
                 });
         }
+    </script>
+    <script>
+        function printReceipt() {
+            const receiptContent = document.getElementById('receipt').value; // Get the receipt text
+            const printWindow = window.open('', '', 'width=800,height=600');
+
+            // Create HTML content for the print window
+            printWindow.document.write(`
+            <html>
+            <head>
+                <title>Print Receipt</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                    }
+                    pre {
+                        font-family: monospace;
+                        white-space: pre-wrap;
+                    }
+                </style>
+            </head>
+            <body>
+                <h2>Receipt</h2>
+                <pre>${receiptContent}</pre>
+                <script>
+                    window.onload = function() {
+                        window.print();
+                        window.onafterprint = function() {
+                            window.close(); // Close the window after printing
+                        };
+                    }
+                <\/script>
+            </body>
+            </html>
+        `);
+            printWindow.document.close();
+        }
+        $(document).ready(function() {
+            // Check for error message
+            <?php if (isset($_SESSION['error'])): ?>
+                $('#modalMessageContent').html('<div class="alert alert-danger" role="alert"><?php echo $_SESSION['error']; ?></div>');
+                $('#validationModal').modal('show'); // Show the modal
+                <?php unset($_SESSION['error']); ?> // Clear the error message from session
+            <?php endif; ?>
+
+            // Check for success message
+            <?php if (isset($_SESSION['success'])): ?>
+                $('#modalMessageContent').html('<div class="alert alert-success" role="alert"><?php echo $_SESSION['success']; ?></div>');
+                $('#validationModal').modal('show'); // Show the modal
+                <?php unset($_SESSION['success']); ?> // Clear the success message from session
+            <?php endif; ?>
+        });
     </script>
 
 </body>

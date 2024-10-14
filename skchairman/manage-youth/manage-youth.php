@@ -2,8 +2,6 @@
 require_once '../core/userController.php';
 require_once '../core/projectController.php';
 require_once '../core/youthController.php';
-
-$notificationCount = (new projectController())->getNotificationCount();
 $barangay = (new youthController())->getYouthCountByBarangay();
 $success = '';
 $error = '';
@@ -20,7 +18,7 @@ $error = '';
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/SK-logo.png" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">

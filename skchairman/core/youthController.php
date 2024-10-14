@@ -35,6 +35,7 @@ class youthController
         $query = "
             SELECT b.id, b.name, COUNT(sr.response_id) AS youth_count
             FROM barangays b
+            JOIN sk_members sm ON b.id = sm.barangay_id  -- Join on barangay_id
             LEFT JOIN survey_responses sr ON b.id = sr.barangay_id
             GROUP BY b.id, b.name
         ";
@@ -44,6 +45,7 @@ class youthController
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function getAllYouthProfiles($barangay_id)
     {
@@ -62,7 +64,7 @@ class youthController
 
     public function getSurveyResponsesByResponseId($response_id)
     {
-    
+
         $query = "
             SELECT sr.*, b.name AS barangay_name 
             FROM survey_responses sr 
@@ -74,7 +76,7 @@ class youthController
         $stmt->bindParam(':response_id', $response_id, PDO::PARAM_INT);
         $stmt->execute();
 
-       
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

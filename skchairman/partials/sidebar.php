@@ -14,7 +14,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <img src="<?php echo $base_url; ?>assets/img/sk-logo.png" alt="SK Chairman">
         </a>
         <div class="welcome-message">
-            <p>Welcome, Admin</p>
+            <p>Welcome, <?= isset($_SESSION['u']) ? htmlspecialchars($_SESSION['u']) : 'Guest'; ?></p>
         </div>
     </div>
 
@@ -34,7 +34,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-project.php') ? 'active' : ''; ?>" data-bs-target="#projects-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
+            <a class="nav-link <?php echo ($current_page == 'manage-project.php' || $current_page == 'projectLiquidation.php') ? 'active' : ''; ?>" data-bs-target="#projects-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
                 <i class="bi bi-folder"></i>
                 <span>Manage Projects</span>
                 <i class="bi bi-chevron-down ms-auto"></i>
@@ -45,6 +45,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <span>SK Project</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'projectLiquidation.php') ? 'active' : ''; ?>" href="<?php echo $base_url3; ?>projectLiquidation.php">
+                        <span>Project Liquidation</span>
+                    </a>
+
+                </li>
+
             </ul>
         </li>
 
@@ -57,12 +64,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
 
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'projectLiqudation.php') ? 'active' : ''; ?>" href="<?php echo $base_url3; ?>projectLiquidation.php">
-                <i class="bi bi-cash"></i>
-                <span>Project Liquidation</span>
-            </a>
-        </li>
 
     </ul>
 </aside><!-- End Sidebar-->
