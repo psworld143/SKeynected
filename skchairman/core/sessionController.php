@@ -19,8 +19,7 @@ class SessionController
 
     public function login($username, $password)
     {
-
-        $query = "SELECT * FROM sk_members WHERE username = :username";
+        $query = "SELECT * FROM sk_members WHERE username = :username AND status = 'Active'";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
@@ -34,10 +33,11 @@ class SessionController
             $_SESSION['role'] = $user['role'];
             $_SESSION['logged_in'] = true;
 
+
             header("Location: dashboard.php");
             exit;
         } else {
-            $_SESSION['error'] = 'Invalid username or password';
+            $_SESSION['error'] = 'Invalid username or password or account is inactive';
             header("Location: index.php");
             exit;
         }

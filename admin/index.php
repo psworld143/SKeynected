@@ -61,6 +61,7 @@
 
     .btn-connect:hover {
       background-color: #175895;
+      color: black;
     }
 
     .forgot-password {

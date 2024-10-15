@@ -1,3 +1,9 @@
+<?php 
+$success = '';
+$error = '';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -157,6 +163,18 @@
             </div>
             <button type="submit" class="btn btn-primary w-100">Sign in</button>
           </form>
+
+          <?php if (!empty($success)): ?>
+            <div class="alert alert-success">
+              <?php echo $success; ?>
+            </div>
+          <?php endif; ?>
+
+          <?php if (!empty($error)): ?>
+            <div class="alert alert-danger">
+              <?php echo $error; ?>
+            </div>
+          <?php endif; ?>
           <div class="text-center mt-3">
             <a href="#" class="forgot-password">Forgot password? Click here</a>
           </div>

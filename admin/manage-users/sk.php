@@ -25,12 +25,10 @@ if ($barangay_id) {
     $stmt->execute();
     $sk_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
     $stmt_barangay = $conn->prepare("SELECT name FROM barangays WHERE id = :barangay_id");
     $stmt_barangay->bindParam(':barangay_id', $barangay_id);
     $stmt_barangay->execute();
     $barangay = $stmt_barangay->fetch(PDO::FETCH_ASSOC);
-
 
     if ($barangay) {
         $barangay_name = $barangay['name'];
@@ -42,6 +40,13 @@ if ($barangay_id) {
 if (empty($sk_members)) {
     $error = "No SK members found for the selected barangay.";
 }
+
+// Sort SK members to ensure the Chairman is first
+usort($sk_members, function ($a, $b) {
+    if ($a['position'] == 'SK Chairman') return -1;
+    if ($b['position'] == 'SK Chairman') return 1;
+    return 0;
+});
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,13 +62,23 @@ if (empty($sk_members)) {
     <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
     <link rel="shortcut icon" href="assets/images/LYDO-logo.png" />
     <style>
-        .member-card {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            background-color: #f8f9fa;
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding-top: 120px;
+            position: relative;
         }
+
+        .sk-chairman-card {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+        }
+
+        .member-card {}
 
         .member-header {
             padding: 15px;
@@ -82,7 +97,6 @@ if (empty($sk_members)) {
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
-            margin-bottom: 10px;
         }
 
         .status-dot {
@@ -121,36 +135,146 @@ if (empty($sk_members)) {
             transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
         }
 
-        .sk-chairman-card {
-            grid-column: span 2;
-            display: flex;
-            flex-direction: row;
+        a {
+            color: #333;
+            -moz-transition: all 200ms ease-in;
+            -o-transition: all 200ms ease-in;
+            -webkit-transition: all 200ms ease-in;
+            transition: all 200ms ease-in;
         }
 
-        .sk-chairman-card .member-header {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        a:hover,
+        a:focus {
+            color: #32c5d2;
+            text-decoration: none;
         }
 
-        .sk-chairman-card .member-body {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .margin40 {
+            margin-bottom: 40px;
         }
 
-        .sk-chairman-card .member-avatar {
-            width: 120px;
-            height: 120px;
+        /************************image hover effect*******************/
+        .item-img-wrap {
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+
         }
 
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+        .item-img-wrap img {
+            -moz-transition: all 200ms linear;
+            -o-transition: all 200ms linear;
+            -webkit-transition: all 200ms linear;
+            transition: all 200ms linear;
+            width: 100%;
+        }
+
+        .item-img-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+
+        .item-img-overlay span {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: url(http://bootstraplovers.com/templates/assan-2.2/main-template/img/plus.png) no-repeat center center rgba(0, 0, 0, 0.7);
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            filter: alpha(opacity=0);
+            opacity: 0;
+            -moz-transition: opacity 250ms linear;
+            -o-transition: opacity 250ms linear;
+            -webkit-transition: opacity 250ms linear;
+            transition: opacity 250ms linear;
+        }
+
+        .item-img-wrap:hover .item-img-overlay span {
+            opacity: 1;
+        }
+
+        .item-img-wrap:hover img {
+            -moz-transform: scale(1.1);
+            -o-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+
+        .work-desc {
+            width: 100%;
+            padding: 10px 10px;
+            background: #FFF;
+            border-top: none;
+            position: relative;
+        }
+
+        .work-desc:before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: -8px;
+            margin-left: 20px;
+            width: 8px;
+            height: 8px;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #fff;
+            z-index: 100;
+        }
+
+        .work-desc h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+
+        /*******section heading**********/
+        .center-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .center-heading h2 {
+            margin-bottom: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #333;
+            font-size: 25px;
+        }
+
+        .center-heading p {
+            font-size: 20px;
+            line-height: 35px;
+        }
+
+        .center-heading h2 strong {
+            font-weight: 700;
+        }
+
+        .center-line {
+            display: inline-block;
+            width: 70px;
+            height: 1px;
+            border-top: 1px solid #bbb;
+            /* border-bottom: 1px solid $skincolor; */
+            margin: auto;
+        }
+
+        .center-heading p {
+            margin-top: 10px;
+        }
+
+        .overflow-hidden {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -163,56 +287,23 @@ if (empty($sk_members)) {
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
-                        <div class="col-md-12 grid-margin">
-                            <div class="row">
-                                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                    <h3 class="font-weight-bold">Barangay <?= htmlspecialchars($barangay_name) ?> SK</h3>
-                                </div>
-                                <div class="col-12 col-xl-4">
-                                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addMemberModal">Add Account</button>
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3>Manage SK</h3>
+                                <div class="header-actions">
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBaragayModal">
+                                        <i class="ti ti-plus"></i> Add SK
+                                    </button>
                                 </div>
                             </div>
+                            <nav>
+                                <ol class="breadcrumb" style="border: none">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item">Manage</li>
+                                    <li class="breadcrumb-item active">SK</li>
+                                </ol>
+                            </nav>
                         </div>
-                    </div>
-                    <div class="row">
-                        <?php if ($error): ?>
-                            <div class="col-md-12">
-                                <div class="alert alert-danger"><?php echo $error; ?></div>
-                            </div>
-                        <?php else: ?>
-                            <?php foreach ($sk_members as $index => $member): ?>
-                                <?php
-                                $cardColor = '';
-                                switch ($member['position']) {
-                                    case 'SK Chairman':
-                                        $cardColor = '#248AFD';
-                                        break;
-                                    case 'SK Secretary':
-                                        $cardColor = '#FFC100';
-                                        break;
-                                    default:
-                                        $cardColor = ['#4B49AC', '#FF4747', '#57B657', '#7978E9'][$index % 4];
-                                }
-                                ?>
-                                <div class="col-md-4">
-                                    <div class="member-card">
-                                        <div class="member-header" style="background-color: <?php echo $cardColor; ?>;">
-                                            <img src="https://via.placeholder.com/150" alt="avatar" class="member-avatar">
-                                            <h5 class="mb-0"><?php echo htmlspecialchars($member['position']); ?></h5>
-                                            <p class="mb-0"><?php echo htmlspecialchars($member['name']); ?></p>
-                                        </div>
-                                        <div class="member-body">
-                                            <div class="member-info">
-                                                <strong>Status:</strong>
-                                                <span class="status-dot <?php echo $member['status'] == 'Active' ? 'status-active' : 'status-inactive'; ?>"></span>
-                                                <?php echo $member['status']; ?>
-                                            </div>
-                                            <button class="view-btn" onclick="location.href='sk-profile.php?id=<?php echo $member['id']; ?>'">View</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -263,7 +354,6 @@ if (empty($sk_members)) {
                                     </select>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="modal-footer">
