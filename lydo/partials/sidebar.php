@@ -27,10 +27,23 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-user.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>manage-user.php">
+            <a class="nav-link <?php echo ($current_page == 'userTables.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>userTables.php" data-bs-target="#accounts-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
                 <i class="bi bi-person"></i>
                 <span>Manage Accounts</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="accounts-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'adminTables.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>adminTables.php">
+                        <span>Admins</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'SKBarangay.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>SKbarangay.php">
+                        <span>SK Accounts</span>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="nav-item">

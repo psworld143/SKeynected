@@ -46,7 +46,7 @@ h6 {
 # Main
 --------------------------------------------------------------*/
 #main {
-  padding: 0px 100px;
+  padding: 0px 60px;
   transition: all 0.3s;
 }
 
@@ -61,7 +61,7 @@ h6 {
 --------------------------------------------------------------*/
 .pagetitle {
   margin-bottom: 10px;
-}
+} 
 
 .pagetitle h1 {
   font-size: 24px;
@@ -387,7 +387,7 @@ h6 {
 .header {
   transition: all 0.5s;
   z-index: 997;
-  height: 60px;
+  height: 70px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
   background: #175895;
   color: #ffffff;
@@ -616,7 +616,7 @@ h6 {
   font-family: "Trebuchet MS", sans-serif;
   position: fixed;
   top: 46%;
-  left: 30px;
+  left: 20px;
   width: 300px;
   height: 60%;
   z-index: 996;
@@ -626,7 +626,7 @@ h6 {
   background: #ffffff;
   border: 1px solid #e2dcdc;
   transform: translateY(-40%);
-  margin-left: 2vh;
+
 }
 
 .sidebar::-webkit-scrollbar {
@@ -661,15 +661,15 @@ h6 {
 }
 
 .sidebar-logo .logo img {
-  max-height: 130px;
+  max-height: 150px;
 }
 
 .welcome-message {
   text-align: center;
   font-size: 16px;
   color: #000000;
-  padding: 5px;
   font-weight: bold;
+  text-transform: capitalize;
 }
 @media (max-width: 1199px) {
   .sidebar {

@@ -29,10 +29,11 @@ class userController
         return $stmt->rowCount();
     }
 
-    public function createSK($skname, $username, $email, $password, $role,  $position, $status, $barangay_id)
+    public function createSK($skname, $username, $email, $password, $role, $position, $status, $barangay_id)
     {
-        $query = "INSERT INTO sk_members (name, username, email, password, role, position, status, barangay_id) VALUES (:name, :username, :email,  :password, :role, :position, :status, :barangay_id)";
+        $query = "INSERT INTO sk_members (name, username, email, password, role, position, status, barangay_id) VALUES (:name, :username, :email, :password, :role, :position, :status, :barangay_id)";
         $stmt = $this->db->prepare($query);
+
         $params = [
             ':name' => $skname,
             ':username' => $username,
@@ -44,8 +45,14 @@ class userController
             ':barangay_id' => $barangay_id
         ];
 
-        $stmt->execute($params);
-        return $stmt->rowCount();
+        try {
+            $stmt->execute($params);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            // Log the error message
+            error_log("SQL Error: " . $e->getMessage());
+            return false; // Return false on failure
+        }
     }
 
 
@@ -68,10 +75,43 @@ class userController
         return $stmt->fetchAll();
     }
 
-    public function getBarangays()
+    public function getSK($barangay_id = null)
     {
-        $query = "SELECT * FROM  barangays";
+        if ($barangay_id) {
+            $query = "SELECT * FROM sk_members WHERE barangay_id = :barangay_id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':barangay_id', $barangay_id, PDO::PARAM_INT);
+            $stmt->execute();
+        } else {
+            $query = "SELECT * FROM sk_members";
+            $stmt = $this->db->query($query);
+        }
+
+        return $stmt->fetchAll();
+    }
+
+
+    public function getAllSKBarangayMember()
+    {
+        $query = "
+        SELECT b.id, b.name, COUNT(sm.id) AS youth_count
+        FROM barangays b
+        LEFT JOIN sk_members sm ON b.id = sm.barangay_id
+        GROUP BY b.id, b.name
+    ";
+
         $stmt = $this->db->query($query);
         return $stmt->fetchAll();
+    }
+
+
+    public function getBarangayName($barangay_id)
+    {
+        $query = "SELECT name FROM barangays WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $barangay_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchColumn();
     }
 }

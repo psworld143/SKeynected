@@ -1,13 +1,14 @@
 <?php
 require_once '../core/userController.php';
-require_once '../core/projectController.php';
+$userController = new userController();
 
-$notif = new projectController();
-$notifications = $notif->getProjectNotif();
-$notificationCount = $notif->getNotificationCount();
-$users = (new userController())->getSecretaryUsers();
-$success = '';
-$error = '';
+$barangay_id = isset($_GET['id']) ? $_GET['id'] : null;
+
+if ($barangay_id) {
+    $users = $userController->getSK($barangay_id);
+    $barangayName = $userController->getBarangayName($barangay_id);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +18,7 @@ $error = '';
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Manage Accounts</title>
+    <title>Manage User Accounts</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -34,7 +35,7 @@ $error = '';
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <style>
@@ -44,7 +45,6 @@ $error = '';
     }
 
     .icon-bg {
-        padding: 5px;
         border-radius: 4px;
         width: 30px;
         display: inline-block;
@@ -69,6 +69,10 @@ $error = '';
     .icon-bg:hover {
         opacity: 0.8;
     }
+
+    thead {
+        background-color: red;
+    }
 </style>
 
 <body>
@@ -79,11 +83,11 @@ $error = '';
 
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
-            <h1>Manage Accounts</h1>
+            <h1>Manage User Accounts</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Manage</a></li>
-                    <li class="breadcrumb-item active">SK Secretary Accounts</li>
+                    <li class="breadcrumb-item active">Accounts</li>
                 </ol>
             </nav>
         </div>
@@ -101,14 +105,15 @@ $error = '';
 
         <section class="section">
             <div class="row">
-                <div class="col-lg-9">
-                    <div class="card">
+                <div class="col-lg-12">
+                    <div class="card mt-5">
                         <div class="card-body">
-                            <h5 class="card-title">Manage SK Secretary Accounts</h5>
+                            <h5 class="card-title"><?php echo $barangayName; ?> SK Accounts</h5>
                             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
-                                <div class="datatable-top">
+                                <div class="datatable-top mt-2 mb-2">
                                     <div class="datatable-dropdown">
                                         <label>
+                                            <input class="datatable-input me-2" placeholder="Search..." type="search" name="search" title="Search within table">
                                             <select class="datatable-selector" name="per-page">
                                                 <option value="5">5</option>
                                                 <option value="10" selected="">10</option>
@@ -118,43 +123,48 @@ $error = '';
                                         </label>
                                     </div>
                                     <div class="datatable-search">
-                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                                            <i class="bi bi-plus"> </i> Add User
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="datatable-container">
                                     <table class="table datatable datatable-table">
                                         <thead>
                                             <tr>
-                                                <th><b>Name</b></th>
-                                                <th>Username</th>
+                                                <th>Name</th>
                                                 <th>Email</th>
+                                                <th>Username</th>
+                                                <th>Role</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php if (!empty($users)) : ?>
                                                 <?php foreach ($users as $user) : ?>
                                                     <tr>
+
                                                         <td><?php echo htmlspecialchars($user['name']) ?></td>
-                                                        <td><?php echo htmlspecialchars($user['username']); ?></td>
                                                         <td><?php echo htmlspecialchars($user['email']); ?></td>
+                                                        <td><?php echo htmlspecialchars($user['username']); ?></td>
+                                                        <td><?php echo htmlspecialchars($user['role']); ?></td>
                                                         <td><?php echo  htmlspecialchars($user['status']); ?></td>
                                                         <td>
-                                                            <div class="d-flex justify-content-center">
-                                                                <span class="icon-bg edit me-2" data-bs-toggle="modal" data-bs-target="#editModal"
-                                                                    data-id="<?php echo $user['id']; ?>"
-                                                                    data-name="<?php echo htmlspecialchars($user['name']); ?>"
-                                                                    data-username="<?php echo htmlspecialchars($user['username']); ?>"
-                                                                    data-email="<?php echo htmlspecialchars($user['email']); ?>">
-
-                                                                    <i class="bi bi-pencil"></i>
-                                                                </span>
-                                                                <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                                    data-id="<?php echo $user['id']; ?>">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </span>
-                                                            </div>
+                                                            <span class="icon-bg edit " data-bs-toggle="modal" data-bs-target="#editModal"
+                                                                data-id="<?php echo $user['id']; ?>"
+                                                                data-name="<?php echo htmlspecialchars($user['name']); ?>"
+                                                                data-email="<?php echo htmlspecialchars($user['email']); ?>"
+                                                                data-username="<?php echo htmlspecialchars($user['username']); ?>"
+                                                                data-role="<?php echo htmlspecialchars($user['role']); ?>"
+                                                                data-email="<?php echo htmlspecialchars($user['status']); ?>"
+                                                                data-barangay_id="<?php echo $user['barangay_id']; ?>">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </span>
+                                                            <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                                data-id="<?php echo $user['id']; ?>">
+                                                                <i class="bi bi-trash"></i>
+                                                            </span>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -187,32 +197,54 @@ $error = '';
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Add Account</h5>
-                            <form action="add-secretary.php" method="POST">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                </div>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
-                        </div>
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addUserForm" action="./process/addSK.php" method="POST">
+                            <div class="mb-3">
+                                <input type="hidden" name="barangay_id" value="<?= $barangay_id ?>">
+                                <label for="userName" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" id="userName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" id="userEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userUsername" class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username" id="userUsername" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="userEmail" class="form-label">Status</label>
+                                <select name="status" id="" class="form-select">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userRole" class="form-label">Role</label>
+                                <select class="form-control" id="userRole" name="role" required>
+                                    <option value="skchairman">SK Chairman</option>
+                                    <option value="sksecretary">SK Secretart</option>
+                                </select>
+                            </div>
+                            <!-- Add more input fields as required -->
+                            <button type="submit" class="btn btn-primary">Save User</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Edit Modal -->
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -223,19 +255,35 @@ $error = '';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="editForm" action="update-secretary.php" method="POST">
+                        <form id="editForm" action="updateSK.php" method="POST">
+                            <input type="hidden" name="barangay_id" value="<?= $barangay_id ?>">
                             <input type="hidden" id="editUserId" name="user_id">
                             <div class="mb-3">
                                 <label for="editName" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="editName" name="name" required>
                             </div>
                             <div class="mb-3">
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editEmail" name="email" required>
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="editUsername" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="editUsername" name="username" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="editEmail" name="email" required>
+                                <label for="editStatus" class="form-label">Status</label>
+                                <select class="form-control" id="editStatus" name="status" required>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editRole" class="form-label">Role</label>
+                                <select class="form-control" id="editRole" name="role" required>
+                                    <option value="skchairman">SK Chairman</option>
+                                    <option value="sksecretary">SK Secretary</option>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Save Changes</button>
                         </form>

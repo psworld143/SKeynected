@@ -3,13 +3,11 @@ $base_url = "/SKeynected/lydo/assets/img/";
 
 ?>
 
-
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
     <i class="bi bi-list toggle-sidebar-btn me-3 mx-3"></i>
     <a href="index.html" class="logo d-flex align-items-center">
-      <!-- <img src="<?php echo $base_url; ?>LYDOO.jpg" alt="SK Chairman"> -->
-      <span class="d-none d-lg-block">SKeynected - LYDO</span>
+      <span class="d-none d-lg-block">SKeynected</span>
     </a>
 
   </div>
@@ -21,8 +19,9 @@ $base_url = "/SKeynected/lydo/assets/img/";
         </a>
       </li>
       <a class="nav-link nav-profile d-flex align-items-center pe-3" href="#" data-bs-toggle="dropdown">
-        <img src="<?php echo $base_url; ?>profile-img.jpg" alt="Profile" class="rounded-circle">
         <span class="d-none d-md-block dropdown-toggle ps-2"><?= isset($_SESSION['u']) ? htmlspecialchars($_SESSION['u']) : 'Guest'; ?></span>
+        <img src="<?php echo $base_url; ?>profile-img.jpg" alt="Profile" class="rounded-circle mx-2">
+
       </a><!-- End Profile Image Icon -->
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
         <li class="dropdown-header">
@@ -73,18 +72,3 @@ $base_url = "/SKeynected/lydo/assets/img/";
     </ul>
   </nav>
 </header>
-
-<script>
-  document.getElementById('bell-icon').addEventListener('click', function() {
-    var notificationCountElement = document.getElementById('notification-count');
-
-    notificationCountElement.textContent = '0';
-
-
-    fetch('reset-notif.php', {
-      method: 'POST',
-    }).then(response => {
-      // Handle response if needed
-    }).catch(error => console.error('Error:', error));
-  });
-</script>
