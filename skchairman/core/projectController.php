@@ -151,7 +151,7 @@ class projectController
         $this->db->beginTransaction();
 
         try {
-            $insertLiquidationQuery = "INSERT INTO Liquidation (material_id, project_id, material_name, quantity, amount, or_number, or_image_path) VALUES (:material_id, :project_id, :material_name, :quantity, :amount, :or_number, :or_image_path)";
+            $insertLiquidationQuery = "INSERT INTO Liquidation (material_id, project_id, material_name, quantity, amount, or_image_path) VALUES (:material_id, :project_id, :material_name, :quantity, :amount, :or_image_path)";
             $stmt = $this->db->prepare($insertLiquidationQuery);
 
             $materials = json_decode($data['materials'], true);
@@ -184,7 +184,6 @@ class projectController
                 $stmt->bindParam(':material_name', $material['name']);
                 $stmt->bindParam(':quantity', $material['quantity']);
                 $stmt->bindParam(':amount', $material['amount']);
-                $stmt->bindParam(':or_number', $material['orNumber']);
                 $stmt->bindParam(':or_image_path', $orImagePath);
 
                 // Execute and check for errors

@@ -23,7 +23,6 @@ try {
             'quantity' => $material['quantity'] ?? 0,
             'amount' => $material['amount'] ?? 0,
             'total' => $material['total'] ?? '',
-            'or_number' => $material['or_number'] ?? 0
         ];
     }, $materials);
 

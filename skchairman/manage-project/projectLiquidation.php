@@ -66,14 +66,28 @@ $projects = $projectController->getProjects($user_id);
                                             <label class="form-label">Materials</label>
                                             <div id="materialsList" class="border p-3" style="background-color: #f9f9f9; border-radius: 5px;"></div>
                                         </div>
-
                                         <div class="mb-4">
-                                            <label for="receipt" class="form-label">Receipt</label>
-                                            <textarea id="receipt" class="form-control" rows="5" readonly></textarea>
+                                            <label class="form-label">Total Cost</label>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Description</th>
+                                                                <th scope="col">Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="totalCostTableBody">
+                                                            <tr>
+                                                                <td>Total Cost</td>
+                                                                <td id="totalCost">₱0.00</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <strong>Total Cost: </strong><span id="totalCost">₱0.00</span>
-                                        </div>
+
                                         <button type="submit" class="btn btn-primary">Submit Liquidation</button>
                                     </div>
                                 </div>
@@ -96,7 +110,6 @@ $projects = $projectController->getProjects($user_id);
             const liquidationDetails = document.getElementById('liquidationDetails');
             const materialsList = document.getElementById('materialsList');
             const liquidationForm = document.getElementById('liquidationForm');
-            const receiptTextarea = document.getElementById('receipt');
             const totalCostDisplay = document.getElementById('totalCost');
 
             let totalCost = 0;
@@ -157,19 +170,15 @@ $projects = $projectController->getProjects($user_id);
                     <label class="form-label">Material</label>
                     <input type="text" class="form-control" value="${material.material_name || ''}" readonly>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label class="form-label">Quantity</label>
                     <input type="number" class="form-control quantity" placeholder="Quantity" required max="${material.quantity}" min="0" value="${material.quantity || 0}">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label class="form-label">Amount</label>
                     <input type="number" class="form-control amount" value="${material.amount || 0}" readonly>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">OR Number</label>
-                    <input type="text" class="form-control or-number" placeholder="OR Number" value="${material.or_number || ''}" readonly>
-                </div>
-                <div class="col-md-2">
                     <label class="form-label">Upload OR</label>
                     <input type="file" class="form-control material-image" name="or_image" accept="image/jpeg, image/png">
                 </div>
@@ -183,9 +192,6 @@ $projects = $projectController->getProjects($user_id);
                     }
                     updateTotalCost();
                 });
-
-                const orNumberInput = row.querySelector('.or-number');
-                orNumberInput.addEventListener('input', updateReceipt);
             }
 
             function updateTotalCost() {
@@ -198,7 +204,7 @@ $projects = $projectController->getProjects($user_id);
                     totalCost += (parseInt(quantity) || 0) * (parseFloat(amount) || 0);
                 });
 
-                totalCostDisplay.value = totalCost.toFixed(2);
+                totalCostDisplay.innerHTML = `₱${totalCost.toFixed(2)}`;
                 updateReceipt();
             }
 
@@ -210,14 +216,14 @@ $projects = $projectController->getProjects($user_id);
                     const materialName = row.querySelector('input[type="text"]').value.trim();
                     const quantity = row.querySelector('.quantity').value;
                     const amount = row.querySelector('.amount').value;
-                    const orNumber = row.querySelector('.or-number').value.trim();
-                    if (quantity && orNumber) {
-                        receiptContent += `Material: ${materialName}, Quantity: ${quantity}, Amount: ${amount}, OR Number: ${orNumber}\n`;
+                    if (quantity) {
+                        receiptContent += `Material: ${materialName}, Quantity: ${quantity}, Amount: ${amount}\n`;
                     }
                 });
 
                 receiptContent += `\nTotal Cost: ${totalCost.toFixed(2)}`;
-                receiptTextarea.value = receiptContent;
+                // If you want to keep the receipt textarea, set the value here
+                // receiptTextarea.value = receiptContent; 
             }
 
             function submitLiquidation() {
@@ -232,7 +238,6 @@ $projects = $projectController->getProjects($user_id);
                     const materialName = row.querySelector('input[type="text"]').value.trim();
                     const quantity = row.querySelector('.quantity').value;
                     const amount = row.querySelector('.amount').value;
-                    const orNumber = row.querySelector('.or-number').value.trim();
                     const fileInput = row.querySelector('.material-image');
                     const file = fileInput.files[0];
 
@@ -242,7 +247,6 @@ $projects = $projectController->getProjects($user_id);
                         name: materialName,
                         quantity: quantity,
                         amount: amount,
-                        orNumber: orNumber
                     };
 
                     materials.push(materialData);
@@ -268,23 +272,19 @@ $projects = $projectController->getProjects($user_id);
                     .then(data => {
                         if (data.success) {
                             alert('Liquidation submitted successfully!');
-                            // Reset form
                             liquidationForm.reset();
-                            totalCostDisplay.value = "0.00";
-                            receiptTextarea.value = '';
+                            totalCostDisplay.innerHTML = "₱0.00";
                             materialsList.innerHTML = '';
                             liquidationDetails.style.display = 'none';
                         } else {
-                            alert(`Error: ${data.message}`);
+                            alert(`Error: ${data.error}`);
                         }
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        alert('Failed to submit liquidation. Please try again.');
+                        console.error('Error submitting form:', error);
+                        alert('An error occurred while submitting the form.');
                     });
             }
-
-
         });
     </script>
 
