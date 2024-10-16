@@ -346,10 +346,12 @@ $projects = $projectController->getProjects($user_id);
                         <button type="button" class="btn btn-info mb-3" onclick="addMaterial()">Add Material</button>
                         <div id="materialList"></div>
                         <div class="mb-3">
-                            <label for="receipt" class="form-label">Materials Total Cost</label>
-                            <textarea class="form-control" id="receipt" name="receipt" rows="3" readonly></textarea>
-                            <button type="button" class="btn btn-info mt-2" onclick="printReceipt()"><i class="bi bi-printer"></i> Print Receipt</button>
+                            <div id="receipt" class="p-2"></div>
+                            <button type="button" class="btn btn-info mt-2" onclick="printReceipt()">
+                                <i class="bi bi-printer"></i> Print Receipt
+                            </button>
                         </div>
+
                         <div class="mb-3">
                             <input type="hidden" class="form-control" id="totalCost" name="totalCost" readonly>
                         </div>
@@ -445,27 +447,64 @@ $projects = $projectController->getProjects($user_id);
         }
 
         function updateReceipt() {
-            let receiptText = `--- MATERIALS TOTAL COST ---\n\n`;
-            receiptText += `Item             Qty     Price     OR No.    Total     \n`;
-            receiptText += `-----------------------------------------------\n`;
+            let tableHTML = `
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Materials Total Cost</h5>
+                <!-- Table with stripped rows -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">OR No.</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
 
             materialsArray.forEach(material => {
                 const total = material.quantity * material.amount;
-                receiptText += `${material.materialName.padEnd(15)} ${material.quantity.toString().padEnd(6)} ₱${material.amount.toFixed(2).padEnd(8)} ${material.or_number.padEnd(8)} ₱${total.toFixed(2)}\n`;
+                tableHTML += `
+            <tr>
+                <td>${material.materialName}</td>
+                <td>${material.quantity}</td>
+                <td>₱${material.amount.toFixed(2)}</td>
+                <td>${material.or_number}</td>
+                <td>₱${total.toFixed(2)}</td>
+            </tr>
+        `;
             });
 
             let totalCost = materialsArray.reduce((sum, material) => sum + material.quantity * material.amount, 0);
 
-            receiptText += `-----------------------------------------------\n`;
-            receiptText += `Total Cost:                             ₱${totalCost.toFixed(2)}\n`;
+            tableHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" style="text-align: right;"><strong>Total Cost:</strong></td>
+                            <td>₱${totalCost.toFixed(2)}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <!-- End Table with stripped rows -->
+            </div>
+        </div>
+    `;
 
-            document.getElementById('receipt').value = receiptText;
+            // Set the generated HTML to the receipt div
+            document.getElementById('receipt').innerHTML = tableHTML;
         }
+
+
+
 
         function submitProject() {
             const formData = new FormData(document.getElementById('addProjectForm'));
             formData.append('materials', JSON.stringify(materialsArray));
-            formData.append('status', 'pending'); 
+            formData.append('status', 'pending');
 
             fetch('addProject.php', {
                     method: 'POST',
@@ -504,10 +543,10 @@ $projects = $projectController->getProjects($user_id);
     </script>
     <script>
         function printReceipt() {
-            const receiptContent = document.getElementById('receipt').value; 
+            const receiptContent = document.getElementById('receipt').value;
             const printWindow = window.open('', '', 'width=800,height=600');
 
-          
+
             printWindow.document.write(`
             <html>
             <head>
