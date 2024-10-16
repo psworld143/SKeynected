@@ -16,7 +16,7 @@ $SKbarangay = (new userController())->getAllSKBarangayMember();
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="../assets/img/SK-logo.png" rel="icon">
+    <link href="../assets/img/LYDOO.jpg" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -50,7 +50,7 @@ $SKbarangay = (new userController())->getAllSKBarangayMember();
         }
 
         .card-header {
-            background-color: #1916a3;
+            background-color: #175895;
             color: white;
             padding: 15px;
             text-align: center;

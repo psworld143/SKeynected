@@ -22,7 +22,7 @@ if ($barangay_id) {
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/LYDOO.jpg" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -91,17 +91,18 @@ if ($barangay_id) {
                 </ol>
             </nav>
         </div>
-        <?php if (!empty($success)): ?>
-            <div class="alert alert-success">
-                <?php echo $success; ?>
-            </div>
-        <?php endif; ?>
+        
+        <?php
+        if (isset($_SESSION['error'])) {
+            echo '<div class="alert alert-danger" role="alert">' . $_SESSION['error'] . '</div>';
+            unset($_SESSION['error']);
+        }
 
-        <?php if (!empty($error)): ?>
-            <div class="alert alert-danger">
-                <?php echo $error; ?>
-            </div>
-        <?php endif; ?>
+        if (isset($_SESSION['success'])) {
+            echo '<div class="alert alert-success" role="alert">' . $_SESSION['success'] . '</div>';
+            unset($_SESSION['success']);
+        }
+        ?>
 
         <section class="section">
             <div class="row">

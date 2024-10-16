@@ -23,13 +23,18 @@ class projectController
         $total_cost,
         $proposal_file_path,
         $materials,
-        $sk_member_id
+        $sk_member_id,
+        $barangay_id  
     ) {
         $this->db->beginTransaction();
 
         try {
-            $query = "INSERT INTO projects(project_name, project_code, project_description, project_duration, status, specific_job, operations, total_cost, proposal_file_path, sk_member_id) VALUES (:project_name, :project_code, :project_description, :project_duration, :status, :specific_job, :operations, :total_cost, :proposal_file_path, :sk_member_id)";
+          
+            $query = "INSERT INTO projects(project_name, project_code, project_description, project_duration, status, specific_job, operations, total_cost, proposal_file_path, sk_member_id, barangay_id) 
+                      VALUES (:project_name, :project_code, :project_description, :project_duration, :status, :specific_job, :operations, :total_cost, :proposal_file_path, :sk_member_id, :barangay_id)";
             $stmt = $this->db->prepare($query);
+
+ 
             $params = [
                 ':project_name' => $project_name,
                 ':project_code' => $project_code,
@@ -40,14 +45,18 @@ class projectController
                 ':operations' => $operations,
                 ':total_cost' => $total_cost,
                 ':proposal_file_path' => $proposal_file_path,
-                ':sk_member_id' => $sk_member_id
+                ':sk_member_id' => $sk_member_id,
+                ':barangay_id' => $barangay_id  
             ];
             $stmt->execute($params);
 
+
             $project_id = $this->db->lastInsertId();
 
+    
             $materials = json_decode($materials, true);
-            $materialQuery = "INSERT INTO materials(project_id, material_name, quantity, amount, or_number) VALUES (:project_id, :material_name, :quantity, :amount, :or_number)";
+            $materialQuery = "INSERT INTO materials(project_id, material_name, quantity, amount, or_number) 
+                              VALUES (:project_id, :material_name, :quantity, :amount, :or_number)";
             $materialStmt = $this->db->prepare($materialQuery);
 
             foreach ($materials as $material) {
@@ -68,6 +77,7 @@ class projectController
             throw $e;
         }
     }
+
 
     public function getProjects($sk_member_id)
     {

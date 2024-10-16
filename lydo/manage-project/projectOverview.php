@@ -1,18 +1,21 @@
 <?php
 require_once '../core/projectController.php';
+require_once '../core/userController.php';
 $projectController = new projectController();
-$notif = new projectController();
-$notifications = $notif->getProjectNotif();
-$notificationCount = $notif->getNotificationCount();
+$userController = new userController();
+
 $projects = [];
 
 
 $project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : 0;
 
 if ($project_id > 0) {
-    $projects = $projectController->getProjectById($project_id);
+    $projects = $projectController->getProjectsById($project_id);
     $materials = $projectController->getMaterialsByProjectId($project_id);
 }
+$file = basename($projects['proposal_file_path']);
+$preview_url = "process/preview.php?file=" . urlencode($file);
+$download_url = "process/download.php?file=" . urlencode($file);
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +29,7 @@ if ($project_id > 0) {
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="../assets/img/SK-logo.png" rel="icon">
+    <link href="../assets/img/LYDOO.jpg" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -40,10 +43,106 @@ if ($project_id > 0) {
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 
     <style>
-        
+        .btn-close {
+            background: transparent;
+            border: 0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            position: relative;
+            flex: 1 1 auto;
+            padding: 1rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .download-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 1rem;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+
+        .download-link:hover {
+            background-color: #0056b3;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        .icon-bg {
+            border-radius: 4px;
+            width: 30px;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .icon-bg.edit {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .icon-bg.delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .icon-bg.view {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .icon-bg i {
+            font-size: 16px;
+            color: white;
+        }
+
+        .icon-bg:hover {
+            opacity: 0.8;
+        }
+
+        .badge {
+            padding: 0.5em 1em;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+        .bg-pending {
+            background-color: orange;
+            color: white;
+        }
+
+        .bg-hearing {
+            background-color: blue;
+            color: white;
+        }
+
+        .bg-approved {
+            background-color: green;
+            color: white;
+        }
+
+        .bg-declined {
+            background-color: red;
+            color: white;
+        }
+
+        .bg-info {
+            background-color: #17a2b8;
+
+            color: white;
+        }
     </style>
 </head>
 
@@ -67,9 +166,9 @@ if ($project_id > 0) {
         <section class="section dashboard">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card">
+                    <div class="card mt-5">
                         <div class="card-body">
-                            <h5 class="card-title"><?= $projects['project_name'] ?> </h5>
+                            <h5 class="card-title">Barangay <?= $projects['barangay_name'] ?> Project</h5>
                             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                 <div class="datatable-top">
                                     <div class="datatable-dropdown">
@@ -82,8 +181,13 @@ if ($project_id > 0) {
                                             </select> entries per page
                                         </label>
                                     </div>
-                                    <div class="datatable-search">
-                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                                            <i class="bi bi-arrow-clockwise"></i> Update Status
+                                        </button>
+                                        <div class="datatable-search">
+                                            <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="datatable-container">
@@ -91,13 +195,13 @@ if ($project_id > 0) {
                                         <thead>
                                             <tr>
                                                 <th><b>Project Name</b></th>
-                                                <th>Code</th>
+                                                <th>Project Code</th>
                                                 <th>Description</th>
                                                 <th>Duration</th>
                                                 <th>Status</th>
                                                 <th>Specific Job</th>
                                                 <th>Operation</th>
-                                                <th>Cost</th>
+                                                <th>Total Cost</th>
                                                 <th>Proposal</th>
                                                 <th>Action</th>
                                             </tr>
@@ -105,23 +209,52 @@ if ($project_id > 0) {
                                         <tbody>
                                             <?php if (!empty($projects)) : ?>
                                                 <tr>
-                                                    <td><strong><?php echo htmlspecialchars($projects['project_name']) ?></strong></td>
-                                                    <td><?php echo htmlspecialchars($projects['project_code']); ?></td>
-                                                    <td><?php echo htmlspecialchars($projects['project_description']); ?></td>
-                                                    <td><?php echo htmlspecialchars($projects['project_duration']); ?></td>
-                                                    <td><?php echo htmlspecialchars($projects['status']); ?></td>
-                                                    <td><?php echo htmlspecialchars($projects['specific_job']); ?></td>
-                                                    <td><?php echo htmlspecialchars($projects['operations']); ?></td>
-                                                    <td><?php echo htmlspecialchars($projects['total_cost']); ?></td>
+                                                    <td><strong class="text-primary"><?php echo htmlspecialchars($projects['project_name']) ?></strong></td>
+                                                    <td class="text-secondary"><?php echo htmlspecialchars($projects['project_code']); ?></td>
+                                                    <td class="text-muted"><?php echo htmlspecialchars($projects['project_description']); ?></td>
+                                                    <td class="text-secondary"><?php echo htmlspecialchars($projects['project_duration']); ?></td>
                                                     <td>
-                                                        <a href="download.php?file=<?php echo urlencode(basename($projects['proposal_file_path'])); ?>" download>
-                                                            Download Proposal
-                                                        </a>
+                                                        <?php
+                                                        $statusClass = 'bg-info'; // Default class
+                                                        switch ($projects['status']) {
+                                                            case 'pending':
+                                                                $statusClass = 'bg-pending';
+                                                                break;
+                                                            case 'hearing':
+                                                                $statusClass = 'bg-hearing';
+                                                                break;
+                                                            case 'approved':
+                                                                $statusClass = 'bg-approved';
+                                                                break;
+                                                            case 'declined':
+                                                                $statusClass = 'bg-declined';
+                                                                break;
+                                                        }
+                                                        ?>
+                                                        <span class="badge <?php echo $statusClass; ?>">
+                                                            <?php echo htmlspecialchars($projects['status']); ?>
+                                                        </span>
                                                     </td>
-
+                                                    <td class="text-secondary"><?php echo htmlspecialchars($projects['specific_job']); ?></td>
+                                                    <td class="text-secondary"><?php echo htmlspecialchars($projects['operations']); ?></td>
+                                                    <td class="text-success fw-bold"><?php echo htmlspecialchars($projects['total_cost']); ?></td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <span class="icon-bg view me-1" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                                                <a href="<?php echo htmlspecialchars($preview_url); ?>" class="preview-link">
+                                                                    <i class="bi bi-eye "></i>
+                                                                </a>
+                                                            </span>
+                                                            <span class="icon-bg view">
+                                                                <a href="<?php echo htmlspecialchars($download_url); ?>" download>
+                                                                    <i class="bi bi-download "></i>
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                    </td>
                                                     <td>
                                                         <div class="d-flex justify-content-center">
-                                                            <span class="icon-bg edit me-2" data-bs-toggle="modal" data-bs-target="#editModal"
+                                                            <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editModal"
                                                                 data-id="<?php echo $projects['project_id']; ?>"
                                                                 data-name="<?php echo htmlspecialchars($projects['project_name']); ?>"
                                                                 data-code="<?php echo htmlspecialchars($projects['project_code']); ?>"
@@ -137,11 +270,10 @@ if ($project_id > 0) {
                                                 </tr>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="10">No projects found.</td>
+                                                    <td colspan="10" class="text-center text-muted">No projects found.</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
-
                                     </table>
                                 </div>
                                 <div class="datatable-bottom">
@@ -162,8 +294,38 @@ if ($project_id > 0) {
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateStatusModalLabel">Update Project Status</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="updateStatusForm">
+                                    <div class="mb-3">
+                                        <label for="statusSelect" class="form-label">Select Status</label>
+                                        <select class="form-select" id="statusSelect" name="status" onchange="toggleHearingDate()">
+                                            <option value="pending">Pending</option>
+                                            <option value="hearing">Hearing</option>
+                                            <option value="approved">Approved</option>
+                                            <option value="declined">Declined</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3" id="hearingDateDiv" style="display:none;">
+                                        <label for="hearingDate" class="form-label">Hearing Date</label>
+                                        <input type="date" class="form-control" id="hearingDate" name="hearingDate">
+                                    </div>
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-primary">Update Status</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="col-lg-12">
+                <div class="col-lg-12 mt-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Materials Used</h5>
@@ -178,6 +340,9 @@ if ($project_id > 0) {
                                                 <option value="-1">All</option>
                                             </select> entries per page
                                         </label>
+                                    </div>
+                                    <div class="datatable-search">
+                                        <input class="datatable-input" placeholder="Search materials..." type="search" name="search" title="Search within table">
                                     </div>
                                 </div>
                                 <div class="datatable-container">
@@ -196,24 +361,23 @@ if ($project_id > 0) {
                                             <?php if (!empty($materials)) : ?>
                                                 <?php foreach ($materials as $material) : ?>
                                                     <tr>
-                                                        <td><strong><?php echo htmlspecialchars($material['material_name']) ?></strong></td>
-                                                        <td><?php echo htmlspecialchars($material['quantity']); ?></td>
-                                                        <td><?php echo htmlspecialchars($material['amount']); ?></td>
-                                                        <td><?php echo htmlspecialchars($material['or_number']); ?></td>
-                                                        <td><?php echo htmlspecialchars($material['total']); ?></td>
+                                                        <td><strong class="text-primary"><?php echo htmlspecialchars($material['material_name']) ?></strong></td>
+                                                        <td class="text-secondary"><?php echo htmlspecialchars($material['quantity']); ?></td>
+                                                        <td class="text-success"><?php echo htmlspecialchars($material['amount']); ?></td>
+                                                        <td class="text-muted"><?php echo htmlspecialchars($material['or_number']); ?></td>
+                                                        <td class="text-success fw-bold"><?php echo htmlspecialchars($material['total']); ?></td>
                                                         <td>
-                                                            <div class="d-flex justify-content-center">
+                                                            <div class="d-flex">
                                                                 <span class="icon-bg edit me-2" data-bs-toggle="modal" data-bs-target="#editMaterialModal"
                                                                     data-id="<?php echo $material['material_id']; ?>"
                                                                     data-name="<?php echo htmlspecialchars($material['material_name']); ?>"
                                                                     data-quantity="<?php echo htmlspecialchars($material['quantity']); ?>"
                                                                     data-amount="<?php echo htmlspecialchars($material['amount']); ?>">
-
-                                                                    <i class="bi bi-pencil"></i>
+                                                                    <i class="bi bi-pencil "></i>
                                                                 </span>
                                                                 <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteMaterialModal"
                                                                     data-id="<?php echo $material['material_id']; ?>">
-                                                                    <i class="bi bi-trash"></i>
+                                                                    <i class="bi bi-trash "></i>
                                                                 </span>
                                                             </div>
                                                         </td>
@@ -221,7 +385,7 @@ if ($project_id > 0) {
                                                 <?php endforeach; ?>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="4">No materials found.</td>
+                                                    <td colspan="6" class="text-center text-muted">No materials found.</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
@@ -247,22 +411,76 @@ if ($project_id > 0) {
                 </div>
             </div>
         </section>
-    </main><!-- End #main -->
+        <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="previewModalLabel">File Preview</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body" id="previewContent">
+                        <!-- Preview content will be loaded here -->
+                    </div>
+                    <a href="<?php echo htmlspecialchars($download_url); ?>" download class="download-link">
+                        Download Proposal
+                    </a>
+                </div>
+            </div>
+        </div>
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
-    <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="../assets/vendor/echarts/echarts.min.js"></script>
-    <script src="../assets/vendor/quill/quill.js"></script>
-    <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="../assets/vendor/php-email-form/validate.js"></script>
+        <!-- Vendor JS Files -->
+        <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="../assets/vendor/echarts/echarts.min.js"></script>
+        <script src="../assets/vendor/quill/quill.js"></script>
+        <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="../assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="../assets/js/main.js"></script>
+        <!-- Template Main JS File -->
+        <script src="../assets/js/main.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const previewLinks = document.querySelectorAll('.preview-link');
+                const previewContent = document.getElementById('previewContent');
+
+                previewLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const url = this.getAttribute('href');
+                        fetch(url)
+                            .then(response => response.text())
+                            .then(data => {
+                                previewContent.innerHTML = data;
+                            })
+                            .catch(error => {
+                                previewContent.innerHTML = 'Error loading preview: ' + error;
+                            });
+                    });
+                });
+            });
+
+            function toggleHearingDate() {
+                const statusSelect = document.getElementById('statusSelect');
+                const hearingDateDiv = document.getElementById('hearingDateDiv');
+
+                if (statusSelect.value === 'hearing') {
+                    hearingDateDiv.style.display = 'block';
+                } else {
+                    hearingDateDiv.style.display = 'none';
+                }
+            }
+
+            document.getElementById('updateStatusForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // Add your code here to handle the form submission, e.g., AJAX request to update the status
+                const formData = new FormData(this);
+                // Perform an AJAX call to update the status in the backend
+            });
+        </script>
 </body>
 
-</html>
+</html>c

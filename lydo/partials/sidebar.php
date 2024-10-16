@@ -54,8 +54,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
             <ul id="projects-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'manage-project.php') ? 'active' : ''; ?>" href="<?php echo $base_url3; ?>manage-project.php">
-                        <span>SK Project</span>
+                    <a class="nav-link <?php echo ($current_page == 'project.php') ? 'active' : ''; ?>" href="<?php echo $base_url3; ?>project.php">
+                        <span>Projects</span>
                     </a>
                 </li>
                 <li class="nav-item">

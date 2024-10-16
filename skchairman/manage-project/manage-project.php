@@ -6,6 +6,7 @@ $notif = new projectController();
 $notifications = $notif->getProjectNotif();
 $notificationCount = $notif->getNotificationCount();
 $user_id = $_SESSION['id'] ?? null;
+$barangay_id = $_SESSION['barangay_id'] ?? null;
 
 $projects = $projectController->getProjects($user_id);
 
@@ -279,7 +280,6 @@ $projects = $projectController->getProjects($user_id);
                     </button>
                 </div>
                 <div class="modal-body" id="modalMessageContent">
-                    <!-- Message content will be injected here -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -299,6 +299,7 @@ $projects = $projectController->getProjects($user_id);
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="projectName" class="form-label">Project Name</label>
+                                <input type="hidden" name="barangay_id" value="<?php echo $barangay_id; ?>">
                                 <input type="text" class="form-control" id="projectName" name="projectName" required>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -464,7 +465,7 @@ $projects = $projectController->getProjects($user_id);
         function submitProject() {
             const formData = new FormData(document.getElementById('addProjectForm'));
             formData.append('materials', JSON.stringify(materialsArray));
-            formData.append('status', 'hearing'); // Set default status
+            formData.append('status', 'pending'); 
 
             fetch('addProject.php', {
                     method: 'POST',
@@ -503,10 +504,10 @@ $projects = $projectController->getProjects($user_id);
     </script>
     <script>
         function printReceipt() {
-            const receiptContent = document.getElementById('receipt').value; // Get the receipt text
+            const receiptContent = document.getElementById('receipt').value; 
             const printWindow = window.open('', '', 'width=800,height=600');
 
-            // Create HTML content for the print window
+          
             printWindow.document.write(`
             <html>
             <head>

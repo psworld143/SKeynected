@@ -3,33 +3,38 @@ header('Content-Type: application/json');
 
 require_once '../core/projectController.php';
 $projectController = new projectController();
-$base_path = '../../'; 
+$base_path = '../../';
 $uploads_dir = $base_path . 'uploads/';
 $success = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get POST data with default values
     $project_name = $_POST['projectName'] ?? null;
     $project_code = $_POST['projectCode'] ?? null;
     $project_description = $_POST['projectDescription'] ?? null;
     $project_duration = $_POST['projectDuration'] ?? null;
-    $status = $_POST['status'] ?? 'pending';
+    $status = $_POST['status'] ?? 'pending'; 
     $specific_job = $_POST['specificJob'] ?? null;
     $operations = $_POST['operations'] ?? null;
     $total_cost = $_POST['totalCost'] ?? null;
     $materials = isset($_POST['materials']) ? $_POST['materials'] : '[]';
     $proposal_file_path = null;
+    $barangay_id = $_SESSION['barangay_id'];
     $user_id = $_SESSION['id'] ?? null;
 
+    // Check user authentication
     if (!$user_id) {
         echo json_encode(['success' => false, 'message' => "User not logged in!"]);
         exit;
-    }   
+    }
 
-    if (empty($project_name) || empty($project_code) || empty($project_description) || empty($project_duration) || empty($status) || empty($specific_job) || empty($operations) || empty($total_cost)) {
+
+    if (empty($project_name) || empty($project_code) || empty($project_description) || empty($project_duration) || empty($specific_job) || empty($operations) || empty($total_cost)) {
         echo json_encode(['success' => false, 'message' => "All fields are required!"]);
         exit;
     }
+
 
     try {
         if (!file_exists($uploads_dir)) {
@@ -37,13 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         if (isset($_FILES['proposal']) && $_FILES['proposal']['error'] === UPLOAD_ERR_OK) {
             $tmp_name = $_FILES['proposal']['tmp_name'];
-            $proposal_file_path = 'uploads/' . basename($_FILES['proposal']['name']); // Use relative path for storage
+            $proposal_file_path = 'uploads/' . basename($_FILES['proposal']['name']);
             if (!move_uploaded_file($tmp_name, $uploads_dir . basename($_FILES['proposal']['name']))) {
                 throw new Exception("Failed to move uploaded file.");
             }
         }
 
-      
+        // Create the project
         $result = $projectController->createProject(
             $project_name,
             $project_code,
@@ -55,7 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $total_cost,
             $proposal_file_path,
             $materials,
-            $user_id
+            $user_id,
+            $barangay_id
         );
 
         if ($result) {
@@ -69,10 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit;
 }
 
-
+// Handle other responses
 if ($success) {
     echo json_encode(['success' => true, 'message' => $success]);
 } else {
     echo json_encode(['success' => false, 'message' => $error]);
 }
-exit;
+exit();

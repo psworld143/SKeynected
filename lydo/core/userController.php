@@ -1,7 +1,6 @@
 <?php
 
 include_once 'Database.php';
-
 class userController
 {
     private $db;
@@ -25,8 +24,13 @@ class userController
             ':password' => $password,
             ':role' => $role
         ];
-        $stmt->execute($params);
-        return $stmt->rowCount();
+        try {
+            $stmt->execute($params);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            error_log("SQL Error: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function createSK($skname, $username, $email, $password, $role, $position, $status, $barangay_id)
@@ -49,9 +53,8 @@ class userController
             $stmt->execute($params);
             return $stmt->rowCount();
         } catch (PDOException $e) {
-            // Log the error message
             error_log("SQL Error: " . $e->getMessage());
-            return false; // Return false on failure
+            return false;
         }
     }
 

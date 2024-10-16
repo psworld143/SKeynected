@@ -38,7 +38,26 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 
 </head>
 <style>
+  .carousel {
+    height: 350px;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
+  .carousel-inner {
+    height: 100%;
+  }
+
+  .carousel-item {
+    height: 100%;
+
+  }
+
+  .carousel-item img {
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+  }
 </style>
 
 <body>
@@ -60,7 +79,29 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 
     <section class="section">
       <div class="row">
-      
+        <div class="col-lg-12">
+          <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item">
+                <img src="assets/img/LYDC.png" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="assets/img/SK.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item active">
+                <img src="assets/img/LYDO-tupi.jpg" class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev" fdprocessedid="whd4t3">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next" fdprocessedid="dwfhfb">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
