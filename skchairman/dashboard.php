@@ -1,8 +1,9 @@
 <?php
 include_once './core/projectController.php';
+$base_url = "/SKeynected/skchairman/";
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-  header('Location: index.php');
-  exit();
+  header("Location: " . $base_url . "index.php"); 
+  exit(); 
 }
 
 $notif = new projectController();

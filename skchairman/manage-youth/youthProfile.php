@@ -1,15 +1,12 @@
 <?php
-
-
 require_once '../core/userController.php';
 require_once '../core/projectController.php';
 require_once '../core/youthController.php';
-
+$base_url = "/SKeynected/skchairman/";
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header('Location: index.php');
+    header("Location: " . $base_url . "404.php");
     exit();
 }
-
 $notificationCount = (new projectController())->getNotificationCount();
 $youthController = new youthController();
 

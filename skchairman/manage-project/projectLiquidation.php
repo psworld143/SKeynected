@@ -1,6 +1,11 @@
 <?php
 require_once '../core/projectController.php';
 $projectController = new projectController();
+$base_url = "/SKeynected/skchairman/";
+if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
+    header("Location: " . $base_url . "404.php");
+    exit();
+}
 $user_id = $_SESSION['id'] ?? null;
 $projects = $projectController->getProjects($user_id);
 ?>

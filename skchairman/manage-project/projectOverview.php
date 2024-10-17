@@ -5,7 +5,11 @@ $notif = new projectController();
 $notifications = $notif->getProjectNotif();
 $notificationCount = $notif->getNotificationCount();
 $projects = [];
-
+$base_url = "/SKeynected/skchairman/";
+if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
+    header("Location: " . $base_url . "404.php");
+    exit();
+}
 
 $project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : 0;
 
@@ -43,7 +47,7 @@ if ($project_id > 0) {
     <link href="../assets/css/globalss.css" rel="stylesheet">
 
     <style>
-        
+
     </style>
 </head>
 
