@@ -24,17 +24,17 @@ class projectController
         $proposal_file_path,
         $materials,
         $sk_member_id,
-        $barangay_id  
+        $barangay_id
     ) {
         $this->db->beginTransaction();
 
         try {
-          
+
             $query = "INSERT INTO projects(project_name, project_code, project_description, project_duration, status, specific_job, operations, total_cost, proposal_file_path, sk_member_id, barangay_id) 
                       VALUES (:project_name, :project_code, :project_description, :project_duration, :status, :specific_job, :operations, :total_cost, :proposal_file_path, :sk_member_id, :barangay_id)";
             $stmt = $this->db->prepare($query);
 
- 
+
             $params = [
                 ':project_name' => $project_name,
                 ':project_code' => $project_code,
@@ -46,14 +46,14 @@ class projectController
                 ':total_cost' => $total_cost,
                 ':proposal_file_path' => $proposal_file_path,
                 ':sk_member_id' => $sk_member_id,
-                ':barangay_id' => $barangay_id  
+                ':barangay_id' => $barangay_id
             ];
             $stmt->execute($params);
 
 
             $project_id = $this->db->lastInsertId();
 
-    
+
             $materials = json_decode($materials, true);
             $materialQuery = "INSERT INTO materials(project_id, material_name, quantity, amount) 
                               VALUES (:project_id, :material_name, :quantity, :amount)";
@@ -157,7 +157,7 @@ class projectController
             $projectId = $data['projectId'];
 
             foreach ($materials as $index => $material) {
-                $base_path = '../../';
+                $base_path = '../../../';
                 $uploadDir = $base_path . 'uploads/or_images/';
                 $orImagePath = null;
 
@@ -199,5 +199,23 @@ class projectController
             $this->db->rollBack();
             throw $e; // Rethrow exception to handle it elsewhere
         }
+    }
+
+    public function getDisbursementByBarangay($project_id)
+    {
+        $query = "SELECT * FROM disbursements WHERE project_id = :project_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':project_id', $project_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getLiquidationByBarangay($project_id)
+    {
+        $query = "SELECT * FROM liquidation WHERE project_id = :project_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':project_id', $project_id, PDO::FETCH_ASSOC);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

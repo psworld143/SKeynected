@@ -12,6 +12,8 @@ $project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : 0;
 if ($project_id > 0) {
     $projects = $projectController->getProjectById($project_id);
     $materials = $projectController->getMaterialsByProjectId($project_id);
+    $disbursements = $projectController->getDisbursementByBarangay($project_id);
+    $liquidations = $projectController->getLiquidationByBarangay($project_id);
 }
 $file = basename($projects['proposal_file_path']);
 $preview_url = "process/preview.php?file=" . urlencode($file);
@@ -342,8 +344,220 @@ $download_url = "process/download.php?file=" . urlencode($file);
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="budget-disbursement" role="tabpanel" aria-labelledby="budget-disbursement-tab">
+                                        <div class="datatable-container">
+                                            <div class="datatable-top mb-3">
+                                                <div class="datatable-dropdown">
+
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addDisbursementModal">
+                                                        <i class="bi bi-plus-circle"></i> Add Disbursement
+                                                    </button>
+                                                    <div class="datatable-search">
+                                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <table class="table datatable datatable-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Amount</th>
+                                                        <th>Purpose</th>
+                                                        <th>Notes</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- PHP logic for displaying budget disbursements -->
+                                                    <?php if (!empty($disbursements)) : ?>
+                                                        <?php foreach ($disbursements as $disbursement) : ?>
+                                                            <tr>
+                                                                <td><strong class="text-primary"><?php echo htmlspecialchars($disbursement['disbursement_id']) ?></strong></td>
+                                                                <td class="text-secondary"><?php echo htmlspecialchars($disbursement['date']); ?></td>
+                                                                <td class="text-success"><?php echo htmlspecialchars($disbursement['amount']); ?></td>
+                                                                <td class="text-muted"><?php echo htmlspecialchars($disbursement['purpose']); ?></td>
+                                                                <td class="text-muted"><?php echo htmlspecialchars($disbursement['notes']); ?></td>
+                                                                <td>
+                                                                    <span class="badge <?php echo $disbursement['status'] === 'approved' ? 'bg-approved' : ($disbursement['status'] === 'pending' ? 'bg-pending' : 'bg-declined'); ?>">
+                                                                        <?php echo htmlspecialchars($disbursement['status']); ?>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editDisbursementModal"
+                                                                            data-id="<?php echo $disbursement['disbursement_id']; ?>"
+                                                                            data-amount="<?php echo htmlspecialchars($disbursement['amount']); ?>"
+                                                                            data-purpose="<?php echo htmlspecialchars($disbursement['purpose']); ?>"
+                                                                            data-notes="<?php echo htmlspecialchars($disbursement['notes']); ?>">
+                                                                            <i class="bi bi-pencil"></i>
+                                                                        </span>
+                                                                        <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteDisbursementModal"
+                                                                            data-id="<?php echo $disbursement['disbursement_id']; ?>">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else : ?>
+                                                        <tr>
+                                                            <td colspan="7" class="text-center text-muted">No disbursements found.</td>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- Add Disbursement Modal -->
+                                        <div class="modal fade" id="addDisbursementModal" tabindex="-1" aria-labelledby="addDisbursementModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="addDisbursementModalLabel">Add Disbursement</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="amount" class="form-label">Amount</label>
+                                                                <input type="text" class="form-control" id="amount" placeholder="Enter amount">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="purpose" class="form-label">Purpose</label>
+                                                                <input type="text" class="form-control" id="purpose" placeholder="Enter purpose">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="status" class="form-label">Status</label>
+                                                                <select class="form-select" id="status">
+                                                                    <option value="approved">Approved</option>
+                                                                    <option value="pending">Pending</option>
+                                                                    <option value="declined">Declined</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="notes" class="form-label">Notes</label>
+                                                                <textarea class="form-control" id="notes" placeholder="Enter notes"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="budget-liquidation" role="tabpanel" aria-labelledby="budget-liquidation-tab">
+                                        <div class="datatable-container">
+                                            <div class="datatable-top mb-3">
+                                                <div class="datatable-dropdown">
+
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addDisbursementModal">
+                                                        <i class="bi bi-plus-circle"></i> Add Disbursement
+                                                    </button>
+                                                    <div class="datatable-search">
+                                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <table class="table datatable datatable-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Material name</th>
+                                                        <th>Quantity</th>
+                                                        <th>Amount</th>
+                                                        <th>OR</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php if (!empty($liquidations)) : ?>
+                                                        <?php foreach ($liquidations as $liquidation) : ?>
+                                                            <tr>
+                                                                <td><strong class="text-primary"><?php echo htmlspecialchars($liquidation['material_name']) ?></strong></td>
+                                                                <td class="text-secondary"><?php echo htmlspecialchars($liquidation['quantity']); ?></td>
+                                                                <td class="text-success"><?php echo htmlspecialchars($liquidation['amount']); ?></td>
+                                                                <td class="text-muted"><img src="<?php echo htmlspecialchars($liquidation['or_image_path']); ?>" alt="" srcset="" width="50px"></td>
+                                                                <td>
+                                                                    <span class="badge <?php echo  $liquidation['status'] === 'approved' ? 'bg-approved' : ($liquidation['status'] === 'pending' ? 'bg-pending' : 'bg-declined'); ?>">
+                                                                        <?php echo htmlspecialchars($liquidation['status']); ?>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editDisbursementModal"
+                                                                            data-id="<?php echo $disbursement['disbursement_id']; ?>"
+                                                                            data-amount="<?php echo htmlspecialchars($disbursement['amount']); ?>"
+                                                                            data-purpose="<?php echo htmlspecialchars($disbursement['purpose']); ?>"
+                                                                            data-notes="<?php echo htmlspecialchars($disbursement['notes']); ?>">
+                                                                            <i class="bi bi-pencil"></i>
+                                                                        </span>
+                                                                        <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteDisbursementModal"
+                                                                            data-id="<?php echo $disbursement['disbursement_id']; ?>">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else : ?>
+                                                        <tr>
+                                                            <td colspan="7" class="text-center text-muted">No Liquidation found.</td>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- Add Disbursement Modal -->
+                                        <div class="modal fade" id="addDisbursementModal" tabindex="-1" aria-labelledby="addDisbursementModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="addDisbursementModalLabel">Add Disbursement</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="amount" class="form-label">Amount</label>
+                                                                <input type="text" class="form-control" id="amount" placeholder="Enter amount">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="purpose" class="form-label">Purpose</label>
+                                                                <input type="text" class="form-control" id="purpose" placeholder="Enter purpose">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="status" class="form-label">Status</label>
+                                                                <select class="form-select" id="status">
+                                                                    <option value="approved">Approved</option>
+                                                                    <option value="pending">Pending</option>
+                                                                    <option value="declined">Declined</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="notes" class="form-label">Notes</label>
+                                                                <textarea class="form-control" id="notes" placeholder="Enter notes"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

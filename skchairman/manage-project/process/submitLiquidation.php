@@ -1,5 +1,5 @@
 <?php
-require_once '../core/projectController.php';
+require_once '../../core/projectController.php';
 $projectController = new projectController();
 header('Content-Type: application/json');
 
