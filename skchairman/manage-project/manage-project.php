@@ -1,11 +1,9 @@
 <?php
 require_once '../core/projectController.php';
+include_once '../core/sessionController.php';
+(new sessionController())->checkLogin();
 $projectController = new projectController();
-$base_url = "/SKeynected/skchairman/";
-if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header("Location: " . $base_url . "404.php");
-    exit();
-}
+
 $notif = new projectController();
 $notifications = $notif->getProjectNotif();
 $notificationCount = $notif->getNotificationCount();
@@ -274,7 +272,7 @@ $projects = $projectController->getProjects($user_id);
             </div>
         </section>
     </main>
-    <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -290,7 +288,7 @@ $projects = $projectController->getProjects($user_id);
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -341,10 +339,6 @@ $projects = $projectController->getProjects($user_id);
                             <div class="col-md-6 mb-3">
                                 <label for="amount" class="form-label">Amount (₱ per unit)</label>
                                 <input type="number" class="form-control" id="amount" name="amount" placeholder="e.g., 100">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="amount" class="form-label">OR Number</label>
-                                <input type="text" class="form-control" id="or_number" name="or_number" placeholder="">
                             </div>
                         </div>
                         <button type="button" class="btn btn-info mb-3" onclick="addMaterial()">Add Material</button>
@@ -400,24 +394,24 @@ $projects = $projectController->getProjects($user_id);
             const materialName = document.getElementById('materials').value;
             const quantity = parseFloat(document.getElementById('quantity').value);
             const amount = parseFloat(document.getElementById('amount').value);
-            const or_number = document.getElementById('or_number').value;
 
-            if (!materialName || isNaN(quantity) || isNaN(amount) || !or_number) {
+            // Removed reference to or_number from validation
+            if (!materialName || isNaN(quantity) || isNaN(amount)) {
                 alert('Please enter valid values for all material fields.');
                 return;
             }
 
+            // Push material to the array without or_number
             materialsArray.push({
                 materialName,
                 quantity,
-                amount,
-                or_number
+                amount
             });
 
+            // Clear the input fields after adding the material
             document.getElementById('materials').value = '';
             document.getElementById('quantity').value = '';
             document.getElementById('amount').value = '';
-            document.getElementById('or_number').value = '';
 
             renderMaterialsList();
             calculateTotalCost();
@@ -428,19 +422,18 @@ $projects = $projectController->getProjects($user_id);
             const materialListDiv = document.getElementById('materialList');
             materialListDiv.innerHTML = '';
 
-            materialsArray.forEach((material, index) => {
+            materialsArray.forEach((material) => {
                 const materialItem = document.createElement('div');
                 materialItem.className = 'row mb-2';
                 materialItem.innerHTML = `
-            <div class="col-lg-12">
-                <div class="row">
-                    <div>Material name: <strong>${material.materialName}</strong></div>
-                    <div>Quantity: <strong>${material.quantity}</strong></div>
-                    <div>Amount: <strong>₱${material.amount.toFixed(2)}</strong></div>
-                    <div>OR number: <strong>${material.or_number}</strong></div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div>Material name: <strong>${material.materialName}</strong></div>
+                        <div>Quantity: <strong>${material.quantity}</strong></div>
+                        <div>Amount: <strong>₱${material.amount.toFixed(2)}</strong></div>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
                 materialListDiv.appendChild(materialItem);
             });
         }
@@ -452,58 +445,51 @@ $projects = $projectController->getProjects($user_id);
 
         function updateReceipt() {
             let tableHTML = `
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Materials Total Cost</h5>
-                <!-- Table with stripped rows -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Item</th>
-                            <th scope="col">Qty</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">OR No.</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-    `;
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Materials Total Cost</h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
 
             materialsArray.forEach(material => {
                 const total = material.quantity * material.amount;
                 tableHTML += `
-            <tr>
-                <td>${material.materialName}</td>
-                <td>${material.quantity}</td>
-                <td>₱${material.amount.toFixed(2)}</td>
-                <td>${material.or_number}</td>
-                <td>₱${total.toFixed(2)}</td>
-            </tr>
-        `;
+                <tr>
+                    <td>${material.materialName}</td>
+                    <td>${material.quantity}</td>
+                    <td>₱${material.amount.toFixed(2)}</td>
+                    <td>₱${total.toFixed(2)}</td>
+                </tr>
+            `;
             });
 
             let totalCost = materialsArray.reduce((sum, material) => sum + material.quantity * material.amount, 0);
 
             tableHTML += `
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4" style="text-align: right;"><strong>Total Cost:</strong></td>
-                            <td>₱${totalCost.toFixed(2)}</td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <!-- End Table with stripped rows -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="text-align: right;"><strong>Total Cost:</strong></td>
+                                <td>₱${totalCost.toFixed(2)}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
-        </div>
-    `;
+        `;
 
             // Set the generated HTML to the receipt div
             document.getElementById('receipt').innerHTML = tableHTML;
         }
-
-
-
 
         function submitProject() {
             const formData = new FormData(document.getElementById('addProjectForm'));
@@ -545,6 +531,8 @@ $projects = $projectController->getProjects($user_id);
                 });
         }
     </script>
+
+
     <script>
         function printReceipt() {
             const receiptContent = document.getElementById('receipt').value;

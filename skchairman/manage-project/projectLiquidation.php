@@ -1,11 +1,9 @@
 <?php
 require_once '../core/projectController.php';
+include_once '../core/sessionController.php';
+(new sessionController())->checkLogin();
 $projectController = new projectController();
-$base_url = "/SKeynected/skchairman/";
-if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header("Location: " . $base_url . "404.php");
-    exit();
-}
+
 $user_id = $_SESSION['id'] ?? null;
 $projects = $projectController->getProjects($user_id);
 ?>
@@ -134,7 +132,7 @@ $projects = $projectController->getProjects($user_id);
             });
 
             function loadMaterials(projectId) {
-                fetch(`get_materials.php?project_id=${projectId}`)
+                fetch(`api/get_materials.php?project_id=${projectId}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -269,7 +267,7 @@ $projects = $projectController->getProjects($user_id);
             }
 
             function submitData(formData) {
-                fetch('submitLiquidation.php', {
+                fetch('process/submitLiquidation.php', {
                         method: 'POST',
                         body: formData,
                     })

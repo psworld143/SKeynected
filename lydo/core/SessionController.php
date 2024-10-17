@@ -7,6 +7,7 @@ class SessionController
 
 
     private $db;
+    private $base_url = "/SKeynected/lydo/";
 
     public function __construct()
     {
@@ -52,5 +53,12 @@ class SessionController
 
         header("Location: ./index.php");
         exit();
+    }
+    public function checkLogin()
+    {
+        if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
+            header("Location: " . $this->base_url . "404.php");
+            exit();
+        }
     }
 }

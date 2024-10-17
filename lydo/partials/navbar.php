@@ -1,5 +1,9 @@
 <?php
+session_start();
 $base_url = "/SKeynected/lydo/assets/img/";
+$base_url2 = "/SKeynected/lydo/";
+
+
 
 ?>
 
@@ -62,7 +66,7 @@ $base_url = "/SKeynected/lydo/assets/img/";
         </li>
 
         <li>
-          <a class="dropdown-item d-flex align-items-center" href="#">
+          <a class="dropdown-item d-flex align-items-center" href="<?= $base_url2; ?>logout.php">
             <i class="bi bi-box-arrow-right"></i>
             <span style="color: #444444;">Sign Out</span>
           </a>

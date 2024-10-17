@@ -86,19 +86,6 @@ $users = $userController->getAdminUsers();
                 </ol>
             </nav>
         </div>
-
-        <?php
-        if (isset($_SESSION['error'])) {
-            echo '<div class="alert alert-danger" role="alert">' . $_SESSION['error'] . '</div>';
-            unset($_SESSION['error']);
-        }
-
-        if (isset($_SESSION['success'])) {
-            echo '<div class="alert alert-success" role="alert">' . $_SESSION['success'] . '</div>';
-            unset($_SESSION['success']);
-        }
-        ?>
-
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">

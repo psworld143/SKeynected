@@ -1,14 +1,9 @@
 <?php
 include_once './core/projectController.php';
 $base_url = "/SKeynected/skchairman/";
-if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-  header("Location: " . $base_url . "index.php"); 
-  exit(); 
-}
+include_once './core/sessionController.php';
+(new sessionController())->checkLogin();
 
-$notif = new projectController();
-$notifications = $notif->getProjectNotif();
-$notificationCount = $notif->getNotificationCount();
 ?>
 
 <!DOCTYPE html>

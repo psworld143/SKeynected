@@ -1,15 +1,12 @@
 <?php
 require_once '../core/userController.php';
 require_once '../core/projectController.php';
-$base_url = "/SKeynected/skchairman/";
-if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header("Location: " . $base_url . "404.php");
-    exit();
-}
-$notif = new projectController();
-$notifications = $notif->getProjectNotif();
-$notificationCount = $notif->getNotificationCount();
-$users = (new userController())->getSecretaryUsers();
+include_once '../core/sessionController.php';
+(new sessionController())->checkLogin();
+
+$barangay_id = $_SESSION['barangay_id'];
+
+$users = (new userController())->getSecretaryUsers($barangay_id);
 $success = '';
 $error = '';
 ?>
@@ -25,7 +22,7 @@ $error = '';
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/sk-logo.png" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -150,8 +147,8 @@ $error = '';
                                                                     data-id="<?php echo $user['id']; ?>"
                                                                     data-name="<?php echo htmlspecialchars($user['name']); ?>"
                                                                     data-username="<?php echo htmlspecialchars($user['username']); ?>"
-                                                                    data-email="<?php echo htmlspecialchars($user['email']); ?>">
-
+                                                                    data-email="<?php echo htmlspecialchars($user['email']); ?>"
+                                                                    data-status="<?php echo htmlspecialchars($user['status']); ?>">
                                                                     <i class="bi bi-pencil"></i>
                                                                 </span>
                                                                 <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteModal"
@@ -196,7 +193,7 @@ $error = '';
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Add Account</h5>
-                            <form action="add-secretary.php" method="POST">
+                            <form action="process/add-secretary.php" method="POST">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" required>
@@ -227,7 +224,7 @@ $error = '';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="editForm" action="update-secretary.php" method="POST">
+                        <form id="editForm" action="process/update-secretary.php" method="POST">
                             <input type="hidden" id="editUserId" name="user_id">
                             <div class="mb-3">
                                 <label for="editName" class="form-label">Name</label>
@@ -240,6 +237,13 @@ $error = '';
                             <div class="mb-3">
                                 <label for="editEmail" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="editEmail" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editStatus" class="form-label">Status</label>
+                                <select class="form-select" id="editStatus" name="status" required>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Save Changes</button>
                         </form>
@@ -257,7 +261,7 @@ $error = '';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="deleteForm" action="delete-secretary.php" method="POST">
+                        <form id="deleteForm" action="process/delete-secretary.php" method="POST">
                             <input type="hidden" id="deleteUserId" name="user_id">
                             <p>Are you sure you want to delete this account?</p>
                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -280,16 +284,19 @@ $error = '';
                 const name = button.getAttribute('data-name');
                 const username = button.getAttribute('data-username');
                 const email = button.getAttribute('data-email');
+                const status = button.getAttribute('data-status');
 
                 const modalIdInput = document.getElementById('editUserId');
                 const modalNameInput = document.getElementById('editName');
                 const modalUsernameInput = document.getElementById('editUsername');
                 const modalEmailInput = document.getElementById('editEmail');
+                const modalStatusInput = document.getElementById('editStatus');
 
                 modalIdInput.value = id;
                 modalNameInput.value = name;
                 modalUsernameInput.value = username;
                 modalEmailInput.value = email;
+                modalStatusInput.value = status;
             });
 
             deleteModal.addEventListener('show.bs.modal', function(event) {

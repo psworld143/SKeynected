@@ -55,8 +55,8 @@ class projectController
 
     
             $materials = json_decode($materials, true);
-            $materialQuery = "INSERT INTO materials(project_id, material_name, quantity, amount, or_number) 
-                              VALUES (:project_id, :material_name, :quantity, :amount, :or_number)";
+            $materialQuery = "INSERT INTO materials(project_id, material_name, quantity, amount) 
+                              VALUES (:project_id, :material_name, :quantity, :amount)";
             $materialStmt = $this->db->prepare($materialQuery);
 
             foreach ($materials as $material) {
@@ -65,7 +65,6 @@ class projectController
                     ':material_name' => $material['materialName'],
                     ':quantity' => $material['quantity'],
                     ':amount' => $material['amount'],
-                    ':or_number' => $material['or_number']
                 ];
                 $materialStmt->execute($materialParams);
             }

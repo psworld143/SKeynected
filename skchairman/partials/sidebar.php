@@ -26,12 +26,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-user.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>manage-user.php">
-                <i class="bi bi-person"></i>
-                <span>Manage Accounts</span>
-            </a>
-        </li>
+        <?php if ($_SESSION['role'] == 'skchairman') : ?>
+            <li class="nav-item">
+                <a class="nav-link <?php echo ($current_page == 'manage-user.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>manage-user.php">
+                    <i class="bi bi-person"></i>
+                    <span>Manage Accounts</span>
+                </a>
+            </li>
+        <?php endif; ?>
 
         <li class="nav-item">
             <a class="nav-link <?php echo ($current_page == 'manage-project.php' || $current_page == 'projectLiquidation.php') ? 'active' : ''; ?>" data-bs-target="#projects-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">

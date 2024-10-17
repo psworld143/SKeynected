@@ -1,9 +1,8 @@
 <?php
 include_once './core/Database.php';
-if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-  header('Location: index.php');
-  exit();
-}
+include_once './core/SessionController.php';
+(new SessionController())->checkLogin();
+
 
 ?>
 

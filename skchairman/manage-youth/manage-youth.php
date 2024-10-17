@@ -2,11 +2,9 @@
 require_once '../core/userController.php';
 require_once '../core/projectController.php';
 require_once '../core/youthController.php';
-$base_url = "/SKeynected/skchairman/";
-if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header("Location: " . $base_url . "404.php");
-    exit();
-}
+include_once '../core/sessionController.php';
+(new sessionController())->checkLogin();
+
 $barangay_id = $_SESSION['barangay_id'] ?? null;
 $barangay = (new youthController())->getYouthCountByBarangay($barangay_id);
 $success = '';

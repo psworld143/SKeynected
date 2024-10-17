@@ -88,7 +88,7 @@
   <div class="container-fluid h-100">
     <div class="row login-container">
       <div class="col-md-6 logo-section">
-        <img src="assets/img/LYDOO.jpg" alt="NSA Logo" class="logo">
+        <img src="assets/img/LYDO-tupi.jpg" alt="NSA Logo" class="logo">
       </div>
       <div class="col-md-6 form-section d-flex align-items-center">
         <div class="w-100">

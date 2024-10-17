@@ -28,7 +28,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <li class="nav-item">   
+        <li class="nav-item">
             <a class="nav-link <?php echo ($current_page == 'adminTables.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>adminTables.php">
                 <i class="bi bi-person"></i>
                 <span>Manage Accounts</span>
@@ -41,33 +41,5 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <span>Manage Barangay</span>
             </a>
         </li>
-<!-- 
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'project.php' || $current_page == 'projectLiquidation.php') ? 'active' : ''; ?>" data-bs-target="#projects-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
-                <i class="bi bi-folder"></i>
-                <span>Manage Projects</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="projects-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'project.php') ? 'active' : ''; ?>" href="<?php echo $base_url3; ?>project.php">
-                        <span>Projects</span>
-                    </a>
-                </li>
-            </ul>
-        </li> -->
-
-       
-
-<!-- 
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'youth.php') ? 'active' : ''; ?>" href="<?php echo $base_url4; ?>youth.php">
-                <i class="bi bi-people"></i>
-                <span>Manage Youth</span>
-            </a>
-        </li> -->
-
-
-
     </ul>
 </aside><!-- End Sidebar-->

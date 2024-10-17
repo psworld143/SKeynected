@@ -12,10 +12,10 @@ class userController
         $this->db = $database->getConnection();
     }
 
-    public function createSecretaryAccount($name, $username, $email, $password, $role, $position, $status)
+    public function createSecretaryAccount($name, $username, $email, $password, $role, $position, $status, $barangay_id)
     {
 
-        $query = "INSERT INTO sk_members(name, username, email, password, role, position, status) VALUES (:name, :username, :email, :password, :role, :position, :status)";
+        $query = "INSERT INTO sk_members(name, username, email, password, role, position, status, barangay_id) VALUES (:name, :username, :email, :password, :role, :position, :status, :barangay_id)";
         $stmt = $this->db->prepare($query);
         $params = [
             ':name' => $name,
@@ -24,22 +24,24 @@ class userController
             ':password' => $password,
             ':role' => $role,
             ':position' => $position,
-            ':status' => $status
+            ':status' => $status,
+            'barangay_id' => $barangay_id
         ];
         $stmt->execute($params);
         return $stmt->rowCount();
     }
 
 
-    public function updateSecretaryAccount($id, $name, $username, $email)
+    public function updateSecretaryAccount($id, $name, $username, $email, $status)
     {
-        $query = "UPDATE sk_members SET name = :name, username = :username, email = :email WHERE id = :id";
+        $query = "UPDATE sk_members SET name = :name, username = :username, email = :email, status = :status WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $params = [
             ':id' => $id,
             ':name' => $name,
             ':email' => $email,
-            ':username' => $username
+            ':username' => $username,
+            ':status' => $status
         ];
         $stmt->execute($params);
         return $stmt->rowCount();
@@ -55,10 +57,11 @@ class userController
     }
 
 
-    public function getSecretaryUsers()
+    public function getSecretaryUsers($barangay_id)
     {
-        $query = "SELECT * FROM sk_members WHERE role = 'secretary'";
+        $query = "SELECT * FROM sk_members WHERE role = 'secretary' AND barangay_id = :barangay_id";
         $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':barangay_id', $barangay_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll();
     }

@@ -323,7 +323,7 @@ $download_url = "process/download.php?file=" . urlencode($file);
                                                                 <th><b>Material</b></th>
                                                                 <th>Qty</th>
                                                                 <th>Amount</th>
-                                                                <th>OR #</th>
+
                                                                 <th>Cost</th>
                                                                 <th>Action</th>
                                                             </tr>
@@ -336,7 +336,6 @@ $download_url = "process/download.php?file=" . urlencode($file);
                                                                         <td><strong class="text-primary"><?php echo htmlspecialchars($material['material_name']) ?></strong></td>
                                                                         <td class="text-secondary"><?php echo htmlspecialchars($material['quantity']); ?></td>
                                                                         <td class="text-success"><?php echo htmlspecialchars($material['amount']); ?></td>
-                                                                        <td class="text-muted"><?php echo htmlspecialchars($material['or_number']); ?></td>
                                                                         <td class="text-success fw-bold"><?php echo htmlspecialchars($material['total']); ?></td>
                                                                         <td>
                                                                             <div class="d-flex">
@@ -629,115 +628,116 @@ $download_url = "process/download.php?file=" . urlencode($file);
                     </div>
                 </div>
             </div>
-            <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        </div>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-            <!-- Vendor JS Files -->
-            <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
-            <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="../assets/vendor/chart.js/chart.umd.js"></script>
-            <script src="../assets/vendor/echarts/echarts.min.js"></script>
-            <script src="../assets/vendor/quill/quill.js"></script>
-            <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
-            <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
-            <script src="../assets/vendor/php-email-form/validate.js"></script>
+        <!-- Vendor JS Files -->
+        <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="../assets/vendor/echarts/echarts.min.js"></script>
+        <script src="../assets/vendor/quill/quill.js"></script>
+        <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="../assets/vendor/php-email-form/validate.js"></script>
 
-            <!-- Template Main JS File -->
-            <script src="../assets/js/main.js"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const previewLinks = document.querySelectorAll('.preview-link');
-                    const previewContent = document.getElementById('previewContent');
+        <!-- Template Main JS File -->
+        <script src="../assets/js/main.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const previewLinks = document.querySelectorAll('.preview-link');
+                const previewContent = document.getElementById('previewContent');
 
-                    previewLinks.forEach(link => {
-                        link.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const url = this.getAttribute('href');
-                            fetch(url)
-                                .then(response => response.text())
-                                .then(data => {
-                                    previewContent.innerHTML = data;
-                                })
-                                .catch(error => {
-                                    previewContent.innerHTML = 'Error loading preview: ' + error;
-                                });
-                        });
-                    });
-                });
-
-                function toggleHearingDate() {
-                    const statusSelect = document.getElementById('statusSelect');
-                    const hearingDateDiv = document.getElementById('hearingDateDiv');
-
-                    if (statusSelect.value === 'hearing') {
-                        hearingDateDiv.style.display = 'block';
-                    } else {
-                        hearingDateDiv.style.display = 'none';
-                    }
-                }
-
-                document.getElementById('updateStatusForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    // Add your code here to handle the form submission, e.g., AJAX request to update the status
-                    const formData = new FormData(this);
-                    // Perform an AJAX call to update the status in the backend
-                });
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Existing preview functionality
-                    const previewLinks = document.querySelectorAll('.preview-link');
-                    const previewContent = document.getElementById('previewContent');
-
-                    previewLinks.forEach(link => {
-                        link.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const url = this.getAttribute('href');
-                            fetch(url)
-                                .then(response => response.text())
-                                .then(data => {
-                                    previewContent.innerHTML = data;
-                                })
-                                .catch(error => {
-                                    previewContent.innerHTML = 'Error loading preview: ' + error;
-                                });
-                        });
-                    });
-
-                    // Tab functionality
-                    const tabs = document.querySelectorAll('#projectTabs button');
-                    tabs.forEach(tab => {
-                        tab.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const tabId = this.getAttribute('data-bs-target');
-                            document.querySelector(tabId).classList.add('show', 'active');
-                            this.classList.add('active');
-                            tabs.forEach(otherTab => {
-                                if (otherTab !== this) {
-                                    otherTab.classList.remove('active');
-                                    const otherTabId = otherTab.getAttribute('data-bs-target');
-                                    document.querySelector(otherTabId).classList.remove('show', 'active');
-                                }
+                previewLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const url = this.getAttribute('href');
+                        fetch(url)
+                            .then(response => response.text())
+                            .then(data => {
+                                previewContent.innerHTML = data;
+                            })
+                            .catch(error => {
+                                previewContent.innerHTML = 'Error loading preview: ' + error;
                             });
-                        });
+                    });
+                });
+            });
+
+            function toggleHearingDate() {
+                const statusSelect = document.getElementById('statusSelect');
+                const hearingDateDiv = document.getElementById('hearingDateDiv');
+
+                if (statusSelect.value === 'hearing') {
+                    hearingDateDiv.style.display = 'block';
+                } else {
+                    hearingDateDiv.style.display = 'none';
+                }
+            }
+
+            document.getElementById('updateStatusForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // Add your code here to handle the form submission, e.g., AJAX request to update the status
+                const formData = new FormData(this);
+                // Perform an AJAX call to update the status in the backend
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+                // Existing preview functionality
+                const previewLinks = document.querySelectorAll('.preview-link');
+                const previewContent = document.getElementById('previewContent');
+
+                previewLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const url = this.getAttribute('href');
+                        fetch(url)
+                            .then(response => response.text())
+                            .then(data => {
+                                previewContent.innerHTML = data;
+                            })
+                            .catch(error => {
+                                previewContent.innerHTML = 'Error loading preview: ' + error;
+                            });
                     });
                 });
 
-                function toggleHearingDate() {
-                    const statusSelect = document.getElementById('statusSelect');
-                    const hearingDateDiv = document.getElementById('hearingDateDiv');
-
-                    if (statusSelect.value === 'hearing') {
-                        hearingDateDiv.style.display = 'block';
-                    } else {
-                        hearingDateDiv.style.display = 'none';
-                    }
-                }
-
-                document.getElementById('updateStatusForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    // Add your code here to handle the form submission, e.g., AJAX request to update the status
-                    const formData = new FormData(this);
-                    // Perform an AJAX call to update the status in the backend
+                // Tab functionality
+                const tabs = document.querySelectorAll('#projectTabs button');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const tabId = this.getAttribute('data-bs-target');
+                        document.querySelector(tabId).classList.add('show', 'active');
+                        this.classList.add('active');
+                        tabs.forEach(otherTab => {
+                            if (otherTab !== this) {
+                                otherTab.classList.remove('active');
+                                const otherTabId = otherTab.getAttribute('data-bs-target');
+                                document.querySelector(otherTabId).classList.remove('show', 'active');
+                            }
+                        });
+                    });
                 });
-            </script>
+            });
+
+            function toggleHearingDate() {
+                const statusSelect = document.getElementById('statusSelect');
+                const hearingDateDiv = document.getElementById('hearingDateDiv');
+
+                if (statusSelect.value === 'hearing') {
+                    hearingDateDiv.style.display = 'block';
+                } else {
+                    hearingDateDiv.style.display = 'none';
+                }
+            }
+
+            document.getElementById('updateStatusForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // Add your code here to handle the form submission, e.g., AJAX request to update the status
+                const formData = new FormData(this);
+                // Perform an AJAX call to update the status in the backend
+            });
+        </script>
 </body>
 
 </html>

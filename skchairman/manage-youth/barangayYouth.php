@@ -2,13 +2,9 @@
 require_once '../core/userController.php';
 require_once '../core/projectController.php';
 require_once '../core/youthController.php';
-$base_url = "/SKeynected/skchairman/";
-if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-    header("Location: " . $base_url . "index.php");
-    exit();
-}
 
-$notificationCount = (new projectController())->getNotificationCount();
+include_once '../core/sessionController.php';
+(new sessionController())->checkLogin();
 $youthController = new youthController();
 $barangay_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
