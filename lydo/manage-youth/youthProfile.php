@@ -1,8 +1,5 @@
 <?php
-
-
 require_once '../core/userController.php';
-require_once '../core/projectController.php';
 require_once '../core/youthController.php';
 
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
@@ -10,7 +7,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
     exit();
 }
 
-$notificationCount = (new projectController())->getNotificationCount();
+
 $youthController = new youthController();
 
 $youthId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -40,7 +37,7 @@ if ($youthId) {
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 <style>
     .survey-section {

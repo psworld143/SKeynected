@@ -1,15 +1,15 @@
 <?php
 require_once '../core/userController.php';
-require_once '../core/projectController.php';
 require_once '../core/youthController.php';
 
-$notificationCount = (new projectController())->getNotificationCount();
+
 $youthController = new youthController();
 $barangay_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($barangay_id) {
     $youthProfiles = $youthController->getAllYouthProfiles($barangay_id);
     $barangay = (new youthController())->getBarangayByID($barangay_id);
+    $barangayName = (new userController())->getBarangayName($barangay_id);
 }
 $success = '';
 $error = '';
@@ -23,9 +23,11 @@ $error = '';
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Manage Youth</title>
+    <title>Barangay <?= $barangayName ?> Youth</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
+    <link href="../assets/img/LYDOO.jpg" rel="icon">
+    <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -34,7 +36,7 @@ $error = '';
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 
     <style>
         img.profile-photo-md {
@@ -65,7 +67,10 @@ $error = '';
             height: 80px;
             width: 80px;
             border-radius: 50%;
+            border: none;
+
         }
+      
 
         .text-green {
             color: #8dc63f;
@@ -83,6 +88,12 @@ $error = '';
             display: block;
             margin: 0 auto;
         }
+
+        .profile-link {
+            text-decoration: none;
+            color: #175895;
+            text-transform: capitalize;
+        }
     </style>
 </head>
 
@@ -94,11 +105,12 @@ $error = '';
 
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
-            <h1><?= $barangay['name'] ?> Youth</h1>
+            <h1>Barangay <?= $barangay['name'] ?> Youth</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Manage Youth</li>
+                    <li class="breadcrumb-item">Manage</li>
+                    <li class="breadcrumb-item active">Youth</li>
                 </ol>
             </nav>
         </div>
@@ -120,12 +132,19 @@ $error = '';
                                 <div class="friend-card">
                                     <img src="../assets/img/project-header.png" alt="profile-cover" class="img-responsive cover custom-image">
                                     <div class="card-info">
-                                        <img src="../assets/img/profile.png" alt="user" class="profile-photo-lg">
+                                        <img
+                                            src="<?php echo ($youth['sex'] == 'female') ? '../assets/img/female-avatar.gif' : '../assets/img/male-avatar.gif'; ?>"
+                                            alt="user"
+                                            class="profile-photo-lg">
                                         <div class="friend-info">
-                                            <h5 class="mt-1"><a href="#" class="profile-link"><?php echo $youth['firstname'] . ' ' . $youth['lastname']; ?></a></h5>
-                                            <a href="#" class="pull-right text-green">Barangay <?php echo $barangay['name']; ?> Youth</a>
+                                            <h5 class="mt-1">
+                                                <a href="#" class="profile-link">
+                                                    <?php echo $youth['firstname'] . ' ' . $youth['middlename'] . ' ' . $youth['lastname']; ?>
+                                                </a>
+                                            </h5>
                                         </div>
                                     </div>
+
                                 </div>
                             </a>
                         </div>

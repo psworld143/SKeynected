@@ -3,6 +3,8 @@ $base_url = '/Skeynected/lydo/';
 $base_url2 = '/Skeynected/lydo/manage-user/';
 $base_url3 = '/Skeynected/lydo/manage-project/';
 $base_url4 = '/Skeynected/lydo/manage-youth/';
+$base_url5 = '/Skeynected/lydo/manage-budget/';
+$base_url6 = '/Skeynected/lydo/manage-barangay/';
 
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
@@ -26,28 +28,22 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'userTables.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>userTables.php" data-bs-target="#accounts-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
+        <li class="nav-item">   
+            <a class="nav-link <?php echo ($current_page == 'adminTables.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>adminTables.php">
                 <i class="bi bi-person"></i>
                 <span>Manage Accounts</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="accounts-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'adminTables.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>adminTables.php">
-                        <span>Admins</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'SKBarangay.php') ? 'active' : ''; ?>" href="<?php echo $base_url2; ?>SKbarangay.php">
-                        <span>SK Accounts</span>
-                    </a>
-                </li>
-            </ul>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-project.php' || $current_page == 'projectLiquidation.php') ? 'active' : ''; ?>" data-bs-target="#projects-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
+            <a class="nav-link <?php echo ($current_page == 'barangay.php') ? 'active' : ''; ?>" href="<?php echo $base_url6; ?>barangay.php">
+                <i class="bi bi-house"></i>
+                <span>Manage Barangay</span>
+            </a>
+        </li>
+<!-- 
+        <li class="nav-item">
+            <a class="nav-link <?php echo ($current_page == 'project.php' || $current_page == 'projectLiquidation.php') ? 'active' : ''; ?>" data-bs-target="#projects-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
                 <i class="bi bi-folder"></i>
                 <span>Manage Projects</span>
                 <i class="bi bi-chevron-down ms-auto"></i>
@@ -58,23 +54,18 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <span>Projects</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'projectLiquidation.php') ? 'active' : ''; ?>" href="<?php echo $base_url3; ?>projectLiquidation.php">
-                        <span>Project Liquidation</span>
-                    </a>
-
-                </li>
-
             </ul>
-        </li>
+        </li> -->
 
+       
 
+<!-- 
         <li class="nav-item">
-            <a class="nav-link <?php echo ($current_page == 'manage-youth.php') ? 'active' : ''; ?>" href="<?php echo $base_url4; ?>manage-youth.php">
+            <a class="nav-link <?php echo ($current_page == 'youth.php') ? 'active' : ''; ?>" href="<?php echo $base_url4; ?>youth.php">
                 <i class="bi bi-people"></i>
                 <span>Manage Youth</span>
             </a>
-        </li>
+        </li> -->
 
 
 

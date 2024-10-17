@@ -1,8 +1,32 @@
 <?php
-require_once '../core/userController.php';
+require_once '../core/barangayController.php';
 
-$SKbarangay = (new userController())->getAllSKBarangayMember();
+$barangay_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+// static image for now
+$backgroundImages = [
+    1 => '../assets/img/acmonan.jpg', 
+    2 => '../assets/img/bololmala.jpg', 
+    3 => '../assets/img/bunao.jpg',    
+    4 => '../assets/img/cebuano.jpg',   
+    5 => '../assets/img/crossing-rubber.jpg',  
+    6 => '../assets/img/kablon.jpg',   
+    7 => '../assets/img/kalkam.jpg',  
+    8 => '../assets/img/linan.png',   
+];
+
+
+$backgroundImage = '../assets/img/default_background.jpg'; 
+if ($barangay_id && array_key_exists($barangay_id, $backgroundImages)) {
+    $backgroundImage = $backgroundImages[$barangay_id];
+}
+
+if ($barangay_id) {
+    $SKbarangay = (new barangayController())->getAllSKBarangayMember($barangay_id);
+    $youths = (new barangayController())->getYouthCountByBarangay($barangay_id);
+    $projects = (new barangayController())->getProjectByBrgy($barangay_id);
+    $barangayName = (new barangayController())->getBarangayName($barangay_id);
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,15 +36,14 @@ $SKbarangay = (new userController())->getAllSKBarangayMember();
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Manage Barangay SK</title>
+    <title>Barangay <?php echo $barangayName; ?></title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <link href="../assets/img/LYDOO.jpg" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
 
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -39,7 +62,7 @@ $SKbarangay = (new userController())->getAllSKBarangayMember();
         }
 
         .card {
-            background: #fff;
+            background: #eee;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             transition: transform 0.3s ease;
@@ -137,12 +160,12 @@ $SKbarangay = (new userController())->getAllSKBarangayMember();
 
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
-            <h1>Manage Barangay SK</h1>
+            <h1>Manage Barangay <?php echo $barangayName; ?></h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item">Manage</li>
-                    <li class="breadcrumb-item active">SK</li>
+                    <li class="breadcrumb-item active">Barangay</li>
                 </ol>
             </nav>
         </div>
@@ -162,14 +185,25 @@ $SKbarangay = (new userController())->getAllSKBarangayMember();
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="background-image" style="background-image: url('../assets/img/received_586949182760855-1.jpeg'); background-size: cover; background-position: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; height:50vh; width:100%"></div>
+                    <div class="background-image" style="
+        background-image: url('<?php echo $backgroundImage; ?>'); 
+        background-size: cover; /* or 'contain' based on your preference */
+        background-position: center; /* Center the image */
+        padding: 10px; 
+        border-radius: 5px; 
+        margin-bottom: 20px; 
+        height: 70vh; 
+        width: 100%; 
+        background-repeat: no-repeat; 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    </div>
                 </div>
 
                 <div class="grid-container col-md-12">
                     <?php foreach ($SKbarangay as $barangays): ?>
                         <div class="card">
                             <div class="card-header">
-                                Barangay <?php echo htmlspecialchars($barangays['name']); ?>
+                                SK Members
                             </div>
                             <img src="../assets/img/received_586949182760855-1.jpeg" alt="SK Logo" class="card-img">
                             <div class="card-stats">
@@ -179,7 +213,55 @@ $SKbarangay = (new userController())->getAllSKBarangayMember();
                                 </div>
                             </div>
                             <div class="button-group">
-                                <a href=SKtables.php?id=<?php echo urlencode($barangays['id']); ?>">
+                                <a href=../manage-user/SKtables.php?id=<?php echo urlencode($barangays['id']); ?>">
+                                    <button class="btn btn-add"><i class="bi bi-eye"> View</i></button>
+                                </a>
+                                <button class="btn btn-delete"><i class="bi bi-trash"> Delete</i></button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                    <?php foreach ($youths as $youth): ?>
+                        <div class="card">
+                            <div class="card-header">
+                                Youth
+                            </div>
+                            <img src="../assets/img/sk-carousel-20150520-1.png" alt="SK Logo" class="card-img">
+                            <div class="card-stats">
+                                <div class="stat">
+                                    <div class="stat-label">Total Youth</div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($youth['youth_count']); ?></div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-label">Male</div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($youth['male_count']); ?></div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-label">Female</div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($youth['female_count']); ?></div>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <a href="../manage-youth/barangayYouth.php?id=<?php echo urlencode($youth['id']); ?>">
+                                    <button class="btn btn-add"><i class="bi bi-eye"> View</i></button>
+                                </a>
+                                <button class="btn btn-delete"><i class="bi bi-trash"> Delete</i></button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                    <?php foreach ($projects as $project): ?>
+                        <div class="card">
+                            <div class="card-header">
+                                Projects
+                            </div>
+                            <img src="../assets/img/bg-blue.jpg" alt="SK Logo" class="card-img">
+                            <div class="card-stats">
+                                <div class="stat">
+                                    <div class="stat-label">Total Projects</div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($project['project_count']); ?></div>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <a href="../manage-project/project.php?id=<?php echo urlencode($project['id']); ?>">
                                     <button class="btn btn-add"><i class="bi bi-eye"> View</i></button>
                                 </a>
                                 <button class="btn btn-delete"><i class="bi bi-trash"> Delete</i></button>
@@ -187,6 +269,7 @@ $SKbarangay = (new userController())->getAllSKBarangayMember();
                         </div>
                     <?php endforeach; ?>
                 </div>
+
             </div>
         </section>
     </main>

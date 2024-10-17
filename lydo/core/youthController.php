@@ -30,19 +30,21 @@ class youthController
     }
 
 
-    public function getYouthCountByBarangay($barangay_id)
+    public function getYouthCountByBarangay()
     {
         $query = "
-            SELECT b.id, b.name, COUNT(DISTINCT sr.response_id) AS youth_count
-            FROM barangays b
-            LEFT JOIN sk_members sm ON b.id = sm.barangay_id
-            LEFT JOIN survey_responses sr ON sr.barangay_id = b.id
-            WHERE b.id = :barangay_id
-            GROUP BY b.id, b.name
-        ";
+        SELECT 
+            b.id, 
+            b.name, 
+            COUNT(DISTINCT sr.response_id) AS youth_count,
+            SUM(CASE WHEN sr.sex = 'male' THEN 1 ELSE 0 END) AS male_count,
+            SUM(CASE WHEN sr.sex = 'female' THEN 1 ELSE 0 END) AS female_count
+        FROM barangays b
+        LEFT JOIN survey_responses sr ON sr.barangay_id = b.id
+        GROUP BY b.id, b.name
+    ";
 
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':barangay_id', $barangay_id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

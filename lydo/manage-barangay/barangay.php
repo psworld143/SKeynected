@@ -1,11 +1,19 @@
 <?php
-require_once '../core/userController.php';
-require_once '../core/projectController.php';
-require_once '../core/youthController.php';
-$barangay_id = $_SESSION['barangay_id'] ?? null;
-$barangay = (new youthController())->getYouthCountByBarangay($barangay_id);
-$success = '';
-$error = '';
+require_once '../core/barangayController.php';
+
+$brgy = (new barangayController())->getBarangay();
+$backgroundImages = [
+    1 => '../assets/img/acmonan.jpg',
+    2 => '../assets/img/bololmala.jpg',
+    3 => '../assets/img/bunao.jpg',
+    4 => '../assets/img/cebuano.jpg',
+    5 => '../assets/img/crossing-rubber.jpg',
+    6 => '../assets/img/kablon.jpg',
+    7 => '../assets/img/kalkam.jpg',
+    8 => '../assets/img/linan.png',
+];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -15,16 +23,12 @@ $error = '';
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Manage Youth</title>
+    <title>Manage Barangay SK</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="../assets/img/SK-logo.png" rel="icon">
+    <link href="../assets/img/LYDOO.jpg" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
-
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -32,7 +36,7 @@ $error = '';
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 
     <style>
         .grid-container {
@@ -53,7 +57,7 @@ $error = '';
         }
 
         .card-header {
-            background-color: #1916a3;
+            background-color: #175895;
             color: white;
             padding: 15px;
             text-align: center;
@@ -140,11 +144,12 @@ $error = '';
 
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
-            <h1>Manage Barangay Youth</h1>
+            <h1>Manage Barangay SK</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Manage Youth</li>
+                    <li class="breadcrumb-item">Manage</li>
+                    <li class="breadcrumb-item active">SK</li>
                 </ol>
             </nav>
         </div>
@@ -164,44 +169,48 @@ $error = '';
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="background-image" style="background-image: url('../assets/img/received_586949182760855-1.jpeg'); background-size: cover; background-position: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; height:50vh; width:100%">
-                    </div>
+                    <div class="background-image" style="background-image: url('../assets/img/LYDO-tupi.jpg'); background-size: cover; background-position: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; height:65vh; width:100%; background-repeat: no-repeat;  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></div>
                 </div>
-                <div class="col-md-4">
-                    <div class="grid-container">
-                        <?php foreach ($barangay as $barangays): ?>
-                            <div class="card">
-                                <div class="card-header">
-                                    Barangay <?php echo htmlspecialchars($barangays['name']); ?>
+
+                <div class="grid-container col-md-12">
+                    <?php foreach ($brgy as $barangays): ?>
+                        <?php
+                        $barangayId = (int)$barangays['id'];
+                        $image = isset($backgroundImages[$barangayId]) ? $backgroundImages[$barangayId] : '../assets/img/default.jpg';
+                        ?>
+                        <div class="card">
+                            <div class="card-header">
+                                Barangay <?php echo htmlspecialchars($barangays['name']); ?>
+                            </div>
+
+                            <img src="<?php echo $image; ?>" alt="Barangay Image" class="card-img">
+                            <div class="card-stats">
+                                <div class="stat">
+                                    <div class="stat-label">Youth</div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($barangays['youth_count']); ?></div>
                                 </div>
-                                <img src="../assets/img/received_586949182760855-1.jpeg" alt="SK Logo" class="card-img">
-                                <div class="card-stats">
-                                    <div class="stat">
-                                        <div class="stat-label">Population</div>
-                                        <div class="stat-value"><?php echo htmlspecialchars($barangays['youth_count']); ?></div>
-                                    </div>
-                                    <div class="stat">
-                                        <div class="stat-label">Youth</div>
-                                        <div class="stat-value"><?php echo htmlspecialchars($barangays['youth_count']); ?></div>
-                                    </div>
-                                    <div class="stat">
-                                        <div class="stat-label">Projects</div>
-                                        <div class="stat-value"><?php echo htmlspecialchars($barangays['youth_count']); ?></div>
-                                    </div>
+                                <div class="stat">
+                                    <div class="stat-label">SK Members</div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($barangays['sk_member_count']); ?></div>
                                 </div>
-                                <div class="button-group">
-                                    <a href="barangayYouth.php?id=<?php echo urlencode($barangays['id']); ?>">
-                                        <button class="btn btn-add"><i class="bi bi-eye"> View</i></button>
-                                    </a>
-                                    <button class="btn btn-delete"><i class="bi bi-trash"> Delete</i></button>
+                                <div class="stat">
+                                    <div class="stat-label">Projects</div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($barangays['project_count']); ?></div>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
+                            <div class="button-group">
+                                <a href=barangayOverview.php?id=<?php echo urlencode($barangays['id']); ?>>
+                                    <button class="btn btn-add"><i class="bi bi-eye"> View</i></button>
+                                </a>
+                                <button class="btn btn-delete"><i class="bi bi-trash"> Delete</i></button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
     </main>
+
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/main.js"></script>
 </body>

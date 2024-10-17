@@ -1,8 +1,11 @@
 <?php
-require_once '../core/projectController.php';
-$projectController = new projectController();
+require_once '../core/barangayController.php';
+$barangay_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-$projects = $projectController->getProjects();
+if ($barangay_id) {
+    $projects = (new barangayController())->getProjectsByBarangay($barangay_id);
+    $barangayName = (new barangayController())->getBarangayName($barangay_id);
+}
 
 
 ?>
@@ -13,7 +16,7 @@ $projects = $projectController->getProjects();
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Project Management</title>
+    <title><?= $barangayName ?> Projects & Events</title>
     <meta content="Project Management Dashboard" name="description">
     <meta content="projects, management, dashboard" name="keywords">
 
@@ -138,7 +141,7 @@ $projects = $projectController->getProjects();
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
             <div class="d-flex justify-content-between align-items-center">
-                <h1>Projects</h1>
+                <h1>Barangay <?= $barangayName ?> Projects & Events</h1>
                 <div class="header-actions">
                 </div>
             </div>
@@ -249,14 +252,21 @@ $projects = $projectController->getProjects();
                                         </div>
                                         <div class="card-body" style="background-color: #f9f9f9;">
                                             <div class="sk-member-info d-flex align-items-center mt-2">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle me-2" alt="Avatar" width="40" height="40">
+                                                <img src="../assets/img/avatar.gif" class="rounded-circle me-2" alt="Avatar" width="40" height="40">
                                                 <div>
-                                                    <p class="sk-member-name" style="margin: 0; font-size: 14px; font-weight: bold; color: #007bff;"><?php echo htmlspecialchars($project['sk_member_name']); ?></p>
-                                                    <p class="sk-member-position" style="margin: 0; font-size: 12px; color: #666;"><?php echo htmlspecialchars($project['sk_member_position']); ?></p>
+                                                    <p class="sk-member-name" style="margin: 0; font-size: 14px; font-weight: bold; color: #007bff;">
+                                                        <?php echo htmlspecialchars($project['sk_member_name']); ?>
+                                                    </p>
+                                                    <p class="sk-member-position" style="margin: 0; font-size: 12px; color: #666;">
+                                                        <?php echo htmlspecialchars($project['sk_member_position']); ?>
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <p class="barangay-name " style="font-size: 12px; color: darkslategray;">Barangay: <strong><?php echo htmlspecialchars($project['barangay_name']); ?></strong></p>
+                                            <p class="barangay-name" style="font-size: 12px; color: darkslategray;">
+                                                Barangay: <strong><?php echo htmlspecialchars($project['barangay_name']); ?></strong>
+                                            </p>
                                         </div>
+
                                     </div>
                                 </a>
                             </div>

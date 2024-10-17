@@ -1,6 +1,4 @@
 <?php
-require_once '../core/userController.php';
-require_once '../core/projectController.php';
 require_once '../core/youthController.php';
 $barangay = (new youthController())->getYouthCountByBarangay();
 $success = '';
@@ -14,11 +12,11 @@ $error = '';
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Manage Youth</title>
+    <title>Manage Barangay Youth</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <link href="../assets/img/SK-logo.png" rel="icon">
+    <link href="../assets/img/LYDOO.jpg" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -31,13 +29,14 @@ $error = '';
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 
     <style>
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
+            padding: 15px;
         }
 
         .card {
@@ -52,7 +51,7 @@ $error = '';
         }
 
         .card-header {
-            background-color: #1916a3;
+            background-color: #175895;
             color: white;
             padding: 15px;
             text-align: center;
@@ -163,29 +162,29 @@ $error = '';
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="background-image" style="background-image: url('../assets/img/received_586949182760855-1.jpeg'); background-size: cover; background-position: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; height:50vh; width:100%">
+                    <div class="background-image" style="background-image: url('../assets/img/sk-carousel-20150520-1.png'); background-size: cover; background-position: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; height:50vh; width:100%">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-12">
                     <div class="grid-container">
                         <?php foreach ($barangay as $barangays): ?>
                             <div class="card">
                                 <div class="card-header">
                                     Barangay <?php echo htmlspecialchars($barangays['name']); ?>
                                 </div>
-                                <img src="../assets/img/received_586949182760855-1.jpeg" alt="SK Logo" class="card-img">
+                                <img src="../assets/img/sk-carousel-20150520-1.png" alt="SK Logo" class="card-img">
                                 <div class="card-stats">
                                     <div class="stat">
-                                        <div class="stat-label">Population</div>
+                                        <div class="stat-label">Total Youth</div>
                                         <div class="stat-value"><?php echo htmlspecialchars($barangays['youth_count']); ?></div>
                                     </div>
                                     <div class="stat">
-                                        <div class="stat-label">Youth</div>
-                                        <div class="stat-value"><?php echo htmlspecialchars($barangays['youth_count']); ?></div>
+                                        <div class="stat-label">Male</div>
+                                        <div class="stat-value"><?php echo htmlspecialchars($barangays['male_count']); ?></div>
                                     </div>
                                     <div class="stat">
-                                        <div class="stat-label">Projects</div>
-                                        <div class="stat-value"><?php echo htmlspecialchars($barangays['youth_count']); ?></div>
+                                        <div class="stat-label">Female</div>
+                                        <div class="stat-value"><?php echo htmlspecialchars($barangays['female_count']); ?></div>
                                     </div>
                                 </div>
                                 <div class="button-group">

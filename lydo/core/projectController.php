@@ -70,4 +70,23 @@ class projectController
 
         return $stmt->execute($params);
     }
+
+
+    public function getDisbursementByBarangay($project_id)
+    {
+        $query = "SELECT * FROM disbursements WHERE project_id = :project_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':project_id', $project_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getLiquidationByBarangay($project_id)
+    {
+        $query = "SELECT * FROM liquidation WHERE project_id = :project_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':project_id', $project_id, PDO::FETCH_ASSOC);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

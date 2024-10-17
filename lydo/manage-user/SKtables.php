@@ -18,15 +18,14 @@ if ($barangay_id) {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Manage User Accounts</title>
+    <title><?= $barangayName ?> SK</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <link href="../assets/img/LYDOO.jpg" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+ 
 
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -83,11 +82,12 @@ if ($barangay_id) {
 
     <main id="main" class="main" style="margin-top: 100px;">
         <div class="pagetitle">
-            <h1>Manage User Accounts</h1>
+            <h1>Manage SK Members</h1>
             <nav>
                 <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item"><a href="#">Manage</a></li>
-                    <li class="breadcrumb-item active">Accounts</li>
+                    <li class="breadcrumb-item active">SK</li>
                 </ol>
             </nav>
         </div>
@@ -107,9 +107,9 @@ if ($barangay_id) {
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card mt-5">
+                    <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $barangayName; ?> SK Accounts</h5>
+                            <h5 class="card-title">Barangay <?php echo $barangayName; ?> SK Members</h5>
                             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                 <div class="datatable-top mt-2 mb-2">
                                     <div class="datatable-dropdown">
