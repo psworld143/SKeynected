@@ -146,11 +146,12 @@ class projectController
     }
     public function submitLiquidation($data, $files)
     {
-        // Begin transaction
         $this->db->beginTransaction();
 
         try {
-            $insertLiquidationQuery = "INSERT INTO Liquidation (material_id, project_id, material_name, quantity, amount, or_image_path) VALUES (:material_id, :project_id, :material_name, :quantity, :amount, :or_image_path)";
+            // Modified query to include 'status' column
+            $insertLiquidationQuery = "INSERT INTO Liquidation (material_id, project_id, material_name, quantity, amount, or_image_path, status) 
+                                       VALUES (:material_id, :project_id, :material_name, :quantity, :amount, :or_image_path, :status)";
             $stmt = $this->db->prepare($insertLiquidationQuery);
 
             $materials = json_decode($data['materials'], true);
@@ -161,12 +162,10 @@ class projectController
                 $uploadDir = $base_path . 'uploads/or_images/';
                 $orImagePath = null;
 
-                // Ensure upload directory exists
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0755, true);
                 }
 
-                // Handle file upload
                 if (isset($files["orImage_{$index}"]) && $files["orImage_{$index}"]['error'] === UPLOAD_ERR_OK) {
                     $tmp_name = $files["orImage_{$index}"]['tmp_name'];
                     $name = basename($files["orImage_{$index}"]['name']);
@@ -177,15 +176,16 @@ class projectController
                     }
                 }
 
-                // Bind parameters
+                // Bind parameters including the default status 'pending'
+                $status = 'pending';
                 $stmt->bindParam(':material_id', $material['materialId']);
                 $stmt->bindParam(':project_id', $projectId);
                 $stmt->bindParam(':material_name', $material['name']);
                 $stmt->bindParam(':quantity', $material['quantity']);
                 $stmt->bindParam(':amount', $material['amount']);
                 $stmt->bindParam(':or_image_path', $orImagePath);
+                $stmt->bindParam(':status', $status); // Binding 'pending' status
 
-                // Execute and check for errors
                 if (!$stmt->execute()) {
                     throw new Exception('Failed to insert liquidation detail: ' . implode(', ', $stmt->errorInfo()));
                 }
@@ -195,11 +195,12 @@ class projectController
             $this->db->commit();
             return true; // Success
         } catch (Exception $e) {
-            // Roll back the transaction
+            // Roll back the transaction in case of failure
             $this->db->rollBack();
             throw $e; // Rethrow exception to handle it elsewhere
         }
     }
+
 
     public function getDisbursementByBarangay($project_id)
     {
