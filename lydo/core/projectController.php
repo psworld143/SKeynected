@@ -89,4 +89,20 @@ class projectController
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+    public function updateLiquidationStatus($id, $status)
+    {
+        $query = "UPDATE liquidation SET status = :status WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

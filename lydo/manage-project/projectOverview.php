@@ -114,6 +114,10 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
             color: white;
         }
 
+        .icon-bg.update-status {
+            background-color: green;
+        }
+
         .icon-bg i {
             font-size: 16px;
             color: white;
@@ -140,7 +144,12 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
         }
 
         .bg-approved {
-            background-color: green;
+            background-color: lightgreen;
+            color: white;
+        }
+
+        .bg-for-clarrification {
+            background-color: blue;
             color: white;
         }
 
@@ -491,7 +500,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                     <?php if (!empty($liquidations)) : ?>
                                                         <?php foreach ($liquidations as $liquidation) :
                                                             $file_name = basename($liquidation['or_image_path']);
-                                                            $image_url = 'process/preview_or.php?file=' . urlencode($file_name); 
+                                                            $image_url = 'process/preview_or.php?file=' . urlencode($file_name);
                                                         ?>
                                                             <tr>
                                                                 <td><strong class="text-primary"><?php echo htmlspecialchars($liquidation['material_name']); ?></strong></td>
@@ -503,17 +512,28 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                     </a>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="badge <?php echo  $liquidation['status'] === 'approved' ? 'bg-approved' : ($liquidation['status'] === 'pending' ? 'bg-pending' : 'bg-declined'); ?>">
+                                                                    <span class="badge <?php echo  $liquidation['status'] === 'approved' ? 'bg-approved' : ($liquidation['status'] === 'pending' ? 'bg-pending' : ($liquidation['status'] === 'for-clarrification' ? 'bg-for-clarrification' : 'bg-declined')); ?>">
                                                                         <?php echo htmlspecialchars($liquidation['status']); ?>
                                                                     </span>
                                                                 </td>
                                                                 <td>
-                                                                    <div class="d-flex justify-content-center">
-                                                                        <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editDisbursementModal"
-                                                                            data-id="<?php echo $disbursement['disbursement_id']; ?>"
-                                                                            data-amount="<?php echo htmlspecialchars($disbursement['amount']); ?>"
-                                                                            data-purpose="<?php echo htmlspecialchars($disbursement['purpose']); ?>"
-                                                                            data-notes="<?php echo htmlspecialchars($disbursement['notes']); ?>">
+                                                                    <div class="">
+
+                                                                        <span class="icon-bg update-status me-1" data-bs-toggle="modal" data-bs-target="#liquidationStatus"
+                                                                            data-id="<?php echo $liquidation['id']; ?>"
+                                                                            data-status="<?php echo htmlspecialchars($liquidation['status']); ?>"
+                                                                            data-project-id="<?php echo htmlspecialchars($project_id); ?>"> 
+                                                                            <i class="bi bi-arrow-up-circle"></i>
+                                                                        </span>
+
+
+                                                                        <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editLiquidationModal"
+                                                                            data-id="<?php echo $liquidation['id']; ?>"
+                                                                            data-amount="<?php echo htmlspecialchars($liquidation['amount']); ?>"
+                                                                            data-material-name="<?php echo htmlspecialchars($liquidation['material_name']); ?>"
+                                                                            data-quantity="<?php echo htmlspecialchars($liquidation['quantity']); ?>"
+                                                                            data-amount="<?php echo htmlspecialchars($liquidation['amount']); ?>"
+                                                                            data-status="<?php echo htmlspecialchars($liquidation['status']) ?>">
                                                                             <i class="bi bi-pencil"></i>
                                                                         </span>
                                                                         <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteDisbursementModal"
@@ -533,45 +553,6 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
 
                                             </table>
                                         </div>
-                                        <!-- Add Disbursement Modal -->
-                                        <div class="modal fade" id="addDisbursementModal" tabindex="-1" aria-labelledby="addDisbursementModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="addDisbursementModalLabel">Add Disbursement</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form>
-                                                            <div class="mb-3">
-                                                                <label for="amount" class="form-label">Amount</label>
-                                                                <input type="text" class="form-control" id="amount" placeholder="Enter amount">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="purpose" class="form-label">Purpose</label>
-                                                                <input type="text" class="form-control" id="purpose" placeholder="Enter purpose">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="status" class="form-label">Status</label>
-                                                                <select class="form-select" id="status">
-                                                                    <option value="approved">Approved</option>
-                                                                    <option value="pending">Pending</option>
-                                                                    <option value="declined">Declined</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="notes" class="form-label">Notes</label>
-                                                                <textarea class="form-control" id="notes" placeholder="Enter notes"></textarea>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -579,6 +560,87 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                     </div>
                 </div>
         </section>
+
+        <!-- Update Status Modal -->
+        <div class="modal fade" id="liquidationStatus" tabindex="-1" aria-labelledby="liquidationStatus" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="liquidationStatusLabel">Update Liquidation Status</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="updateStatusForm" action="process/updateLiquidationStatus.php" method="post">
+                            <input type="hidden" name="id" id="update-liquidation-id">
+                            <input type="hidden" name="project_id" id="update-project-id" value="<?php echo htmlspecialchars($project_id); ?>">
+                            <div class="mb-3">
+                                <label for="update-status" class="form-label">Select Status</label>
+                                <select class="form-select" id="update-status" name="status" required>
+                                    <option value="pending">Pending</option>
+                                    <option value="for-clarrification">For Clarification</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Update Status</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Edit Liquidation Modal -->
+        <div class="modal fade" id="editLiquidationModal" tabindex="-1" aria-labelledby="editLiquidationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editLiquidationModalLabel">Edit Liquidation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editLiquidationForm" action="process/updateLiquidation.php" method="post">
+                            <input type="hidden" name="id" id="edit-liquidation-id">
+                            <div class="mb-3">
+                                <label for="edit-material-name" class="form-label">Material Name</label>
+                                <input type="text" class="form-control" id="edit-material-name" name="material_name" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edit-quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="edit-quantity" name="quantity" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edit-amount" class="form-label">Amount</label>
+                                <input type="number" class="form-control" id="edit-amount" name="amount" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edit-status" class="form-label">Status</label>
+                                <select class="form-select" id="edit-status" name="status" required>
+                                    <option value="pending">Pending</option>
+                                    <option value="for-clarrification">For Clarification</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="declined">Declined</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary" form="editLiquidationForm">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
         <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -671,14 +733,9 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                 }
             }
 
-            document.getElementById('updateStatusForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                // Add your code here to handle the form submission, e.g., AJAX request to update the status
-                const formData = new FormData(this);
-                // Perform an AJAX call to update the status in the backend
-            });
+
             document.addEventListener('DOMContentLoaded', function() {
-                // Existing preview functionality
+
                 const previewLinks = document.querySelectorAll('.preview-link');
                 const previewContent = document.getElementById('previewContent');
 
@@ -697,7 +754,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                     });
                 });
 
-                // Tab functionality
+
                 const tabs = document.querySelectorAll('#projectTabs button');
                 tabs.forEach(tab => {
                     tab.addEventListener('click', function(e) {
@@ -727,11 +784,39 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                 }
             }
 
-            document.getElementById('updateStatusForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                // Add your code here to handle the form submission, e.g., AJAX request to update the status
-                const formData = new FormData(this);
-                // Perform an AJAX call to update the status in the backend
+
+
+            document.querySelectorAll('.edit').forEach(function(editBtn) {
+                editBtn.addEventListener('click', function() {
+
+                    const id = this.getAttribute('data-id');
+                    const materialName = this.getAttribute('data-material-name');
+                    const quantity = this.getAttribute('data-quantity');
+                    const amount = this.getAttribute('data-amount');
+                    const status = this.getAttribute('data-status');
+
+
+                    document.getElementById('edit-liquidation-id').value = id;
+                    document.getElementById('edit-material-name').value = materialName;
+                    document.getElementById('edit-quantity').value = quantity;
+                    document.getElementById('edit-amount').value = amount;
+                    document.getElementById('edit-status').value = status;
+                });
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const modal = document.getElementById('liquidationStatus');
+
+                modal.addEventListener('show.bs.modal', function(event) {
+                    const button = event.relatedTarget;
+                    const id = button.getAttribute('data-id');
+                    const status = button.getAttribute('data-status');
+                    const projectId = button.getAttribute('data-project-id');
+
+                    document.getElementById('update-liquidation-id').value = id;
+                    document.getElementById('update-status').value = status;
+                    document.getElementById('update-project-id').value = projectId;
+                });
             });
         </script>
 </body>
