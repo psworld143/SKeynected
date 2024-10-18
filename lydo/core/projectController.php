@@ -105,4 +105,20 @@ class projectController
             return false;
         }
     }
+
+    public function updateProjectStatus($id, $status, $hearing_date = null)
+    {
+        $query = "UPDATE projects SET status = :status, hearing_schedule = :hearing_schedule WHERE project_id = :project_id";
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(':project_id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->bindParam(':hearing_schedule', $hearing_date, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

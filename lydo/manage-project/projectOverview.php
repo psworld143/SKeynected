@@ -228,9 +228,9 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
 
                                             </div>
                                             <div class="d-flex align-items-center">
-                                                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                                                <!-- <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
                                                     <i class="bi bi-arrow-clockwise"></i> Update Status
-                                                </button>
+                                                </button> -->
                                                 <div class="datatable-search">
                                                     <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
                                                 </div>
@@ -245,6 +245,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                         <th>Description</th>
                                                         <th>Duration</th>
                                                         <th>Status</th>
+                                                        <th>Hearing Schedule</th>
                                                         <th>Specific Job</th>
                                                         <th>Operation</th>
                                                         <th>Total Cost</th>
@@ -282,6 +283,15 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                     <?php echo htmlspecialchars($projects['status']); ?>
                                                                 </span>
                                                             </td>
+                                                            <td>
+                                                                <?php
+                                                                if (!empty($projects['hearing_schedule'])) {
+                                                                    echo htmlspecialchars(date('Y-m-d', strtotime($projects['hearing_schedule'])));
+                                                                } else {
+                                                                    echo '-';
+                                                                }
+                                                                ?>
+                                                            </td>
                                                             <td class="text-secondary"><?php echo htmlspecialchars($projects['specific_job']); ?></td>
                                                             <td class="text-secondary"><?php echo htmlspecialchars($projects['operations']); ?></td>
                                                             <td class="text-success fw-bold"><?php echo htmlspecialchars($projects['total_cost']); ?></td>
@@ -301,6 +311,12 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                             </td>
                                                             <td>
                                                                 <div class="d-flex justify-content-center">
+                                                                    <span class="icon-bg update-status me-1" data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                                        data-id="<?php echo $project['id']; ?>"
+                                                                        data-status="<?php echo htmlspecialchars($project['status']); ?>"
+                                                                        data-project-id="<?php echo htmlspecialchars($project_id); ?>">
+                                                                        <i class="bi bi-arrow-up-circle"></i>
+                                                                    </span>
                                                                     <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editModal"
                                                                         data-id="<?php echo $projects['project_id']; ?>"
                                                                         data-name="<?php echo htmlspecialchars($projects['project_name']); ?>"
@@ -317,7 +333,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                         </tr>
                                                     <?php else : ?>
                                                         <tr>
-                                                            <td colspan="10" class="text-center text-muted">No projects found.</td>
+                                                            <td colspan="11" class="text-center text-muted">No projects found.</td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 </tbody>
@@ -522,7 +538,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                         <span class="icon-bg update-status me-1" data-bs-toggle="modal" data-bs-target="#liquidationStatus"
                                                                             data-id="<?php echo $liquidation['id']; ?>"
                                                                             data-status="<?php echo htmlspecialchars($liquidation['status']); ?>"
-                                                                            data-project-id="<?php echo htmlspecialchars($project_id); ?>"> 
+                                                                            data-project-id="<?php echo htmlspecialchars($project_id); ?>">
                                                                             <i class="bi bi-arrow-up-circle"></i>
                                                                         </span>
 
@@ -561,7 +577,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                 </div>
         </section>
 
-        <!-- Update Status Modal -->
+        <!-- Update Liquidation Status Modal -->
         <div class="modal fade" id="liquidationStatus" tabindex="-1" aria-labelledby="liquidationStatus" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -657,6 +673,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -665,7 +682,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="updateStatusForm">
+                        <form id="updateStatusForm" action="process/updateProjectStatus.php" method="POST">
+                            <input type="hidden" name="project_id" id="update-project-id" value="<?php echo htmlspecialchars($project_id); ?>">
                             <div class="mb-3">
                                 <label for="statusSelect" class="form-label">Select Status</label>
                                 <select class="form-select" id="statusSelect" name="status" onchange="toggleHearingDate()">
@@ -675,11 +693,13 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                     <option value="declined">Declined</option>
                                 </select>
                             </div>
+
                             <div class="mb-3" id="hearingDateDiv" style="display:none;">
                                 <label for="hearingDate" class="form-label">Hearing Date</label>
                                 <input type="date" class="form-control" id="hearingDate" name="hearingDate">
                             </div>
-                            <div class="mb-3">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Update Status</button>
                             </div>
                         </form>
@@ -776,11 +796,13 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
             function toggleHearingDate() {
                 const statusSelect = document.getElementById('statusSelect');
                 const hearingDateDiv = document.getElementById('hearingDateDiv');
+                const hearingDateInput = document.getElementById('hearingDate');
 
                 if (statusSelect.value === 'hearing') {
                     hearingDateDiv.style.display = 'block';
                 } else {
                     hearingDateDiv.style.display = 'none';
+                    hearingDateInput.value = ''; // Clear the date when not "hearing"
                 }
             }
 
