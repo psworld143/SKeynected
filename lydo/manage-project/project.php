@@ -33,8 +33,6 @@ if ($barangay_id) {
     <style>
         .project-card {
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
@@ -50,7 +48,6 @@ if ($barangay_id) {
 
         .progress {
             height: 10px;
-            margin-bottom: 10px;
         }
 
         .project-meta {
@@ -229,24 +226,24 @@ if ($barangay_id) {
                 <div class="col-lg-12">
                     <div class="row">
                         <?php foreach ($projects as $project): ?>
-                            <div class="col-md-3">
-                                <a href="projectOverview.php?project_id=<?php echo $project['project_id']; ?>">
+                            <div class="col-md-3 mb-4">
+                                <a href="projectOverview.php?project_id=<?php echo $project['project_id']; ?>" class="text-decoration-none">
                                     <div class="card">
                                         <img class="card-img-top" src="../assets/img/bg-blue.jpg" alt="Unsplash" width="100%" height="150px" style="object-fit: cover;">
                                         <div class="card-header">
                                             <h5 class="card-title mb-0"><?php echo htmlspecialchars($project['project_name']); ?></h5>
                                             <div class="badge 
-                                                <?php
-                                                if ($project['status'] == 'pending') {
-                                                    echo 'bg-pending';
-                                                } elseif ($project['status'] == 'hearing') {
-                                                    echo 'bg-hearing';
-                                                } elseif ($project['status'] == 'approved') {
-                                                    echo 'bg-approved';
-                                                } elseif ($project['status'] == 'declined') {
-                                                    echo 'bg-declined';
-                                                }
-                                                ?>">
+                                <?php
+                                if ($project['status'] == 'pending') {
+                                    echo 'bg-pending';
+                                } elseif ($project['status'] == 'hearing') {
+                                    echo 'bg-hearing';
+                                } elseif ($project['status'] == 'approved') {
+                                    echo 'bg-approved';
+                                } elseif ($project['status'] == 'declined') {
+                                    echo 'bg-declined';
+                                }
+                                ?>">
                                                 <?php echo htmlspecialchars($project['status']); ?>
                                             </div>
                                         </div>
@@ -265,8 +262,48 @@ if ($barangay_id) {
                                             <p class="barangay-name" style="font-size: 12px; color: darkslategray;">
                                                 Barangay: <strong><?php echo htmlspecialchars($project['barangay_name']); ?></strong>
                                             </p>
-                                        </div>
+                                            <?php
+                                            $progressPercentage = 0;
+                                            $progressColor = 'bg-secondary';
 
+                                            switch ($project['status']) {
+                                                case 'pending':
+                                                    $progressPercentage = 25;
+                                                    $progressColor = 'bg-warning';
+                                                    break;
+                                                case 'hearing':
+                                                    $progressPercentage = 50;
+                                                    $progressColor = 'bg-info';
+                                                    break;
+                                                case 'approved':
+                                                    $progressPercentage = 75;
+                                                    $progressColor = 'bg-primary';
+                                                    break;
+                                                case 'completed':
+                                                    $progressPercentage = 100;
+                                                    $progressColor = 'bg-success';
+                                                    break;
+                                                default:
+                                                    $progressPercentage = 0;
+                                                    $progressColor = 'bg-secondary';
+                                                    break;
+                                            }
+
+
+                                            if ($project['status'] === 'declined') {
+                                                $progressColor = 'bg-danger';
+                                            }
+                                            ?>
+                                            <div class="progress " style="height: 10px;">
+                                                <div class="progress-bar <?php echo $progressColor; ?>" role="progressbar"
+                                                    style="width: <?php echo $progressPercentage; ?>%;"
+                                                    aria-valuenow="<?php echo $progressPercentage; ?>" aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            <p class="text-muted mt-1" style="font-size: 12px;">
+                                                Project Progress: <?php echo $progressPercentage; ?>%
+                                            </p>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
