@@ -1,5 +1,4 @@
 <?php
-session_start();
 $base_url = "/SKeynected/lydo/assets/img/";
 $base_url2 = "/SKeynected/lydo/";
 

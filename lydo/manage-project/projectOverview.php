@@ -15,10 +15,12 @@ if ($project_id > 0) {
     $disbursements = $projectController->getDisbursementByBarangay($project_id);
     $liquidations = $projectController->getLiquidationByBarangay($project_id);
 }
-// var_dump($liquidations);
+
 $file = basename($projects['proposal_file_path']);
 $preview_url = "process/preview.php?file=" . urlencode($file);
 $download_url = "process/download.php?file=" . urlencode($file);
+$preview_or = "process/preview_or.php?file=" . urlencode($file);
+
 ?>
 
 <!DOCTYPE html>
@@ -206,7 +208,7 @@ $download_url = "process/download.php?file=" . urlencode($file);
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link" id="budget-liquidation-tab" data-bs-toggle="tab" data-bs-target="#budget-liquidation" type="button" role="tab" aria-controls="budget-liquidation" aria-selected="false">Budget Liquidation</button>
-                                            </li>   
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -251,7 +253,7 @@ $download_url = "process/download.php?file=" . urlencode($file);
                                                             <td class="text-secondary"><?php echo htmlspecialchars($projects['project_duration']); ?></td>
                                                             <td>
                                                                 <?php
-                                                                $statusClass = 'bg-info'; // Default class
+                                                                $statusClass = 'bg-info';
                                                                 switch ($projects['status']) {
                                                                     case 'pending':
                                                                         $statusClass = 'bg-pending';
@@ -474,19 +476,6 @@ $download_url = "process/download.php?file=" . urlencode($file);
 
                                     <div class="tab-pane fade" id="budget-liquidation" role="tabpanel" aria-labelledby="budget-liquidation-tab">
                                         <div class="datatable-container">
-                                            <div class="datatable-top mb-3">
-                                                <div class="datatable-dropdown">
-
-                                                </div>
-                                                <div class="d-flex align-items-center">
-                                                    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addDisbursementModal">
-                                                        <i class="bi bi-plus-circle"></i> Add Disbursement
-                                                    </button>
-                                                    <div class="datatable-search">
-                                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <table class="table datatable datatable-table">
                                                 <thead>
                                                     <tr>
@@ -500,12 +489,19 @@ $download_url = "process/download.php?file=" . urlencode($file);
                                                 </thead>
                                                 <tbody>
                                                     <?php if (!empty($liquidations)) : ?>
-                                                        <?php foreach ($liquidations as $liquidation) : ?>
+                                                        <?php foreach ($liquidations as $liquidation) :
+                                                            $file_name = basename($liquidation['or_image_path']);
+                                                            $image_url = 'process/preview_or.php?file=' . urlencode($file_name); 
+                                                        ?>
                                                             <tr>
-                                                                <td><strong class="text-primary"><?php echo htmlspecialchars($liquidation['material_name']) ?></strong></td>
+                                                                <td><strong class="text-primary"><?php echo htmlspecialchars($liquidation['material_name']); ?></strong></td>
                                                                 <td class="text-secondary"><?php echo htmlspecialchars($liquidation['quantity']); ?></td>
                                                                 <td class="text-success"><?php echo htmlspecialchars($liquidation['amount']); ?></td>
-                                                                <td class="text-muted"><img src="<?php echo htmlspecialchars($liquidation['or_image_path']); ?>" alt="" srcset="" width="50px"></td>
+                                                                <td class="text-muted">
+                                                                    <a href="<?php echo $image_url; ?>" target="_blank">
+                                                                        <img src="<?php echo $image_url; ?>" alt="OR Image" width="50px">
+                                                                    </a>
+                                                                </td>
                                                                 <td>
                                                                     <span class="badge <?php echo  $liquidation['status'] === 'approved' ? 'bg-approved' : ($liquidation['status'] === 'pending' ? 'bg-pending' : 'bg-declined'); ?>">
                                                                         <?php echo htmlspecialchars($liquidation['status']); ?>
@@ -534,6 +530,7 @@ $download_url = "process/download.php?file=" . urlencode($file);
                                                         </tr>
                                                     <?php endif; ?>
                                                 </tbody>
+
                                             </table>
                                         </div>
                                         <!-- Add Disbursement Modal -->

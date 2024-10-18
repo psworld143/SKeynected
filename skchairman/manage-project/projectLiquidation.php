@@ -15,6 +15,7 @@ $projects = $projectController->getProjects($user_id);
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>Project Liquidation</title>
+    <link rel="shortcut icon" href="../assets/img//sk-logo.png" type="image/x-icon">
     <meta content="Project Management Dashboard" name="description">
     <meta content="projects, management, dashboard" name="keywords">
 
