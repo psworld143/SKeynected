@@ -288,7 +288,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                 if (!empty($projects['hearing_schedule'])) {
                                                                     echo htmlspecialchars(date('Y-m-d', strtotime($projects['hearing_schedule'])));
                                                                 } else {
-                                                                    echo '-';
+                                                                    echo '';
                                                                 }
                                                                 ?>
                                                             </td>
