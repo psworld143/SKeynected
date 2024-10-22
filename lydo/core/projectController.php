@@ -121,4 +121,23 @@ class projectController
             return false;
         }
     }
+
+    public function getTasks($project_id)
+    {
+        $sql = "SELECT id AS task_id, 
+                       name, 
+                       description, 
+                       status, 
+                       createdAt, 
+                       updatedAt 
+                FROM tasks 
+                WHERE project_id = :project_id 
+                ORDER BY createdAt DESC"; // Or updatedAt DESC based on your preference
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':project_id', $project_id, PDO::PARAM_INT); // Bind the project_id parameter
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all tasks for the given project_id
+    }
+
 }

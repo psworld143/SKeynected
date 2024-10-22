@@ -26,7 +26,7 @@ $projects = $projectController->getProjects($user_id);
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -59,7 +59,8 @@ $projects = $projectController->getProjects($user_id);
                                         <select class="form-select" id="projectSelect" required>
                                             <option value="" disabled selected>Choose a project...</option>
                                             <?php foreach ($projects as $project): ?>
-                                                <option value="<?php echo $project['project_id']; ?>"><?php echo htmlspecialchars($project['project_name']); ?></option>
+                                                <option value="<?php echo $project['project_id']; ?>">
+                                                    <?php echo htmlspecialchars($project['project_name']); ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -68,7 +69,8 @@ $projects = $projectController->getProjects($user_id);
                                     <div id="liquidationDetails" style="display: none;">
                                         <div class="mb-3">
                                             <label class="form-label">Materials</label>
-                                            <div id="materialsList" class="border p-3" style="background-color: #f9f9f9; border-radius: 5px;"></div>
+                                            <div id="materialsList" class="border p-3"
+                                                style="background-color: #f9f9f9; border-radius: 5px;"></div>
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label">Total Cost</label>
@@ -103,13 +105,14 @@ $projects = $projectController->getProjects($user_id);
         </section>
     </main>
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/main.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const projectSelect = document.getElementById('projectSelect');
             const liquidationDetails = document.getElementById('liquidationDetails');
             const materialsList = document.getElementById('materialsList');
@@ -118,7 +121,7 @@ $projects = $projectController->getProjects($user_id);
 
             let totalCost = 0;
 
-            projectSelect.addEventListener('change', function() {
+            projectSelect.addEventListener('change', function () {
                 if (this.value) {
                     liquidationDetails.style.display = 'block';
                     loadMaterials(this.value);
@@ -127,7 +130,7 @@ $projects = $projectController->getProjects($user_id);
                 }
             });
 
-            liquidationForm.addEventListener('submit', function(e) {
+            liquidationForm.addEventListener('submit', function (e) {
                 e.preventDefault();
                 submitLiquidation();
             });
@@ -190,7 +193,7 @@ $projects = $projectController->getProjects($user_id);
                 materialsList.appendChild(row);
 
                 const quantityInput = row.querySelector('.quantity');
-                quantityInput.addEventListener('input', function() {
+                quantityInput.addEventListener('input', function () {
                     if (parseInt(this.value) > parseInt(this.max)) {
                         this.value = this.max;
                     }
@@ -269,9 +272,9 @@ $projects = $projectController->getProjects($user_id);
 
             function submitData(formData) {
                 fetch('process/submitLiquidation.php', {
-                        method: 'POST',
-                        body: formData,
-                    })
+                    method: 'POST',
+                    body: formData,
+                })
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {

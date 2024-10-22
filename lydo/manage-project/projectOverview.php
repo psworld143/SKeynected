@@ -7,13 +7,15 @@ $userController = new userController();
 $projects = [];
 
 
-$project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : 0;
+$project_id = isset($_GET['project_id']) ? (int) $_GET['project_id'] : 0;
 
 if ($project_id > 0) {
     $projects = $projectController->getProjectsById($project_id);
     $materials = $projectController->getMaterialsByProjectId($project_id);
     $disbursements = $projectController->getDisbursementByBarangay($project_id);
     $liquidations = $projectController->getLiquidationByBarangay($project_id);
+
+    $tasksWithUpdates = $projectController->getTasks($project_id);
 }
 
 $file = basename($projects['proposal_file_path']);
@@ -189,7 +191,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Barangay <?= $projects['barangay_name'] ?> Project</h5>
-                            <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                            <div
+                                class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                 <div class="datatable-top mb-3">
                                     <div class="datatable-dropdown">
                                         <label>
@@ -202,24 +205,36 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                         </label>
                                     </div>
                                     <div class="d-flex flex-column">
-                                        <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="projectTabs" role="tablist">
+                                        <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="projectTabs"
+                                            role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="project-tab" data-bs-toggle="tab" data-bs-target="#project" type="button" role="tab" aria-controls="project" aria-selected="true">Project</button>
+                                                <button class="nav-link active" id="project-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#project" type="button" role="tab"
+                                                    aria-controls="project" aria-selected="true">Project</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="materials-tab" data-bs-toggle="tab" data-bs-target="#materials" type="button" role="tab" aria-controls="materials" aria-selected="false">Materials</button>
+                                                <button class="nav-link" id="materials-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#materials" type="button" role="tab"
+                                                    aria-controls="materials" aria-selected="false">Materials</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="budget-disbursement-tab" data-bs-toggle="tab" data-bs-target="#budget-disbursement" type="button" role="tab" aria-controls="budget-disbursement" aria-selected="false">Budget Disbursement</button>
+                                                <button class="nav-link" id="budget-disbursement-tab"
+                                                    data-bs-toggle="tab" data-bs-target="#budget-disbursement"
+                                                    type="button" role="tab" aria-controls="budget-disbursement"
+                                                    aria-selected="false">Budget Disbursement</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="budget-liquidation-tab" data-bs-toggle="tab" data-bs-target="#budget-liquidation" type="button" role="tab" aria-controls="budget-liquidation" aria-selected="false">Budget Liquidation</button>
+                                                <button class="nav-link" id="budget-liquidation-tab"
+                                                    data-bs-toggle="tab" data-bs-target="#budget-liquidation"
+                                                    type="button" role="tab" aria-controls="budget-liquidation"
+                                                    aria-selected="false">Budget Liquidation</button>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="tab-content" id="projectTabsContent">
-                                    <div class="tab-pane fade show active" id="project" role="tabpanel" aria-labelledby="project-tab">
+                                    <div class="tab-pane fade show active" id="project" role="tabpanel"
+                                        aria-labelledby="project-tab">
                                         <div class="datatable-top">
                                             <div class="datatable-dropdown">
 
@@ -229,7 +244,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                     <i class="bi bi-arrow-clockwise"></i> Update Status
                                                 </button> -->
                                                 <div class="datatable-search">
-                                                    <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                                    <input class="datatable-input" placeholder="Search..." type="search"
+                                                        name="search" title="Search within table">
                                                 </div>
                                             </div>
                                         </div>
@@ -252,12 +268,20 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                 </thead>
                                                 <tbody>
                                                     <!-- PHP logic for displaying projects -->
-                                                    <?php if (!empty($projects)) : ?>
+                                                    <?php if (!empty($projects)): ?>
                                                         <tr>
-                                                            <td><strong class="text-primary"><?php echo htmlspecialchars($projects['project_name']) ?></strong></td>
-                                                            <td class="text-secondary"><?php echo htmlspecialchars($projects['project_code']); ?></td>
-                                                            <td class="text-muted"><?php echo htmlspecialchars($projects['project_description']); ?></td>
-                                                            <td class="text-secondary"><?php echo htmlspecialchars($projects['project_duration']); ?></td>
+                                                            <td><strong
+                                                                    class="text-primary"><?php echo htmlspecialchars($projects['project_name']) ?></strong>
+                                                            </td>
+                                                            <td class="text-secondary">
+                                                                <?php echo htmlspecialchars($projects['project_code']); ?>
+                                                            </td>
+                                                            <td class="text-muted">
+                                                                <?php echo htmlspecialchars($projects['project_description']); ?>
+                                                            </td>
+                                                            <td class="text-secondary">
+                                                                <?php echo htmlspecialchars($projects['project_duration']); ?>
+                                                            </td>
                                                             <td>
                                                                 <?php
                                                                 $statusClass = 'bg-info';
@@ -289,18 +313,27 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                 }
                                                                 ?>
                                                             </td>
-                                                            <td class="text-secondary"><?php echo htmlspecialchars($projects['specific_job']); ?></td>
-                                                            <td class="text-secondary"><?php echo htmlspecialchars($projects['operations']); ?></td>
-                                                            <td class="text-success fw-bold"><?php echo htmlspecialchars($projects['total_cost']); ?></td>
+                                                            <td class="text-secondary">
+                                                                <?php echo htmlspecialchars($projects['specific_job']); ?>
+                                                            </td>
+                                                            <td class="text-secondary">
+                                                                <?php echo htmlspecialchars($projects['operations']); ?>
+                                                            </td>
+                                                            <td class="text-success fw-bold">
+                                                                <?php echo htmlspecialchars($projects['total_cost']); ?>
+                                                            </td>
                                                             <td>
                                                                 <div class="d-flex">
-                                                                    <span class="icon-bg view me-1" data-bs-toggle="modal" data-bs-target="#previewModal">
-                                                                        <a href="<?php echo htmlspecialchars($preview_url); ?>" class="preview-link">
+                                                                    <span class="icon-bg view me-1" data-bs-toggle="modal"
+                                                                        data-bs-target="#previewModal">
+                                                                        <a href="<?php echo htmlspecialchars($preview_url); ?>"
+                                                                            class="preview-link">
                                                                             <i class="bi bi-eye "></i>
                                                                         </a>
                                                                     </span>
                                                                     <span class="icon-bg view">
-                                                                        <a href="<?php echo htmlspecialchars($download_url); ?>" download>
+                                                                        <a href="<?php echo htmlspecialchars($download_url); ?>"
+                                                                            download>
                                                                             <i class="bi bi-download "></i>
                                                                         </a>
                                                                     </span>
@@ -308,107 +341,107 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                             </td>
                                                             <td>
                                                                 <div class="d-flex justify-content-center">
-                                                                    <span class="icon-bg update-status me-1" data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                                    <span class="icon-bg update-status me-1"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#updateStatusModal"
                                                                         data-id="<?php echo $project['id']; ?>"
                                                                         data-status="<?php echo htmlspecialchars($project['status']); ?>"
                                                                         data-project-id="<?php echo htmlspecialchars($project_id); ?>">
                                                                         <i class="bi bi-arrow-up-circle"></i>
                                                                     </span>
-                                                                    <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editModal"
+                                                                    <span class="icon-bg edit me-1" data-bs-toggle="modal"
+                                                                        data-bs-target="#editModal"
                                                                         data-id="<?php echo $projects['project_id']; ?>"
                                                                         data-name="<?php echo htmlspecialchars($projects['project_name']); ?>"
                                                                         data-code="<?php echo htmlspecialchars($projects['project_code']); ?>"
                                                                         data-description="<?php echo htmlspecialchars($projects['project_description']); ?>">
                                                                         <i class="bi bi-pencil"></i>
                                                                     </span>
-                                                                    <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                                    <span class="icon-bg delete" data-bs-toggle="modal"
+                                                                        data-bs-target="#deleteModal"
                                                                         data-id="<?php echo $projects['project_id']; ?>">
                                                                         <i class="bi bi-trash"></i>
                                                                     </span>
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    <?php else : ?>
+                                                    <?php else: ?>
                                                         <tr>
-                                                            <td colspan="11" class="text-center text-muted">No projects found.</td>
+                                                            <td colspan="11" class="text-center text-muted">No projects
+                                                                found.</td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 </tbody>
                                             </table>
-                                            <div class="card">
-                                                <div class="filter">
-                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                        <li class="dropdown-header text-start">
-                                                            <h6>Filter</h6>
-                                                        </li>
-
-                                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                                    </ul>
+                                            <div class="col-lg-12 mt-2">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <h5 class="card-title mb-0">Recent Activity <span>| Today</span>
+                                                    </h5>
                                                 </div>
+                                                <div class="activity">
+                                                    <?php if (!empty($tasksWithUpdates)): ?>
+                                                        <?php foreach ($tasksWithUpdates as $task): ?>
+                                                            <div class="activity-item d-flex">
+                                                                <div class="activite-label ">
+                                                                    <?php
+                                                                    if (!empty($task['updatedAt']) && strtotime($task['updatedAt']) > strtotime($task['createdAt'])) {
+                                                                        $display_time = strtotime($task['updatedAt']);
 
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Recent Activity <span>| Today</span></h5>
-                                                    <div class="activity">
-                                                        <div class="activity-item d-flex">
-                                                            <div class="activite-label">32 min</div>
-                                                            <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-                                                            <div class="activity-content">
-                                                                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                                                            </div>
-                                                        </div><!-- End activity item-->
+                                                                    } else {
+                                                                        $display_time = strtotime($task['createdAt']);
 
-                                                        <div class="activity-item d-flex">
-                                                            <div class="activite-label">56 min</div>
-                                                            <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
-                                                            <div class="activity-content">
-                                                                Voluptatem blanditiis blanditiis eveniet
-                                                            </div>
-                                                        </div><!-- End activity item-->
+                                                                    }
 
-                                                        <div class="activity-item d-flex">
-                                                            <div class="activite-label">2 hrs</div>
-                                                            <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
-                                                            <div class="activity-content">
-                                                                Voluptates corrupti molestias voluptatem
-                                                            </div>
-                                                        </div><!-- End activity item-->
+                                                                    $current_time = time();
+                                                                    $time_diff = ($current_time - $display_time) / 60;
 
-                                                        <div class="activity-item d-flex">
-                                                            <div class="activite-label">1 day</div>
-                                                            <i class="bi bi-circle-fill activity-badge text-info align-self-start"></i>
-                                                            <div class="activity-content">
-                                                                Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                                                            </div>
-                                                        </div><!-- End activity item-->
 
-                                                        <div class="activity-item d-flex">
-                                                            <div class="activite-label">2 days</div>
-                                                            <i class="bi bi-circle-fill activity-badge text-warning align-self-start"></i>
-                                                            <div class="activity-content">
-                                                                Est sit eum reiciendis exercitationem
-                                                            </div>
-                                                        </div><!-- End activity item-->
+                                                                    if ($time_diff < 0) {
+                                                                        echo 'Just now';
+                                                                    } elseif ($time_diff < 60) {
+                                                                        echo floor($time_diff) . ' min ago';
+                                                                    } elseif ($time_diff < 1440) {
+                                                                        echo floor($time_diff / 60) . ' hrs ago';
+                                                                    } else {
+                                                                        echo floor($time_diff / 1440) . ' days ago';
+                                                                    }
+                                                                    ?>
+                                                                </div>
+                                                                <i class="bi bi-circle-fill activity-badge
+                                                                <?php
+                                                                if ($task['status'] == 'completed')
+                                                                    echo 'text-success';
+                                                                elseif ($task['status'] == 'in_progress')
+                                                                    echo 'text-primary';
+                                                                else
+                                                                    echo 'text-warning';
+                                                                ?> align-self-start">
+                                                                </i>
+                                                                <div class="activity-content flex-grow-1"
+                                                                    style="padding-bottom: 1.5rem;">
+                                                                    <div style="font-weight: 500;">
+                                                                        <?php echo $task['name']; ?>
+                                                                    </div>
+                                                                    <div class="text-muted">
+                                                                        <?php echo $task['description']; ?>
+                                                                    </div>
 
-                                                        <div class="activity-item d-flex">
-                                                            <div class="activite-label">4 weeks</div>
-                                                            <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-                                                            <div class="activity-content">
-                                                                Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                                                            </div>
-                                                        </div><!-- End activity item-->
-
-                                                    </div>
+                                                                </div>
+                                                            </div><!-- End activity item -->
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <p>No recent activity found.</p>
+                                                    <?php endif; ?>
 
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="materials-tab">
+                                    <div class="tab-pane fade" id="materials" role="tabpanel"
+                                        aria-labelledby="materials-tab">
                                         <div class="col-lg-12 ">
-                                            <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                                            <div
+                                                class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                                 <div class="datatable-container">
                                                     <table class="table datatable datatable-table">
                                                         <thead>
@@ -423,23 +456,35 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                         </thead>
                                                         <tbody>
                                                             <!-- PHP logic for displaying materials -->
-                                                            <?php if (!empty($materials)) : ?>
-                                                                <?php foreach ($materials as $material) : ?>
+                                                            <?php if (!empty($materials)): ?>
+                                                                <?php foreach ($materials as $material): ?>
                                                                     <tr>
-                                                                        <td><strong class="text-primary"><?php echo htmlspecialchars($material['material_name']) ?></strong></td>
-                                                                        <td class="text-secondary"><?php echo htmlspecialchars($material['quantity']); ?></td>
-                                                                        <td class="text-success"><?php echo htmlspecialchars($material['amount']); ?></td>
-                                                                        <td class="text-success fw-bold"><?php echo htmlspecialchars($material['total']); ?></td>
+                                                                        <td><strong
+                                                                                class="text-primary"><?php echo htmlspecialchars($material['material_name']) ?></strong>
+                                                                        </td>
+                                                                        <td class="text-secondary">
+                                                                            <?php echo htmlspecialchars($material['quantity']); ?>
+                                                                        </td>
+                                                                        <td class="text-success">
+                                                                            <?php echo htmlspecialchars($material['amount']); ?>
+                                                                        </td>
+                                                                        <td class="text-success fw-bold">
+                                                                            <?php echo htmlspecialchars($material['total']); ?>
+                                                                        </td>
                                                                         <td>
                                                                             <div class="d-flex">
-                                                                                <span class="icon-bg edit me-2" data-bs-toggle="modal" data-bs-target="#editMaterialModal"
+                                                                                <span class="icon-bg edit me-2"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#editMaterialModal"
                                                                                     data-id="<?php echo $material['material_id']; ?>"
                                                                                     data-name="<?php echo htmlspecialchars($material['material_name']); ?>"
                                                                                     data-quantity="<?php echo htmlspecialchars($material['quantity']); ?>"
                                                                                     data-amount="<?php echo htmlspecialchars($material['amount']); ?>">
                                                                                     <i class="bi bi-pencil "></i>
                                                                                 </span>
-                                                                                <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteMaterialModal"
+                                                                                <span class="icon-bg delete"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#deleteMaterialModal"
                                                                                     data-id="<?php echo $material['material_id']; ?>">
                                                                                     <i class="bi bi-trash"></i>
                                                                                 </span>
@@ -447,9 +492,10 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                         </td>
                                                                     </tr>
                                                                 <?php endforeach; ?>
-                                                            <?php else : ?>
+                                                            <?php else: ?>
                                                                 <tr>
-                                                                    <td colspan="6" class="text-center text-muted">No materials found.</td>
+                                                                    <td colspan="6" class="text-center text-muted">No
+                                                                        materials found.</td>
                                                                 </tr>
                                                             <?php endif; ?>
                                                         </tbody>
@@ -458,18 +504,21 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="budget-disbursement" role="tabpanel" aria-labelledby="budget-disbursement-tab">
+                                    <div class="tab-pane fade" id="budget-disbursement" role="tabpanel"
+                                        aria-labelledby="budget-disbursement-tab">
                                         <div class="datatable-container">
                                             <div class="datatable-top mb-3">
                                                 <div class="datatable-dropdown">
 
                                                 </div>
                                                 <div class="d-flex align-items-center">
-                                                    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addDisbursementModal">
+                                                    <button class="btn btn-primary me-2" data-bs-toggle="modal"
+                                                        data-bs-target="#addDisbursementModal">
                                                         <i class="bi bi-plus-circle"></i> Add Disbursement
                                                     </button>
                                                     <div class="datatable-search">
-                                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                                        <input class="datatable-input" placeholder="Search..."
+                                                            type="search" name="search" title="Search within table">
                                                     </div>
                                                 </div>
                                             </div>
@@ -486,29 +535,42 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                 </thead>
                                                 <tbody>
                                                     <!-- PHP logic for displaying budget disbursements -->
-                                                    <?php if (!empty($disbursements)) : ?>
-                                                        <?php foreach ($disbursements as $disbursement) : ?>
+                                                    <?php if (!empty($disbursements)): ?>
+                                                        <?php foreach ($disbursements as $disbursement): ?>
                                                             <tr>
-                                                                <td><strong class="text-primary"><?php echo htmlspecialchars($disbursement['disbursement_id']) ?></strong></td>
-                                                                <td class="text-secondary"><?php echo htmlspecialchars($disbursement['date']); ?></td>
-                                                                <td class="text-success"><?php echo htmlspecialchars($disbursement['amount']); ?></td>
-                                                                <td class="text-muted"><?php echo htmlspecialchars($disbursement['purpose']); ?></td>
-                                                                <td class="text-muted"><?php echo htmlspecialchars($disbursement['notes']); ?></td>
+                                                                <td><strong
+                                                                        class="text-primary"><?php echo htmlspecialchars($disbursement['disbursement_id']) ?></strong>
+                                                                </td>
+                                                                <td class="text-secondary">
+                                                                    <?php echo htmlspecialchars($disbursement['date']); ?>
+                                                                </td>
+                                                                <td class="text-success">
+                                                                    <?php echo htmlspecialchars($disbursement['amount']); ?>
+                                                                </td>
+                                                                <td class="text-muted">
+                                                                    <?php echo htmlspecialchars($disbursement['purpose']); ?>
+                                                                </td>
+                                                                <td class="text-muted">
+                                                                    <?php echo htmlspecialchars($disbursement['notes']); ?>
+                                                                </td>
                                                                 <td>
-                                                                    <span class="badge <?php echo $disbursement['status'] === 'approved' ? 'bg-approved' : ($disbursement['status'] === 'pending' ? 'bg-pending' : 'bg-declined'); ?>">
+                                                                    <span
+                                                                        class="badge <?php echo $disbursement['status'] === 'approved' ? 'bg-approved' : ($disbursement['status'] === 'pending' ? 'bg-pending' : 'bg-declined'); ?>">
                                                                         <?php echo htmlspecialchars($disbursement['status']); ?>
                                                                     </span>
                                                                 </td>
                                                                 <td>
                                                                     <div class="d-flex justify-content-center">
-                                                                        <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editDisbursementModal"
+                                                                        <span class="icon-bg edit me-1" data-bs-toggle="modal"
+                                                                            data-bs-target="#editDisbursementModal"
                                                                             data-id="<?php echo $disbursement['disbursement_id']; ?>"
                                                                             data-amount="<?php echo htmlspecialchars($disbursement['amount']); ?>"
                                                                             data-purpose="<?php echo htmlspecialchars($disbursement['purpose']); ?>"
                                                                             data-notes="<?php echo htmlspecialchars($disbursement['notes']); ?>">
                                                                             <i class="bi bi-pencil"></i>
                                                                         </span>
-                                                                        <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteDisbursementModal"
+                                                                        <span class="icon-bg delete" data-bs-toggle="modal"
+                                                                            data-bs-target="#deleteDisbursementModal"
                                                                             data-id="<?php echo $disbursement['disbursement_id']; ?>">
                                                                             <i class="bi bi-trash"></i>
                                                                         </span>
@@ -516,31 +578,37 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
-                                                    <?php else : ?>
+                                                    <?php else: ?>
                                                         <tr>
-                                                            <td colspan="7" class="text-center text-muted">No disbursements found.</td>
+                                                            <td colspan="7" class="text-center text-muted">No disbursements
+                                                                found.</td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 </tbody>
                                             </table>
                                         </div>
                                         <!-- Add Disbursement Modal -->
-                                        <div class="modal fade" id="addDisbursementModal" tabindex="-1" aria-labelledby="addDisbursementModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="addDisbursementModal" tabindex="-1"
+                                            aria-labelledby="addDisbursementModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="addDisbursementModalLabel">Add Disbursement</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <h5 class="modal-title" id="addDisbursementModalLabel">Add
+                                                            Disbursement</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form>
                                                             <div class="mb-3">
                                                                 <label for="amount" class="form-label">Amount</label>
-                                                                <input type="text" class="form-control" id="amount" placeholder="Enter amount">
+                                                                <input type="text" class="form-control" id="amount"
+                                                                    placeholder="Enter amount">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="purpose" class="form-label">Purpose</label>
-                                                                <input type="text" class="form-control" id="purpose" placeholder="Enter purpose">
+                                                                <input type="text" class="form-control" id="purpose"
+                                                                    placeholder="Enter purpose">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="status" class="form-label">Status</label>
@@ -552,20 +620,24 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="notes" class="form-label">Notes</label>
-                                                                <textarea class="form-control" id="notes" placeholder="Enter notes"></textarea>
+                                                                <textarea class="form-control" id="notes"
+                                                                    placeholder="Enter notes"></textarea>
                                                             </div>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save
+                                                            changes</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="tab-pane fade" id="budget-liquidation" role="tabpanel" aria-labelledby="budget-liquidation-tab">
+                                    <div class="tab-pane fade" id="budget-liquidation" role="tabpanel"
+                                        aria-labelledby="budget-liquidation-tab">
                                         <div class="datatable-container">
                                             <table class="table datatable datatable-table">
                                                 <thead>
@@ -579,29 +651,39 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php if (!empty($liquidations)) : ?>
-                                                        <?php foreach ($liquidations as $liquidation) :
+                                                    <?php if (!empty($liquidations)): ?>
+                                                        <?php foreach ($liquidations as $liquidation):
                                                             $file_name = basename($liquidation['or_image_path']);
                                                             $image_url = 'process/preview_or.php?file=' . urlencode($file_name);
-                                                        ?>
+                                                            ?>
                                                             <tr>
-                                                                <td><strong class="text-primary"><?php echo htmlspecialchars($liquidation['material_name']); ?></strong></td>
-                                                                <td class="text-secondary"><?php echo htmlspecialchars($liquidation['quantity']); ?></td>
-                                                                <td class="text-success"><?php echo htmlspecialchars($liquidation['amount']); ?></td>
+                                                                <td><strong
+                                                                        class="text-primary"><?php echo htmlspecialchars($liquidation['material_name']); ?></strong>
+                                                                </td>
+                                                                <td class="text-secondary">
+                                                                    <?php echo htmlspecialchars($liquidation['quantity']); ?>
+                                                                </td>
+                                                                <td class="text-success">
+                                                                    <?php echo htmlspecialchars($liquidation['amount']); ?>
+                                                                </td>
                                                                 <td class="text-muted">
                                                                     <a href="<?php echo $image_url; ?>" target="_blank">
-                                                                        <img src="<?php echo $image_url; ?>" alt="OR Image" width="50px">
+                                                                        <img src="<?php echo $image_url; ?>" alt="OR Image"
+                                                                            width="50px">
                                                                     </a>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="badge <?php echo  $liquidation['status'] === 'approved' ? 'bg-approved' : ($liquidation['status'] === 'pending' ? 'bg-pending' : ($liquidation['status'] === 'for-clarrification' ? 'bg-for-clarrification' : 'bg-declined')); ?>">
+                                                                    <span
+                                                                        class="badge <?php echo $liquidation['status'] === 'approved' ? 'bg-approved' : ($liquidation['status'] === 'pending' ? 'bg-pending' : ($liquidation['status'] === 'for-clarrification' ? 'bg-for-clarrification' : 'bg-declined')); ?>">
                                                                         <?php echo htmlspecialchars($liquidation['status']); ?>
                                                                     </span>
                                                                 </td>
                                                                 <td>
                                                                     <div class="">
 
-                                                                        <span class="icon-bg update-status me-1" data-bs-toggle="modal" data-bs-target="#liquidationStatus"
+                                                                        <span class="icon-bg update-status me-1"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#liquidationStatus"
                                                                             data-id="<?php echo $liquidation['id']; ?>"
                                                                             data-status="<?php echo htmlspecialchars($liquidation['status']); ?>"
                                                                             data-project-id="<?php echo htmlspecialchars($project_id); ?>">
@@ -609,7 +691,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                         </span>
 
 
-                                                                        <span class="icon-bg edit me-1" data-bs-toggle="modal" data-bs-target="#editLiquidationModal"
+                                                                        <span class="icon-bg edit me-1" data-bs-toggle="modal"
+                                                                            data-bs-target="#editLiquidationModal"
                                                                             data-id="<?php echo $liquidation['id']; ?>"
                                                                             data-amount="<?php echo htmlspecialchars($liquidation['amount']); ?>"
                                                                             data-material-name="<?php echo htmlspecialchars($liquidation['material_name']); ?>"
@@ -618,7 +701,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                             data-status="<?php echo htmlspecialchars($liquidation['status']) ?>">
                                                                             <i class="bi bi-pencil"></i>
                                                                         </span>
-                                                                        <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteDisbursementModal"
+                                                                        <span class="icon-bg delete" data-bs-toggle="modal"
+                                                                            data-bs-target="#deleteDisbursementModal"
                                                                             data-id="<?php echo $disbursement['disbursement_id']; ?>">
                                                                             <i class="bi bi-trash"></i>
                                                                         </span>
@@ -626,9 +710,10 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
-                                                    <?php else : ?>
+                                                    <?php else: ?>
                                                         <tr>
-                                                            <td colspan="7" class="text-center text-muted">No Liquidation found.</td>
+                                                            <td colspan="7" class="text-center text-muted">No Liquidation
+                                                                found.</td>
                                                         </tr>
                                                     <?php endif; ?>
                                                 </tbody>
@@ -644,7 +729,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
         </section>
 
         <!-- Update Liquidation Status Modal -->
-        <div class="modal fade" id="liquidationStatus" tabindex="-1" aria-labelledby="liquidationStatus" aria-hidden="true">
+        <div class="modal fade" id="liquidationStatus" tabindex="-1" aria-labelledby="liquidationStatus"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -654,7 +740,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                     <div class="modal-body">
                         <form id="updateStatusForm" action="process/updateLiquidationStatus.php" method="post">
                             <input type="hidden" name="id" id="update-liquidation-id">
-                            <input type="hidden" name="project_id" id="update-project-id" value="<?php echo htmlspecialchars($project_id); ?>">
+                            <input type="hidden" name="project_id" id="update-project-id"
+                                value="<?php echo htmlspecialchars($project_id); ?>">
                             <div class="mb-3">
                                 <label for="update-status" class="form-label">Select Status</label>
                                 <select class="form-select" id="update-status" name="status" required>
@@ -677,7 +764,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
 
 
         <!-- Edit Liquidation Modal -->
-        <div class="modal fade" id="editLiquidationModal" tabindex="-1" aria-labelledby="editLiquidationModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editLiquidationModal" tabindex="-1" aria-labelledby="editLiquidationModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -689,7 +777,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                             <input type="hidden" name="id" id="edit-liquidation-id">
                             <div class="mb-3">
                                 <label for="edit-material-name" class="form-label">Material Name</label>
-                                <input type="text" class="form-control" id="edit-material-name" name="material_name" required>
+                                <input type="text" class="form-control" id="edit-material-name" name="material_name"
+                                    required>
                             </div>
 
                             <div class="mb-3">
@@ -713,7 +802,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary" form="editLiquidationForm">Save changes</button>
+                                <button type="submit" class="btn btn-primary" form="editLiquidationForm">Save
+                                    changes</button>
                             </div>
                         </form>
                     </div>
@@ -740,7 +830,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
             </div>
         </div>
 
-        <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+        <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -749,10 +840,12 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                     </div>
                     <div class="modal-body">
                         <form id="updateStatusForm" action="process/updateProjectStatus.php" method="POST">
-                            <input type="hidden" name="project_id" id="update-project-id" value="<?php echo htmlspecialchars($project_id); ?>">
+                            <input type="hidden" name="project_id" id="update-project-id"
+                                value="<?php echo htmlspecialchars($project_id); ?>">
                             <div class="mb-3">
                                 <label for="statusSelect" class="form-label">Select Status</label>
-                                <select class="form-select" id="statusSelect" name="status" onchange="toggleHearingDate()">
+                                <select class="form-select" id="statusSelect" name="status"
+                                    onchange="toggleHearingDate()">
                                     <option value="pending">Pending</option>
                                     <option value="hearing">Hearing</option>
                                     <option value="approved">Approved</option>
@@ -773,7 +866,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                 </div>
             </div>
         </div>
-        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+                class="bi bi-arrow-up-short"></i></a>
 
         <!-- Vendor JS Files -->
         <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -788,12 +882,12 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
         <!-- Template Main JS File -->
         <script src="../assets/js/main.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 const previewLinks = document.querySelectorAll('.preview-link');
                 const previewContent = document.getElementById('previewContent');
 
                 previewLinks.forEach(link => {
-                    link.addEventListener('click', function(e) {
+                    link.addEventListener('click', function (e) {
                         e.preventDefault();
                         const url = this.getAttribute('href');
                         fetch(url)
@@ -820,13 +914,13 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
             }
 
 
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
 
                 const previewLinks = document.querySelectorAll('.preview-link');
                 const previewContent = document.getElementById('previewContent');
 
                 previewLinks.forEach(link => {
-                    link.addEventListener('click', function(e) {
+                    link.addEventListener('click', function (e) {
                         e.preventDefault();
                         const url = this.getAttribute('href');
                         fetch(url)
@@ -843,7 +937,7 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
 
                 const tabs = document.querySelectorAll('#projectTabs button');
                 tabs.forEach(tab => {
-                    tab.addEventListener('click', function(e) {
+                    tab.addEventListener('click', function (e) {
                         e.preventDefault();
                         const tabId = this.getAttribute('data-bs-target');
                         document.querySelector(tabId).classList.add('show', 'active');
@@ -874,8 +968,8 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
 
 
 
-            document.querySelectorAll('.edit').forEach(function(editBtn) {
-                editBtn.addEventListener('click', function() {
+            document.querySelectorAll('.edit').forEach(function (editBtn) {
+                editBtn.addEventListener('click', function () {
 
                     const id = this.getAttribute('data-id');
                     const materialName = this.getAttribute('data-material-name');
@@ -892,10 +986,10 @@ $preview_or = "process/preview_or.php?file=" . urlencode($file);
                 });
             });
 
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 const modal = document.getElementById('liquidationStatus');
 
-                modal.addEventListener('show.bs.modal', function(event) {
+                modal.addEventListener('show.bs.modal', function (event) {
                     const button = event.relatedTarget;
                     const id = button.getAttribute('data-id');
                     const status = button.getAttribute('data-status');

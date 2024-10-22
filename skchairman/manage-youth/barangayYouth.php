@@ -6,7 +6,7 @@ require_once '../core/youthController.php';
 include_once '../core/sessionController.php';
 (new sessionController())->checkLogin();
 $youthController = new youthController();
-$barangay_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$barangay_id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
 if ($barangay_id) {
     $youthProfiles = $youthController->getAllYouthProfiles($barangay_id);
@@ -35,7 +35,7 @@ $error = '';
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 
     <style>
         img.profile-photo-md {
@@ -119,12 +119,16 @@ $error = '';
                         <div class="col-md-4 col-sm-4 mb-4">
                             <a href="youthProfile.php?id=<?php echo urlencode($youth['response_id']); ?>">
                                 <div class="friend-card">
-                                    <img src="../assets/img/project-header.png" alt="profile-cover" class="img-responsive cover custom-image">
+                                    <img src="../assets/img/project-header.png" alt="profile-cover"
+                                        class="img-responsive cover custom-image">
                                     <div class="card-info">
                                         <img src="../assets/img/profile.png" alt="user" class="profile-photo-lg">
                                         <div class="friend-info">
-                                            <h5 class="mt-1"><a href="#" class="profile-link"><?php echo $youth['firstname'] . ' ' . $youth['lastname']; ?></a></h5>
-                                            <a href="#" class="pull-right text-green">Barangay <?php echo $barangay['name']; ?> Youth</a>
+                                            <h5 class="mt-1"><a href="#"
+                                                    class="profile-link"><?php echo $youth['firstname'] . ' ' . $youth['lastname']; ?></a>
+                                            </h5>
+                                            <a href="#" class="pull-right text-green">Barangay
+                                                <?php echo $barangay['name']; ?> Youth</a>
                                         </div>
                                     </div>
                                 </div>
