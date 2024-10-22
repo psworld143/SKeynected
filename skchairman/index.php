@@ -123,8 +123,7 @@ $error = '';
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0 auto;
-
+      margin-bottom: 20px;
     }
 
     .partner-logos img {

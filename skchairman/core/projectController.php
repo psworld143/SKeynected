@@ -12,6 +12,7 @@ class projectController
         $this->db = $database->getConnection();
     }
 
+
     public function createProject(
         $project_name,
         $project_code,
@@ -80,12 +81,31 @@ class projectController
 
     public function getProjects($sk_member_id)
     {
-        $query = "SELECT * FROM projects WHERE sk_member_id = :sk_member_id";
+        // Corrected query to fetch projects by sk_member_id
+        $query = "
+            SELECT 
+                p.*, 
+                b.id AS barangay_id, 
+                b.name AS barangay_name, 
+                sm.position AS sk_member_position,
+                sm.name AS sk_member_name
+            FROM 
+                projects p
+            INNER JOIN 
+                sk_members sm ON p.sk_member_id = sm.id
+            INNER JOIN 
+                barangays b ON sm.barangay_id = b.id
+            WHERE 
+                p.sk_member_id = :sk_member_id
+        ";
+
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':sk_member_id', $sk_member_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
 
 
     public function getProjectByID($project_id)
@@ -219,4 +239,56 @@ class projectController
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+    public function getTasksWithUpdates($project_id)
+    {
+        $sql = "SELECT t.id AS task_id, 
+                       t.name, 
+                       t.description, 
+                       t.status, 
+                       t.createdAt,  -- Include the created timestamp
+                       u.message, 
+                       u.timestamp 
+                FROM tasks t 
+                LEFT JOIN updates u ON t.id = u.task_id 
+                WHERE t.project_id = :project_id 
+                ORDER BY u.timestamp DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':project_id', $project_id, PDO::PARAM_INT); // Bind the project_id parameter
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all tasks and updates for the given project_id
+    }
+
+
+    public function addTask($project_id, $name, $description, $status)
+    {
+        try {
+
+            $sql = "INSERT INTO tasks (project_id, name, description, status)
+                VALUES (:project_id, :name, :description, :status)";
+
+
+            $stmt = $this->db->prepare($sql);
+
+
+            $stmt->bindParam(':project_id', $project_id, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+            if ($stmt->execute()) {
+                return "Task added successfully!";
+            } else {
+                return "Failed to add the task.";
+            }
+        } catch (PDOException $e) {
+            return "Error: " . $e->getMessage();
+        }
+    }
+
+    public function updateTask
+
 }
+

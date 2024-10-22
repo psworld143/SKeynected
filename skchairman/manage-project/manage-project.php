@@ -33,7 +33,7 @@ $projects = $projectController->getProjects($user_id);
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
     <style>
         .project-card {
             border-radius: 15px;
@@ -164,7 +164,8 @@ $projects = $projectController->getProjects($user_id);
         <section class="section dashboard">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="background-image-container" style="background-image: url('../assets/img/bg-blue.jpg'); background-size: cover; background-position: center; padding: 40px; border-radius: 5px; margin-bottom: 20px;">
+                    <div class="background-image-container"
+                        style="background-image: url('../assets/img/bg-blue.jpg'); background-size: cover; background-position: center; padding: 40px; border-radius: 5px; margin-bottom: 20px;">
                         <div class="row justify-content-center">
                             <div class="col-lg-12">
                                 <div class="row">
@@ -173,7 +174,8 @@ $projects = $projectController->getProjects($user_id);
                                             <div class="card-body">
                                                 <h5 class="card-title">Hearing</h5>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                    <div
+                                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-clock-history"></i>
                                                     </div>
                                                     <div class="ps-3">
@@ -188,7 +190,8 @@ $projects = $projectController->getProjects($user_id);
                                             <div class="card-body">
                                                 <h5 class="card-title">Approved</h5>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                    <div
+                                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-check-circle"></i>
                                                     </div>
                                                     <div class="ps-3">
@@ -203,7 +206,8 @@ $projects = $projectController->getProjects($user_id);
                                             <div class="card-body">
                                                 <h5 class="card-title">Declined</h5>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                    <div
+                                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-x-circle"></i>
                                                     </div>
                                                     <div class="ps-3">
@@ -218,7 +222,8 @@ $projects = $projectController->getProjects($user_id);
                                             <div class="card-body">
                                                 <h5 class="card-title">Total Projects</h5>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                    <div
+                                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-folder"></i>
                                                     </div>
                                                     <div class="ps-3">
@@ -239,9 +244,12 @@ $projects = $projectController->getProjects($user_id);
                             <div class="col-md-3">
                                 <a href="projectOverview.php?project_id=<?php echo $project['project_id']; ?>">
                                     <div class="card">
-                                        <img class="card-img-top" src="../assets/img/bg-blue.jpg" alt="Unsplash" width="100%" height="150px" style="object-fit: cover;">
+                                        <img class="card-img-top" src="../assets/img/bg-blue.jpg" alt="Unsplash"
+                                            width="100%" height="150px" style="object-fit: cover;">
                                         <div class="card-header">
-                                            <h5 class="card-title mb-0"><?php echo htmlspecialchars($project['project_name']); ?></h5>
+                                            <h5 class="card-title mb-0">
+                                                <?php echo htmlspecialchars($project['project_name']); ?>
+                                            </h5>
                                             <div class="badge 
                                                 <?php
                                                 if ($project['status'] == 'pending') {
@@ -257,11 +265,67 @@ $projects = $projectController->getProjects($user_id);
                                                 <?php echo htmlspecialchars($project['status']); ?>
                                             </div>
                                         </div>
-                                        <div class="card-body px-4 pt-2">
-                                            <p style="font-size: 12px;"><?php echo htmlspecialchars($project['project_description']); ?></p>
-                                            <!-- <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28"> -->
+                                        <div class="card-body" style="background-color: #f9f9f9;">
+                                            <div class="sk-member-info d-flex align-items-center mt-2">
+                                                <img src="../assets/img/avatar.gif" class="rounded-circle me-2" alt="Avatar"
+                                                    width="40" height="40">
+                                                <div>
+                                                    <p class="sk-member-name"
+                                                        style="margin: 0; font-size: 14px; font-weight: bold; color: #007bff;">
+                                                        <?php echo htmlspecialchars($project['sk_member_name']); ?>
+                                                    </p>
+                                                    <p class="sk-member-position"
+                                                        style="margin: 0; font-size: 12px; color: #666;">
+                                                        <?php echo htmlspecialchars($project['sk_member_position']); ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p class="barangay-name" style="font-size: 12px; color: darkslategray;">
+                                                Barangay:
+                                                <strong><?php echo htmlspecialchars($project['barangay_name']); ?></strong>
+                                            </p>
+                                            <?php
+                                            $progressPercentage = 0;
+                                            $progressColor = 'bg-secondary';
+
+                                            switch ($project['status']) {
+                                                case 'pending':
+                                                    $progressPercentage = 25;
+                                                    $progressColor = 'bg-warning';
+                                                    break;
+                                                case 'hearing':
+                                                    $progressPercentage = 50;
+                                                    $progressColor = 'bg-info';
+                                                    break;
+                                                case 'approved':
+                                                    $progressPercentage = 75;
+                                                    $progressColor = 'bg-primary';
+                                                    break;
+                                                case 'completed':
+                                                    $progressPercentage = 100;
+                                                    $progressColor = 'bg-success';
+                                                    break;
+                                                default:
+                                                    $progressPercentage = 0;
+                                                    $progressColor = 'bg-secondary';
+                                                    break;
+                                            }
+
+
+                                            if ($project['status'] === 'declined') {
+                                                $progressColor = 'bg-danger';
+                                            }
+                                            ?>
+                                            <div class="progress " style="height: 10px;">
+                                                <div class="progress-bar <?php echo $progressColor; ?>" role="progressbar"
+                                                    style="width: <?php echo $progressPercentage; ?>%;"
+                                                    aria-valuenow="<?php echo $progressPercentage; ?>" aria-valuemin="0"
+                                                    aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            <p class="text-muted mt-1" style="font-size: 12px;">
+                                                Project Progress: <?php echo $progressPercentage; ?>%
+                                            </p>
                                         </div>
                                     </div>
                                 </a>
@@ -289,7 +353,8 @@ $projects = $projectController->getProjects($user_id);
             </div>
         </div>
     </div> -->
-    <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -315,7 +380,8 @@ $projects = $projectController->getProjects($user_id);
                         </div>
                         <div class="mb-3">
                             <label for="projectDescription" class="form-label">Project Description</label>
-                            <textarea class="form-control" id="projectDescription" name="projectDescription" rows="3" required></textarea>
+                            <textarea class="form-control" id="projectDescription" name="projectDescription" rows="3"
+                                required></textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -330,15 +396,18 @@ $projects = $projectController->getProjects($user_id);
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="materials" class="form-label">Material</label>
-                                <input type="text" class="form-control" id="materials" name="materials" placeholder="e.g., Cement">
+                                <input type="text" class="form-control" id="materials" name="materials"
+                                    placeholder="e.g., Cement">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="e.g., 5">
+                                <input type="number" class="form-control" id="quantity" name="quantity"
+                                    placeholder="e.g., 5">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="amount" class="form-label">Amount (₱ per unit)</label>
-                                <input type="number" class="form-control" id="amount" name="amount" placeholder="e.g., 100">
+                                <input type="number" class="form-control" id="amount" name="amount"
+                                    placeholder="e.g., 100">
                             </div>
                         </div>
                         <button type="button" class="btn btn-info mb-3" onclick="addMaterial()">Add Material</button>
@@ -355,11 +424,13 @@ $projects = $projectController->getProjects($user_id);
                         </div>
                         <div class="mb-3">
                             <label for="proposal" class="form-label">Project Proposal</label>
-                            <input type="file" class="form-control" id="proposal" name="proposal" accept=".pdf,.doc,.docx">
+                            <input type="file" class="form-control" id="proposal" name="proposal"
+                                accept=".pdf,.doc,.docx">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="submitProject()">Submit Project</button>
+                            <button type="button" class="btn btn-primary" onclick="submitProject()">Submit
+                                Project</button>
                         </div>
                     </form>
                 </div>
@@ -369,7 +440,8 @@ $projects = $projectController->getProjects($user_id);
 
 
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
     <!-- Your existing JS files -->
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -497,9 +569,9 @@ $projects = $projectController->getProjects($user_id);
             formData.append('status', 'pending');
 
             fetch('addProject.php', {
-                    method: 'POST',
-                    body: formData
-                })
+                method: 'POST',
+                body: formData
+            })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok: ' + response.statusText);
@@ -570,7 +642,7 @@ $projects = $projectController->getProjects($user_id);
         `);
             printWindow.document.close();
         }
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Check for error message
             <?php if (isset($_SESSION['error'])): ?>
                 $('#modalMessageContent').html('<div class="alert alert-danger" role="alert"><?php echo $_SESSION['error']; ?></div>');

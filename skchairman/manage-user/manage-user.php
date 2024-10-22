@@ -25,8 +25,6 @@ $error = '';
     <link href="../assets/img/sk-logo.png" rel="icon">
     <link href="../assets/img/SK-logo.png" rel="apple-touch-icon">
 
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -35,41 +33,11 @@ $error = '';
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link href="../assets/css/globalss.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 
 <style>
-    .btn {
-        margin-top: 10px;
-        width: 100%;
-    }
 
-    .icon-bg {
-        padding: 5px;
-        border-radius: 4px;
-        width: 30px;
-        display: inline-block;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .icon-bg.edit {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .icon-bg.delete {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    .icon-bg i {
-        font-size: 16px;
-    }
-
-    .icon-bg:hover {
-        opacity: 0.8;
-    }
 </style>
 
 <body>
@@ -106,7 +74,8 @@ $error = '';
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Manage SK Secretary Accounts</h5>
-                            <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                            <div
+                                class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                 <div class="datatable-top">
                                     <div class="datatable-dropdown">
                                         <label>
@@ -119,7 +88,8 @@ $error = '';
                                         </label>
                                     </div>
                                     <div class="datatable-search">
-                                        <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
+                                        <input class="datatable-input" placeholder="Search..." type="search"
+                                            name="search" title="Search within table">
                                     </div>
                                 </div>
                                 <div class="datatable-container">
@@ -134,16 +104,17 @@ $error = '';
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($users)) : ?>
-                                                <?php foreach ($users as $user) : ?>
+                                            <?php if (!empty($users)): ?>
+                                                <?php foreach ($users as $user): ?>
                                                     <tr>
                                                         <td><?php echo htmlspecialchars($user['name']) ?></td>
                                                         <td><?php echo htmlspecialchars($user['username']); ?></td>
                                                         <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                                        <td><?php echo  htmlspecialchars($user['status']); ?></td>
+                                                        <td><?php echo htmlspecialchars($user['status']); ?></td>
                                                         <td>
-                                                            <div class="d-flex justify-content-center">
-                                                                <span class="icon-bg edit me-2" data-bs-toggle="modal" data-bs-target="#editModal"
+                                                            <div class="">
+                                                                <span class="icon-bg edit me-1" data-bs-toggle="modal"
+                                                                    data-bs-target="#editModal"
                                                                     data-id="<?php echo $user['id']; ?>"
                                                                     data-name="<?php echo htmlspecialchars($user['name']); ?>"
                                                                     data-username="<?php echo htmlspecialchars($user['username']); ?>"
@@ -151,7 +122,8 @@ $error = '';
                                                                     data-status="<?php echo htmlspecialchars($user['status']); ?>">
                                                                     <i class="bi bi-pencil"></i>
                                                                 </span>
-                                                                <span class="icon-bg delete" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                                <span class="icon-bg delete" data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
                                                                     data-id="<?php echo $user['id']; ?>">
                                                                     <i class="bi bi-trash"></i>
                                                                 </span>
@@ -171,16 +143,26 @@ $error = '';
                                     <div class="datatable-info">Showing 1 to 10 of 100 entries</div>
                                     <nav class="datatable-pagination">
                                         <ul class="datatable-pagination-list">
-                                            <li class="datatable-pagination-list-item datatable-disabled"><button data-page="1">‹</button></li>
-                                            <li class="datatable-pagination-list-item datatable-active"><button data-page="1">1</button></li>
-                                            <li class="datatable-pagination-list-item"><button data-page="2">2</button></li>
-                                            <li class="datatable-pagination-list-item"><button data-page="3">3</button></li>
-                                            <li class="datatable-pagination-list-item"><button data-page="4">4</button></li>
-                                            <li class="datatable-pagination-list-item"><button data-page="5">5</button></li>
-                                            <li class="datatable-pagination-list-item"><button data-page="6">6</button></li>
-                                            <li class="datatable-pagination-list-item"><button data-page="7">7</button></li>
-                                            <li class="datatable-pagination-list-item"><button data-page="10">10</button></li>
-                                            <li class="datatable-pagination-list-item"><button data-page="2">›</button></li>
+                                            <li class="datatable-pagination-list-item datatable-disabled"><button
+                                                    data-page="1">‹</button></li>
+                                            <li class="datatable-pagination-list-item datatable-active"><button
+                                                    data-page="1">1</button></li>
+                                            <li class="datatable-pagination-list-item"><button data-page="2">2</button>
+                                            </li>
+                                            <li class="datatable-pagination-list-item"><button data-page="3">3</button>
+                                            </li>
+                                            <li class="datatable-pagination-list-item"><button data-page="4">4</button>
+                                            </li>
+                                            <li class="datatable-pagination-list-item"><button data-page="5">5</button>
+                                            </li>
+                                            <li class="datatable-pagination-list-item"><button data-page="6">6</button>
+                                            </li>
+                                            <li class="datatable-pagination-list-item"><button data-page="7">7</button>
+                                            </li>
+                                            <li class="datatable-pagination-list-item"><button
+                                                    data-page="10">10</button></li>
+                                            <li class="datatable-pagination-list-item"><button data-page="2">›</button>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -273,12 +255,12 @@ $error = '';
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const editModal = document.getElementById('editModal');
             const deleteModal = document.getElementById('deleteModal');
 
             // Event listeners for populating the modals
-            editModal.addEventListener('show.bs.modal', function(event) {
+            editModal.addEventListener('show.bs.modal', function (event) {
                 const button = event.relatedTarget;
                 const id = button.getAttribute('data-id');
                 const name = button.getAttribute('data-name');
@@ -299,7 +281,7 @@ $error = '';
                 modalStatusInput.value = status;
             });
 
-            deleteModal.addEventListener('show.bs.modal', function(event) {
+            deleteModal.addEventListener('show.bs.modal', function (event) {
                 const button = event.relatedTarget;
                 const id = button.getAttribute('data-id');
 

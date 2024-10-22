@@ -233,17 +233,17 @@ if ($barangay_id) {
                                         <div class="card-header">
                                             <h5 class="card-title mb-0"><?php echo htmlspecialchars($project['project_name']); ?></h5>
                                             <div class="badge 
-                                <?php
-                                if ($project['status'] == 'pending') {
-                                    echo 'bg-pending';
-                                } elseif ($project['status'] == 'hearing') {
-                                    echo 'bg-hearing';
-                                } elseif ($project['status'] == 'approved') {
-                                    echo 'bg-approved';
-                                } elseif ($project['status'] == 'declined') {
-                                    echo 'bg-declined';
-                                }
-                                ?>">
+                                                <?php
+                                                if ($project['status'] == 'pending') {
+                                                    echo 'bg-pending';
+                                                } elseif ($project['status'] == 'hearing') {
+                                                    echo 'bg-hearing';
+                                                } elseif ($project['status'] == 'approved') {
+                                                    echo 'bg-approved';
+                                                } elseif ($project['status'] == 'declined') {
+                                                    echo 'bg-declined';
+                                                }
+                                                ?>">
                                                 <?php echo htmlspecialchars($project['status']); ?>
                                             </div>
                                         </div>
