@@ -241,24 +241,22 @@ class projectController
     }
 
 
-    public function getTasksWithUpdates($project_id)
+    public function getTasks($project_id)
     {
-        $sql = "SELECT t.id AS task_id, 
-                       t.name, 
-                       t.description, 
-                       t.status, 
-                       t.createdAt,  -- Include the created timestamp
-                       u.message, 
-                       u.timestamp 
-                FROM tasks t 
-                LEFT JOIN updates u ON t.id = u.task_id 
-                WHERE t.project_id = :project_id 
-                ORDER BY u.timestamp DESC";
+        $sql = "SELECT id AS task_id, 
+                       name, 
+                       description, 
+                       status, 
+                       createdAt, 
+                       updatedAt 
+                FROM tasks 
+                WHERE project_id = :project_id 
+                ORDER BY createdAt DESC"; // Or updatedAt DESC based on your preference
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':project_id', $project_id, PDO::PARAM_INT); // Bind the project_id parameter
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all tasks and updates for the given project_id
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all tasks for the given project_id
     }
 
 
@@ -288,7 +286,30 @@ class projectController
         }
     }
 
-    public function updateTask
+    public function updateTask($task_id, $project_id, $name, $description, $status)
+    {
+        try {
+            $sql = "UPDATE tasks SET name = :name, description = :description, status = :status 
+                WHERE id = :task_id AND project_id = :project_id";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindParam(':task_id', $task_id, PDO::PARAM_INT);
+            $stmt->bindParam(':project_id', $project_id, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 
 }
 

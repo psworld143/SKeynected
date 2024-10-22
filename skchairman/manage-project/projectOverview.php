@@ -14,7 +14,7 @@ if ($project_id > 0) {
     $materials = $projectController->getMaterialsByProjectId($project_id);
     $disbursements = $projectController->getDisbursementByBarangay($project_id);
     $liquidations = $projectController->getLiquidationByBarangay($project_id);
-    $tasksWithUpdates = $projectController->getTasksWithUpdates($project_id);
+    $tasksWithUpdates = $projectController->getTasks($project_id);
 }
 $file = basename($projects['proposal_file_path']);
 $preview_url = "process/preview.php?file=" . urlencode($file);
@@ -345,19 +345,20 @@ date_default_timezone_set('Asia/Manila');
                                                 <?php if (!empty($tasksWithUpdates)): ?>
                                                     <?php foreach ($tasksWithUpdates as $task): ?>
                                                         <div class="activity-item d-flex">
-                                                            <div class="activite-label">
+                                                            <div class="activite-label ">
                                                                 <?php
-                                                                // Determine which timestamp to display
-                                                                if (!empty($task['message'])) {
-                                                                    $display_time = strtotime($task['timestamp']); // Use update timestamp
+                                                                if (!empty($task['updatedAt']) && strtotime($task['updatedAt']) > strtotime($task['createdAt'])) {
+                                                                    $display_time = strtotime($task['updatedAt']);
+
                                                                 } else {
-                                                                    $display_time = strtotime($task['createdAt']); // Use created timestamp
+                                                                    $display_time = strtotime($task['createdAt']);
+
                                                                 }
 
                                                                 $current_time = time();
                                                                 $time_diff = ($current_time - $display_time) / 60;
 
-                                                                // Display the time difference
+
                                                                 if ($time_diff < 0) {
                                                                     echo 'Just now';
                                                                 } elseif ($time_diff < 60) {
@@ -370,14 +371,14 @@ date_default_timezone_set('Asia/Manila');
                                                                 ?>
                                                             </div>
                                                             <i class="bi bi-circle-fill activity-badge
-                                                                    <?php
-                                                                    if ($task['status'] == 'completed')
-                                                                        echo 'text-success';
-                                                                    elseif ($task['status'] == 'in_progress')
-                                                                        echo 'text-primary';
-                                                                    else
-                                                                        echo 'text-warning';
-                                                                    ?> align-self-start">
+                                                                <?php
+                                                                if ($task['status'] == 'completed')
+                                                                    echo 'text-success';
+                                                                elseif ($task['status'] == 'in_progress')
+                                                                    echo 'text-primary';
+                                                                else
+                                                                    echo 'text-warning';
+                                                                ?> align-self-start">
                                                             </i>
                                                             <div class="activity-content flex-grow-1"
                                                                 style="padding-bottom: 1.5rem;">
@@ -390,7 +391,10 @@ date_default_timezone_set('Asia/Manila');
                                                                 <div class="mt-2">
                                                                     <button class="btn btn-sm btn-light" data-bs-toggle="modal"
                                                                         data-bs-target="#updateTaskModal"
-                                                                        onclick="fillUpdateModal(<?php echo $task['task_id']; ?>, '<?php echo $task['name']; ?>', '<?php echo $task['status']; ?>')">
+                                                                        data-id="<?= htmlspecialchars($task['task_id']); ?>"
+                                                                        data-name="<?= htmlspecialchars($task['name']); ?>"
+                                                                        data-description="<?= htmlspecialchars($task['description']); ?>"
+                                                                        data-status="<?= htmlspecialchars($task['status']); ?>">
                                                                         <i class="bi bi-pencil-square"></i> Update
                                                                     </button>
                                                                 </div>
@@ -400,6 +404,7 @@ date_default_timezone_set('Asia/Manila');
                                                 <?php else: ?>
                                                     <p>No recent activity found.</p>
                                                 <?php endif; ?>
+
                                             </div>
                                         </div>
                                         <!-- Update Task Modal -->
@@ -414,13 +419,21 @@ date_default_timezone_set('Asia/Manila');
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form id="updateTaskForm">
+                                                        <form action="process/updateTask.php" method="POST">
                                                             <input type="hidden" id="taskId" name="task_id">
+                                                            <input type="hidden" id="projectId" name="project_id"
+                                                                value="<?= $project_id ?>">
                                                             <div class="mb-3">
                                                                 <label for="taskName" class="form-label">Task
                                                                     Name</label>
                                                                 <input type="text" class="form-control" id="taskName"
                                                                     name="task_name" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="taskDescription" class="form-label">Task
+                                                                    Description</label>
+                                                                <textarea class="form-control" id="taskDescription"
+                                                                    name="task_description" required></textarea>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="taskStatus"
@@ -439,6 +452,7 @@ date_default_timezone_set('Asia/Manila');
                                                 </div>
                                             </div>
                                         </div>
+
 
                                         <!-- Add Task Modal -->
                                         <div class="modal fade" id="addTaskModal" tabindex="-1"
@@ -818,6 +832,9 @@ date_default_timezone_set('Asia/Manila');
     <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
     <script>
+
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const previewLinks = document.querySelectorAll('.preview-link');
             const previewContent = document.getElementById('previewContent');
@@ -836,6 +853,31 @@ date_default_timezone_set('Asia/Manila');
                         });
                 });
             });
+
+            const updateTaskModal = document.getElementById('updateTaskModal');
+
+            updateTaskModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget; // Button that triggered the modal
+
+                // Extract info from data-* attributes
+                const taskId = button.getAttribute('data-id');
+                const taskName = button.getAttribute('data-name');
+                const taskDescription = button.getAttribute('data-description');
+                const taskStatus = button.getAttribute('data-status');
+
+                // Log the extracted values to verify they are correct
+                console.log({ taskId, taskName, taskDescription, taskStatus });
+
+                // Update the modal's input values
+                document.getElementById('taskId').value = taskId;
+                document.getElementById('taskName').value = taskName;
+                document.getElementById('taskDescription').value = taskDescription;
+
+                // Set the status select value
+                const statusSelect = document.getElementById('taskStatus');
+                statusSelect.value = taskStatus; // Set the select box directly
+            });
+
         });
 
         function toggleHearingDate() {
@@ -912,34 +954,6 @@ date_default_timezone_set('Asia/Manila');
             // Perform an AJAX call to update the status in the backend
         });
 
-
-
-        // Fill the update modal with the task data
-        function fillUpdateModal(task_id, task_name, task_status) {
-            document.getElementById('taskId').value = task_id;
-            document.getElementById('taskName').value = task_name;
-            document.getElementById('taskStatus').value = task_status;
-        }
-
-        // Handle form submission for updating a task
-        document.getElementById('updateTaskForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-
-            fetch('update_task.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload(); // Reload the page to reflect updates
-                    } else {
-                        alert('Failed to update task.');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        });
 
     </script>
 </body>
