@@ -18,7 +18,8 @@ class barangayController
         $query = "
             SELECT 
                 b.id, 
-                b.name, 
+                b.name,
+                b.barangay_image_path, 
                 COUNT(DISTINCT sr.response_id) AS youth_count,
                 SUM(CASE WHEN sr.sex = 'male' THEN 1 ELSE 0 END) AS male_count,
                 SUM(CASE WHEN sr.sex = 'female' THEN 1 ELSE 0 END) AS female_count,
@@ -28,7 +29,7 @@ class barangayController
             LEFT JOIN survey_responses sr ON sr.barangay_id = b.id
             LEFT JOIN sk_members sm ON sm.barangay_id = b.id
             LEFT JOIN projects p ON p.barangay_id = b.id
-            GROUP BY b.id, b.name
+            GROUP BY b.id, b.name, b.barangay_image_path
         ";
 
         $stmt = $this->db->prepare($query);
@@ -149,5 +150,23 @@ class barangayController
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-   
+    public function addBarangay($barangayName, $imageName)
+    {
+        $query = "INSERT INTO barangays (name, barangay_image_path) VALUES (:name, :barangay_image_path)";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':name', $barangayName, PDO::PARAM_STR);
+        $stmt->bindParam(':barangay_image_path', $imageName, PDO::PARAM_STR);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            throw new Exception("Error adding barangay: " . $e->getMessage());
+        }
+    }
+
+
+
+
+
 }

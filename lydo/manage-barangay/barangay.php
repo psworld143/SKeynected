@@ -3,17 +3,6 @@
 require_once '../core/barangayController.php';
 
 $brgy = (new barangayController())->getBarangay();
-$backgroundImages = [
-    1 => '../assets/img/acmonan.jpg',
-    2 => '../assets/img/bololmala.jpg',
-    3 => '../assets/img/bunao.jpg',
-    4 => '../assets/img/cebuano.jpg',
-    5 => '../assets/img/crossing-rubber.jpg',
-    6 => '../assets/img/kablon.jpg',
-    7 => '../assets/img/kalkam.jpg',
-    8 => '../assets/img/linan.png',
-];
-
 
 ?>
 
@@ -170,14 +159,23 @@ $backgroundImages = [
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="background-image" style="background-image: url('../assets/img/LYDO-tupi.jpg'); background-size: cover; background-position: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; height:65vh; width:100%; background-repeat: no-repeat;  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></div>
+                    <div class="background-image"
+                        style="background-image: url('../assets/img/LYDO-tupi.jpg'); background-size: cover; background-position: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; height:65vh; width:100%; background-repeat: no-repeat;  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-3 d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#addBarangayModal">
+                        Add Barangay
+                    </button>
                 </div>
 
                 <div class="grid-container col-md-12">
                     <?php foreach ($brgy as $barangays): ?>
                         <?php
-                        $barangayId = (int)$barangays['id'];
-                        $image = isset($backgroundImages[$barangayId]) ? $backgroundImages[$barangayId] : '../assets/img/default.jpg';
+                        $barangayId = (int) $barangays['id'];
+                        $image = !empty($barangays['barangay_image_path']) ? '../../uploads/img/' . htmlspecialchars($barangays['barangay_image_path']) : '../assets/img/default.jpg';
                         ?>
                         <div class="card">
                             <div class="card-header">
@@ -192,11 +190,13 @@ $backgroundImages = [
                                 </div>
                                 <div class="stat">
                                     <div class="stat-label">SK Members</div>
-                                    <div class="stat-value"><?php echo htmlspecialchars($barangays['sk_member_count']); ?></div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($barangays['sk_member_count']); ?>
+                                    </div>
                                 </div>
                                 <div class="stat">
                                     <div class="stat-label">Projects</div>
-                                    <div class="stat-value"><?php echo htmlspecialchars($barangays['project_count']); ?></div>
+                                    <div class="stat-value"><?php echo htmlspecialchars($barangays['project_count']); ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="button-group">
@@ -212,6 +212,32 @@ $backgroundImages = [
         </section>
     </main>
 
+    <!-- Add Barangay Modal -->
+    <div class="modal fade" id="addBarangayModal" tabindex="-1" aria-labelledby="addBarangayModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addBarangayModalLabel">Add Barangay</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="process/addBarangay.php" method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="barangayName" class="form-label">Barangay Name</label>
+                            <input type="text" class="form-control" id="barangayName" name="barangayName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="barangayImage" class="form-label">Barangay Image</label>
+                            <input type="file" class="form-control" id="barangayImage" name="barangayImage"
+                                accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Barangay</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/main.js"></script>
 </body>
