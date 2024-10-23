@@ -34,25 +34,7 @@ class BarangayAPI
         "Separated",
     ];
 
-    public function getData(): array
-    {
-        return [
-            'baranggayData' => $this->getBarangayData(),
-            'baranggays' => self::BARANGGAY_NAMES,
-            'youthData' => $this->getYouthData(),
-            'youthLabels' => self::YOUTH_LABELS,
-            'sexData' => $this->getSexData(),
-            'sexLabels' => self::SEX_LABELS,
-            'ageData' => $this->getAgeData(),
-            'ageLabels' => self::AGE_LABELS,
-            'ageClassificationData' => $this->getAgeClassificationData(),
-            'ageClassificationLabels' => self::AGE_CLASSIFICATION_LABELS,
-            'genderPrefData' => $this->getGenderPreferenceData(),
-            'genderPrefLabels' => self::GENDER_PREF_LABELS,
-            'civilStatusData' => $this->getCivilStatusData(),
-            'civilStatusLabels' => self::CIVIL_STATUS_LABELS,
-        ];
-    }
+
 
     private function getBarangayData(): array
     {
@@ -87,6 +69,26 @@ class BarangayAPI
     private function getCivilStatusData(): array
     {
         return [80.3, 12.8, 7, 0, 0];
+    }
+
+    public function getData(): array
+    {
+        return [
+            'baranggayData' => $this->getBarangayData(),
+            'baranggays' => self::BARANGGAY_NAMES,
+            'youthData' => $this->getYouthData(),
+            'youthLabels' => self::YOUTH_LABELS,
+            'sexData' => $this->getSexData(),
+            'sexLabels' => self::SEX_LABELS,
+            'ageData' => $this->getAgeData(),
+            'ageLabels' => self::AGE_LABELS,
+            'ageClassificationData' => $this->getAgeClassificationData(),
+            'ageClassificationLabels' => self::AGE_CLASSIFICATION_LABELS,
+            'genderPrefData' => $this->getGenderPreferenceData(),
+            'genderPrefLabels' => self::GENDER_PREF_LABELS,
+            'civilStatusData' => $this->getCivilStatusData(),
+            'civilStatusLabels' => self::CIVIL_STATUS_LABELS,
+        ];
     }
 }
 
