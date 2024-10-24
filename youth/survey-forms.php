@@ -174,11 +174,15 @@ $barangays = $barangay->getBarangay();
                             <h3>Personal Information</h3>
                             <div class="col-md-6">
                                 <label for="lastname" class="form-label">Last name (Apilyedo)</label>
-                                <input type="text" class="form-control" id="lastname" placeholder="Last name" name="lastname" required>
+                                <input type="text" class="form-control" id="lastname" placeholder="Last name"
+                                    name="lastname" required>
                                 <label for="firstname" class="form-label">First name (Pangalan)</label>
-                                <input type="text" class="form-control" id="firstname" placeholder="First name" name="firstname" required>
-                                <label for="middlename" class="form-label">Middle name (Put N/A if not applicable)</label>
-                                <input type="text" class="form-control" id="middlename" placeholder="Middle name" name="middlename" required>
+                                <input type="text" class="form-control" id="firstname" placeholder="First name"
+                                    name="firstname" required>
+                                <label for="middlename" class="form-label">Middle name (Put N/A if not
+                                    applicable)</label>
+                                <input type="text" class="form-control" id="middlename" placeholder="Middle name"
+                                    name="middlename" required>
                                 <label for="suffix" class="form-label">Complete Address</label>
                                 <textarea name="address" id="" class="form-control"></textarea>
                             </div>
@@ -187,15 +191,18 @@ $barangays = $barangay->getBarangay();
                                 <label class="form-label">Sex</label>
                                 <div class="d-flex mt-2">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sex" id="male" value="male" required>
+                                        <input class="form-check-input" type="radio" name="sex" id="male" value="male"
+                                            required>
                                         <label class="form-check-label" for="male">Male</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sex" id="female" value="female" required>
+                                        <input class="form-check-input" type="radio" name="sex" id="female"
+                                            value="female" required>
                                         <label class="form-check-label" for="female">Female</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sex" id="other" value="other" required>
+                                        <input class="form-check-input" type="radio" name="sex" id="other" value="other"
+                                            required>
                                         <label class="form-check-label" for="other">Other</label>
                                     </div>
                                 </div>
@@ -204,15 +211,16 @@ $barangays = $barangay->getBarangay();
                                 <label for="" class="form-label">Barangay</label>
                                 <select name="barangayId" id="barangayName" class="form-control" required>
                                     <?php foreach ($barangays as $barangay): ?>
-                                        <option value="<?php echo $barangay['id']; ?>"><?php echo $barangay['name']; ?></option>
+                                        <option value="<?php echo $barangay['id']; ?>"><?php echo $barangay['name']; ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <label for="" class="form-label">Date of Birth</label>
                                 <input type="date" name="dob" id="" class="form-control">
                             </div>
                         </div>
-                        <div class="col-lg-12 mt-4">
-                            <button type="button" class="btn btn-submit next-btn">Next</button>
+                        <div class="col-lg-12 mt-4 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary next-btn">Next</button>
                         </div>
                     </div>
 
@@ -228,16 +236,21 @@ $barangays = $barangay->getBarangay();
                                 <label for="" class="form-label">Age Classification</label>
                                 <div class="d-flex mt-2 mb-2">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="ageClassification" id="male" value="male" required>
+                                        <input class="form-check-input" type="radio" name="ageClassification" id="male"
+                                            value="male" required>
                                         <label class="form-check-label" for="male">CHILD YOUTH (15-17 YEARS OLD)</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="ageClassification" id="female" value="female" required>
-                                        <label class="form-check-label" for="female">CORE YOUTH (18-24 YEARS OLD)</label>
+                                        <input class="form-check-input" type="radio" name="ageClassification"
+                                            id="female" value="female" required>
+                                        <label class="form-check-label" for="female">CORE YOUTH (18-24 YEARS
+                                            OLD)</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="ageClassification" id="other" value="other" required>
-                                        <label class="form-check-label" for="other">ADULT YOUTH (25-30 YEARS OLD)</label>
+                                        <input class="form-check-input" type="radio" name="ageClassification" id="other"
+                                            value="other" required>
+                                        <label class="form-check-label" for="other">ADULT YOUTH (25-30 YEARS
+                                            OLD)</label>
                                     </div>
                                 </div>
                                 <label for="" class="form-label">Civil Status</label>
@@ -280,16 +293,16 @@ $barangays = $barangay->getBarangay();
                                 <input type="text" name="fbname" id="" class="form-control">
                             </div>
                         </div>
-                        <div class="col-lg-12 mt-4">
-                            <button type="button" class="btn btn-submit prev-btn">Previous</button>
-                            <button type="button" class="btn btn-submit next-btn">Next</button>
+                        <div class="col-lg-12 mt-4 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary prev-btn">Previous</button>
+                            <button type="button" class="btn btn-primary next-btn">Next</button>
                         </div>
                     </div>
 
-
                     <div class="form-section" id="section3">
                         <div class="row">
-                            <div class="col-md-6"><label for="" class="form-label">Youth Classification</label>
+                            <div class="col-md-6">
+                                <label for="" class="form-label">Youth Classification</label>
                                 <select name="youthClassification" id="" class="form-control" required>
                                     <option value="in-school">In-School Youth</option>
                                     <option value="out-school">Out-of-School Youth</option>
@@ -305,9 +318,9 @@ $barangays = $barangay->getBarangay();
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-12 mt-4">
-                            <button type="button" class="btn btn-submit prev-btn">Previous</button>
-                            <button type="button" class="btn btn-submit next-btn">Next</button>
+                        <div class="col-lg-12 mt-4 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary prev-btn">Previous</button>
+                            <button type="button" class="btn btn-primary next-btn">Next</button>
                         </div>
                     </div>
 
@@ -315,7 +328,8 @@ $barangays = $barangay->getBarangay();
                         <div class="row">
                             <h3>Educational Background</h3>
                             <div class="col-md-6">
-                                <label for="" class="form-label">Highest Educational Attainment (Grade Year Level)</label>
+                                <label for="" class="form-label">Highest Educational Attainment (Grade Year
+                                    Level)</label>
                                 <select name="educationalAttainment" id="" class="form-control">
                                     <option value="pre-school">Pre-School</option>
                                     <option value="elementary">Elementary</option>
@@ -330,7 +344,8 @@ $barangays = $barangay->getBarangay();
                                     <option value="master-degree">Master's Degree</option>
                                     <option value="doctoral-degree">Doctoral Degree</option>
                                 </select>
-                                <label for="" class="form-label">If Technical/Vocational, please specify. <br> (If none please put N/A)</label>
+                                <label for="" class="form-label">If Technical/Vocational, please specify. <br> (If none
+                                    please put N/A)</label>
                                 <input type="text" name="techVoc" id="" class="form-control">
 
                                 <label for="" class="form-label">Still Studying?</label>
@@ -339,7 +354,8 @@ $barangays = $barangay->getBarangay();
                                     <option value="no">No</option>
                                 </select>
 
-                                <label for="" class="form-label">If Yes, What Grade/Year Level If NO, please select N/A</label>
+                                <label for="" class="form-label">If Yes, What Grade/Year Level If NO, please select
+                                    N/A</label>
                                 <select name="GradeLevelIfStudying" id="" class="form-control">
                                     <option value="N/A">N/A</option>
                                     <option value="grade-1">Grade 1</option>
@@ -370,9 +386,9 @@ $barangays = $barangay->getBarangay();
                                 <input type="text" name="haveAnyChild" id="" class="form-control">
                             </div>
                         </div>
-                        <div class="col-lg-12 mt-4">
-                            <button type="button" class="btn btn-submit prev-btn">Previous</button>
-                            <button type="button" class="btn btn-submit next-btn">Next</button>
+                        <div class="col-lg-12 mt-4 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary prev-btn">Previous</button>
+                            <button type="button" class="btn btn-primary next-btn">Next</button>
                         </div>
                     </div>
 
@@ -393,9 +409,9 @@ $barangays = $barangay->getBarangay();
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-12 mt-4">
-                            <button type="button" class="btn btn-submit prev-btn">Previous</button>
-                            <button type="button" class="btn btn-submit" id="submitBtn">Submit</button>
+                        <div class="col-lg-12 mt-4 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary prev-btn">Previous</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
                         </div>
                     </div>
 
@@ -413,7 +429,7 @@ $barangays = $barangay->getBarangay();
     <script src="assets/js/main.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('surveyForm');
             const sections = document.querySelectorAll('.form-section');
             const nextBtns = document.querySelectorAll('.next-btn');
@@ -474,7 +490,7 @@ $barangays = $barangay->getBarangay();
             }
 
             nextBtns.forEach((btn) => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     if (currentSection < sections.length - 1) {
                         showSection(currentSection + 1);
                     }
@@ -482,14 +498,14 @@ $barangays = $barangay->getBarangay();
             });
 
             prevBtns.forEach((btn) => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     if (currentSection > 0) {
                         showSection(currentSection - 1);
                     }
                 });
             });
 
-            submitBtn.addEventListener('click', function() {
+            submitBtn.addEventListener('click', function () {
                 form.submit();
             });
 

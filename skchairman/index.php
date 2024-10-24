@@ -27,7 +27,6 @@ $error = '';
     html {
       max-height: 120vh;
       margin: 0;
-
     }
 
     body::before {
@@ -132,56 +131,69 @@ $error = '';
     }
   </style>
 </head>
-<div class="container-fluid h-100">
-  <div class="row h-100">
-    <div class="col-md-7 left-section d-flex flex-column justify-content-center">
-      <h1>Sangguniang Kabataan</h1>
-      <h2>Empowering the<br>Youth<br>Nationwide</h2>
-      <div>
-        <h3>SK CORE:</h3>
-        <ul class="core-values">
-          <li><strong>S</strong>olidarity</li>
-          <li><strong>K</strong>abataan (Youth Empowerment)</li>
-          <li><strong>I</strong>ntegrity</li>
-          <li><strong>P</strong>articipation</li>
-          <li><strong>A</strong>ction</li>
-        </ul>
-        <h4 class="mt-4">Committed to the Total Development<br>of the Youth</h4>
-      </div>
-    </div>
 
-    <div class="col-md-5 d-flex align-items-center justify-content-center">
-      <div class="login-section">
-        <div class="text-center mb-4">
-          <img src="assets/img/sk-logo.png" alt="Logo" class="logo">
-          <h6>Sign in to <span>SK</span>eynected</h6>
-        </div>
-        <form action="auth.php" method="post">
-          <div class="mb-3">
-            <input type="text" class="form-control" name="username" placeholder="Username" required>
-          </div>
-          <div class="mb-3">
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="showPassword">
-            <label class="form-check-label" for="showPassword">Show Password</label>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Sign in</button>
-        </form>
-        <div class="text-center mt-3">
-          <a href="#" class="forgot-password">Forgot password? Click here</a>
+<body>
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-md-7 left-section d-flex flex-column justify-content-center">
+        <h1>Sangguniang Kabataan</h1>
+        <h2>Empowering the<br>Youth<br>Nationwide</h2>
+        <div>
+          <h3>SK CORE:</h3>
+          <ul class="core-values">
+            <li><strong>S</strong>olidarity</li>
+            <li><strong>K</strong>abataan (Youth Empowerment)</li>
+            <li><strong>I</strong>ntegrity</li>
+            <li><strong>P</strong>articipation</li>
+            <li><strong>A</strong>ction</li>
+          </ul>
+          <h4 class="mt-4">Committed to the Total Development<br>of the Youth</h4>
         </div>
       </div>
-    </div>
-    <div class="col-12 partner-logos">
-      <div><img src="assets/img/LYDC.png" alt="Partner 1 Logo"></div>
-      <div><img src="assets/img/LYDO-tupi.jpg" alt="Partner 2 Logo"></div>
-      <div><img src="assets/img/sk-logo.png" alt="Partner 3 Logo"></div>
-      <div><img src="assets/img/LGU.jfif" alt="Partner 4 Logo"></div>
+
+      <div class="col-md-5 d-flex align-items-center justify-content-center">
+        <div class="login-section">
+          <div class="text-center mb-4">
+            <img src="assets/img/sk-logo.png" alt="Logo" class="logo">
+            <h6>Sign in to <span>SK</span>eynected</h6>
+          </div>
+          <form action="auth.php" method="post">
+            <div class="mb-3">
+              <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="showPassword">
+              <label class="form-check-label" for="showPassword">Show Password</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign in</button>
+          </form>
+          <div class="text-center mt-3">
+            <a href="#" class="forgot-password">Forgot password? Click here</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 partner-logos">
+        <div><img src="assets/img/LYDC.png" alt="Partner 1 Logo"></div>
+        <div><img src="assets/img/LYDO-tupi.jpg" alt="Partner 2 Logo"></div>
+        <div><img src="assets/img/sk-logo.png" alt="Partner 3 Logo"></div>
+        <div><img src="assets/img/LGU.jfif" alt="Partner 4 Logo"></div>
+      </div>
     </div>
   </div>
-</div>
+
+  <script>
+    document.getElementById('showPassword').addEventListener('change', function () {
+      const passwordField = document.getElementById('password');
+      if (this.checked) {
+        passwordField.type = 'text';
+      } else {
+        passwordField.type = 'password';
+      }
+    });
+  </script>
 </body>
 
 </html>
