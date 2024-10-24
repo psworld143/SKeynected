@@ -3,6 +3,8 @@ require_once '../core/userController.php';
 require_once '../core/projectController.php';
 require_once '../core/youthController.php';
 include_once '../core/sessionController.php';
+
+$youthController = new youthController();
 (new sessionController())->checkLogin();
 
 $youthId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
@@ -55,6 +57,41 @@ if ($youthId) {
     .survey-value {
         margin-bottom: 0.5rem;
     }
+
+    .card-header {
+        background-color: #012970;
+        color: white;
+    }
+
+    .profile-image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .profile-image-container:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .bi-camera {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
 </style>
 
 <body>
@@ -75,35 +112,81 @@ if ($youthId) {
             </nav>
         </div>
         <section class="section profile">
+            <style>
+                btn-custom {
+                    width: auto;
+                    padding: 0.375rem 0.75rem;
+                }
+
+                .hidden {
+                    display: none;
+                }
+            </style>
             <?php if ($responseData): ?>
                 <div class="row">
                     <div class="col-xl-4">
                         <div class="card">
                             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                                <img src="../assets/img/profile.png" alt="Profile" class="rounded-circle">
-                                <h2><?= htmlspecialchars($responseData['firstname'] . ' ' . $responseData['middlename'] . ' ' . $responseData['lastname']) ?>
+                                <div class="position-relative" style="cursor: pointer;">
+                                    <!-- Hidden file input -->
+                                    <input type="file" id="profileImageUpload" style="display: none;" accept="image/*"
+                                        onchange="handleImageUpload(this)">
+
+                                    <!-- Profile image with hover overlay -->
+                                    <div class="profile-image-container"
+                                        onclick="document.getElementById('profileImageUpload').click()">
+                                        <img src="../assets/img/profile.png" alt="Profile" class="rounded-circle"
+                                            id="profileImage">
+                                        <div class="image-overlay rounded-circle">
+                                            <i class="bi bi-camera"></i>
+                                            <div>Update Photo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 class="text-center">
+                                    <?= htmlspecialchars($responseData['firstname'] . ' ' . $responseData['middlename'] . ' ' . $responseData['lastname']) ?>
                                 </h2>
-                                <h3>Barangay <?= htmlspecialchars($responseData['barangay_name']) ?> Youth</h3>
                                 <div class="social-links mt-2">
                                     <a href="#" class="facebook"><i class="bi bi-facebook"></i>
                                         <?= htmlspecialchars($responseData['fbname']) ?></a>
                                 </div>
+                                <!-- Save button initially hidden -->
+                                <button id="saveButton" class="btn btn-primary btn-custom hidden">Save</button>
                             </div>
                         </div>
                     </div>
+                    <script>
+                        function handleImageUpload(input) {
+                            previewImage(input);
+                            document.getElementById('saveButton').classList.remove('hidden');
+                        }
+
+                        function previewImage(input) {
+                            const reader = new FileReader();
+                            reader.onload = function () {
+                                const output = document.getElementById('profileImage');
+                                output.src = reader.result;
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    </script>
 
                     <div class="col-xl-8">
-
                         <div class="card">
-
                             <div class="card-body pt-3">
-                                <div class="flex-end">
-                                    <button type="button" class="btn btn-primary btn-update" data-bs-toggle="modal"
+                                <div class="d-flex justify-content-end mb-3">
+                                    <button type="button" class="btn btn-primary me-2 btn-custom" data-bs-toggle="modal"
                                         data-bs-target="#updateModal">
                                         Update Details
                                     </button>
+                                    <button type="button" class="btn btn-danger btn-custom"
+                                        onclick="confirmDelete(<?= $youthId ?>)">
+                                        Delete Profile
+                                    </button>
                                 </div>
-                                <h5 class="card-title">Youth Details</h5>
+                                <div class="card-header text-center mb-2">
+                                    <h5>Youth Details</h5>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6 survey-section">
                                         <h6 class="survey-section-title">Personal Information</h6>
@@ -275,6 +358,14 @@ if ($youthId) {
                 <p>No survey response data found for the selected youth.</p>
             <?php endif; ?>
         </section>
+        <script>
+            function confirmDelete(youthId) {
+                if (confirm('Are you sure you want to delete this profile?')) {
+                    window.location.href = 'deleteYouth.php?id=' + youthId;
+                }
+            }
+
+        </script>
         <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">

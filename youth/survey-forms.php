@@ -12,6 +12,8 @@ $barangays = $barangay->getBarangay();
     <title>Youth Survey Form</title>
     <meta name="description" content="Modern sliding survey form with QR code generator">
     <meta name="keywords" content="survey, qr code, youth, modern">
+    <link href="assets/img/SK-logo.png" rel="icon">
+    <link href="assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -37,7 +39,7 @@ $barangays = $barangay->getBarangay();
             padding: 20px;
             border-radius: 15px;
             z-index: 1;
-            margin-top: 50px;
+
         }
 
         .qr-placeholder {
@@ -134,36 +136,15 @@ $barangays = $barangay->getBarangay();
 
         .prev-btn {
             background-color: #6c757d;
-            /* Grey color for the previous button */
         }
 
         .prev-btn:hover {
             background-color: #5a6268;
         }
-
-        .custom-mt {
-            margin-top: 40px;
-        }
     </style>
 </head>
 
 <body class="d-flex align-items-center justify-content-center min-vh-100">
-    <header id="header" class="header fixed-top d-flex align-items-center">
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
-                <span class="d-none d-lg-block">SKeynected</span>
-            </a>
-        </div>
-        <nav class="header-nav ms-auto">
-            <ul class="d-flex align-items-center">
-                <li class="nav-item d-block d-lg-none">
-                    <a class="nav-link nav-icon search-bar-toggle" href="#">
-                        <i class="bi bi-search"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
     <div class="container survey-container">
         <div class="row g-0 bg-white rounded-3 shadow-lg overflow-hidden">
             <div class="col-12 p-0">
@@ -184,7 +165,8 @@ $barangays = $barangay->getBarangay();
                                 <input type="text" class="form-control" id="middlename" placeholder="Middle name"
                                     name="middlename" required>
                                 <label for="suffix" class="form-label">Complete Address</label>
-                                <textarea name="address" id="" class="form-control"></textarea>
+                                <textarea name="address" id="" class="form-control"
+                                    placeholder="Complete Address"></textarea>
                             </div>
 
                             <div class="col-md-6">
@@ -216,7 +198,7 @@ $barangays = $barangay->getBarangay();
                                     <?php endforeach; ?>
                                 </select>
                                 <label for="" class="form-label">Date of Birth</label>
-                                <input type="date" name="dob" id="" class="form-control">
+                                <input type="date" name="dob" id="" class="form-control" placeholder="Date of Birth">
                             </div>
                         </div>
                         <div class="col-lg-12 mt-4 d-flex justify-content-end">
@@ -262,20 +244,23 @@ $barangays = $barangay->getBarangay();
                                     <option value="divorced">Divorced</option>
                                 </select>
                                 <label for="" class="form-label">Cellphone Number (Put N/A if not applicable)</label>
-                                <input type="number" name="phoneno" id="" class="form-control">
+                                <input type="number" name="phoneno" id="" class="form-control"
+                                    placeholder="Cellphone Number">
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-4">
                                     <label for="" class="form-label">Place Of Birth</label>
-                                    <input type="text" name="placeOfBirth" id="" class="form-control" required>
+                                    <input type="text" name="placeOfBirth" id="" class="form-control"
+                                        placeholder="Place Of Birth" required>
                                 </div>
 
                                 <div class="mb-5">
                                     <label for="" class="form-label">Religion</label>
-                                    <input type="text" name="religion" id="" class="form-control" required>
+                                    <input type="text" name="religion" id="" class="form-control" placeholder="Religion"
+                                        required>
                                 </div>
                                 <label for="" class="form-label">Ethnicity</label>
-                                <select name="ethnicity" id="" class="form-control">
+                                <select name="ethnicity" id="" class="form-control" placeholder="Ethnicity">
                                     <option value="tagalog">Tagalog</option>
                                     <option value="bisaya">Bisaya</option>
                                     <option value="ilocano">Ilocano</option>
@@ -290,7 +275,7 @@ $barangays = $barangay->getBarangay();
                                 </select>
 
                                 <label for="" class="form-label">Facebook name (Put N/A if not applicable)</label>
-                                <input type="text" name="fbname" id="" class="form-control">
+                                <input type="text" name="fbname" id="" class="form-control" placeholder="Facebook name">
                             </div>
                         </div>
                         <div class="col-lg-12 mt-4 d-flex justify-content-between">
@@ -303,7 +288,8 @@ $barangays = $barangay->getBarangay();
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="" class="form-label">Youth Classification</label>
-                                <select name="youthClassification" id="" class="form-control" required>
+                                <select name="youthClassification" id="" class="form-control"
+                                    placeholder="Youth Classification" required>
                                     <option value="in-school">In-School Youth</option>
                                     <option value="out-school">Out-of-School Youth</option>
                                     <option value="postgrad">Post-Graduate</option>
@@ -311,7 +297,8 @@ $barangays = $barangay->getBarangay();
                             </div>
                             <div class="col-md-6">
                                 <label for="" class="form-label">Gender Preference</label>
-                                <select name="genderPref" id="genderPreference" class="form-control" required>
+                                <select name="genderPref" id="genderPreference" class="form-control"
+                                    placeholder="Gender Preference" required>
                                     <option value="girl">Girl</option>
                                     <option value="boy">Boy</option>
                                     <option value="other">Others</option>
@@ -330,7 +317,8 @@ $barangays = $barangay->getBarangay();
                             <div class="col-md-6">
                                 <label for="" class="form-label">Highest Educational Attainment (Grade Year
                                     Level)</label>
-                                <select name="educationalAttainment" id="" class="form-control">
+                                <select name="educationalAttainment" id="" class="form-control"
+                                    placeholder="Highest Educational Attainment">
                                     <option value="pre-school">Pre-School</option>
                                     <option value="elementary">Elementary</option>
                                     <option value="7th-grade">7th Grade</option>
@@ -346,17 +334,19 @@ $barangays = $barangay->getBarangay();
                                 </select>
                                 <label for="" class="form-label">If Technical/Vocational, please specify. <br> (If none
                                     please put N/A)</label>
-                                <input type="text" name="techVoc" id="" class="form-control">
+                                <input type="text" name="techVoc" id="" class="form-control"
+                                    placeholder="Technical/Vocational">
 
                                 <label for="" class="form-label">Still Studying?</label>
-                                <select name="stillStudying" id="" class="form-control">
+                                <select name="stillStudying" id="" class="form-control" placeholder="Still Studying?">
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
                                 </select>
 
                                 <label for="" class="form-label">If Yes, What Grade/Year Level If NO, please select
                                     N/A</label>
-                                <select name="GradeLevelIfStudying" id="" class="form-control">
+                                <select name="GradeLevelIfStudying" id="" class="form-control"
+                                    placeholder="Grade/Year Level">
                                     <option value="N/A">N/A</option>
                                     <option value="grade-1">Grade 1</option>
                                     <option value="grade-2">Grade 2</option>
@@ -372,18 +362,22 @@ $barangays = $barangay->getBarangay();
                             </div>
                             <div class="col-md-6">
                                 <label for="" class="form-label">If NO, Why Did You Stop Studying?</label>
-                                <input type="text" name="ifNoStudying" id="" class="form-control">
+                                <input type="text" name="ifNoStudying" id="" class="form-control"
+                                    placeholder="Reason for stopping">
 
                                 <div style="margin-top: 45px;">
                                     <label for="" class="form-label">Do You Have Any Disability?</label>
-                                    <input type="text" name="disability" id="" class="form-control">
+                                    <input type="text" name="disability" id="" class="form-control"
+                                        placeholder="Disability">
                                 </div>
 
                                 <label for="" class="form-label">If Yes, Please Specify</label>
-                                <input type="text" name="disabilitySpec" id="" class="form-control">
+                                <input type="text" name="disabilitySpec" id="" class="form-control"
+                                    placeholder="Specify Disability">
 
                                 <label for="" class="form-label">have any child/children?</label>
-                                <input type="text" name="haveAnyChild" id="" class="form-control">
+                                <input type="text" name="haveAnyChild" id="" class="form-control"
+                                    placeholder="Child/Children">
                             </div>
                         </div>
                         <div class="col-lg-12 mt-4 d-flex justify-content-between">
@@ -396,14 +390,16 @@ $barangays = $barangay->getBarangay();
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="" class="form-label">a registered voter?</label>
-                                <select name="registeredVoter" id="" class="form-control">
+                                <select name="registeredVoter" id="" class="form-control"
+                                    placeholder="Registered Voter">
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="" class="form-label">have involvement from any organization?</label>
-                                <select name="haveInvolvement" id="" class="form-control">
+                                <select name="haveInvolvement" id="" class="form-control"
+                                    placeholder="Involvement in Organization">
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
                                 </select>

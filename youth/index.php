@@ -1,7 +1,7 @@
 <?php
 require_once 'core/surveyController.php';
 $youth = new surveyController();
-// $barangays = $youth->getBarangay();
+$barangays = $youth->getBarangay();
 
 
 ?>
@@ -14,6 +14,8 @@ $youth = new surveyController();
     <title>Youth Survey Form</title>
     <meta name="description" content="Survey form with QR code generator">
     <meta name="keywords" content="survey, qr code, youth">
+    <link href="assets/img/SK-logo.png" rel="icon">
+    <link href="assets/img/SK-logo.png" rel="apple-touch-icon">
 
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -103,9 +105,8 @@ $youth = new surveyController();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.getElementById('surveyForm').addEventListener('submit', function(e) {
+        document.getElementById('surveyForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            // const youthName = document.getElementById('youthName').value;
             const barangayName = document.getElementById('barangayName').value;
             const surveyUrl = `survey-forms.php?barangay=${encodeURIComponent(barangayName)}`;
 
