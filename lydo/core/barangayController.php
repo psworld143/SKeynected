@@ -165,6 +165,16 @@ class barangayController
         }
     }
 
+    public function getBarangayImage($barangay_id)
+    {
+        $query = "SELECT barangay_image_path FROM barangays WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $barangay_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchColumn();
+    }
+
 
 
 

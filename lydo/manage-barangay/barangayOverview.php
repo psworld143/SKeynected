@@ -2,31 +2,20 @@
 
 require_once '../core/barangayController.php';
 
-$barangay_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$barangay_id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-// static image for now
-$backgroundImages = [
-    1 => '../assets/img/acmonan.jpg', 
-    2 => '../assets/img/bololmala.jpg', 
-    3 => '../assets/img/bunao.jpg',    
-    4 => '../assets/img/cebuano.jpg',   
-    5 => '../assets/img/crossing-rubber.jpg',  
-    6 => '../assets/img/kablon.jpg',   
-    7 => '../assets/img/kalkam.jpg',  
-    8 => '../assets/img/linan.png',   
-];
+$backgroundImages = !empty($barangays['barangay_image_path']) ? '../../uploads/img/' . htmlspecialchars($barangays['barangay_image_path']) : '../assets/img/default.jpg';
 
 
-$backgroundImage = '../assets/img/default_background.jpg'; 
-if ($barangay_id && array_key_exists($barangay_id, $backgroundImages)) {
-    $backgroundImage = $backgroundImages[$barangay_id];
-}
-
+$backgroundImage = '../assets/img/default_background.jpg';
 if ($barangay_id) {
     $SKbarangay = (new barangayController())->getAllSKBarangayMember($barangay_id);
     $youths = (new barangayController())->getYouthCountByBarangay($barangay_id);
     $projects = (new barangayController())->getProjectByBrgy($barangay_id);
     $barangayName = (new barangayController())->getBarangayName($barangay_id);
+    $barangayImage = (new barangayController())->getBarangayImage($barangay_id);
+
+    $backgroundImage = !empty($barangayImage) ? '../../uploads/img/' . htmlspecialchars($barangayImage) : '../assets/img/default_background.jpg';
 }
 ?>
 
