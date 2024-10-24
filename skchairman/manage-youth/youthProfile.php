@@ -130,7 +130,7 @@ if ($youthId) {
                 <div class="row">
                     <div class="col-xl-4">
                         <div class="card">
-                            <form action="process/uploadImage.php" method="post">
+                            <form action="process/uploadImage.php" method="post" enctype="multipart/form-data">
                                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                                     <div class="position-relative" style="cursor: pointer;">
                                         <input type="hidden" name="youth_id" value="<?= $youthId ?>">
@@ -138,7 +138,7 @@ if ($youthId) {
                                             accept="image/*" onchange="handleImageUpload(this)">
                                         <div class="profile-image-container"
                                             onclick="document.getElementById('profileImageUpload').click()">
-                                            <img src="<?php echo !empty($responseData['youth_image']) ? htmlspecialchars($responseData['youth_image']) : ($responseData['sex'] == 'female' ? '../assets/img/female-avatar.gif' : '../assets/img/male-avatar.gif'); ?>"
+                                            <img src="<?php echo !empty($responseData['youth_image']) ? '../../uploads/img/' . htmlspecialchars($responseData['youth_image']) : ($responseData['sex'] == 'female' ? '../assets/img/female-avatar.gif' : '../assets/img/male-avatar.gif'); ?>"
                                                 alt="user" id="profileImage" class="profile-photo-lg">
                                             <div class="image-overlay rounded-circle">
                                                 <i class="bi bi-camera"></i>
@@ -153,7 +153,8 @@ if ($youthId) {
                                         <a href="#" class="facebook"><i class="bi bi-facebook"></i>
                                             <?= htmlspecialchars($responseData['fbname']) ?></a>
                                     </div>
-                                    <button id="saveButton" class="btn btn-primary btn-custom hidden">Save</button>
+                                    <button type="submit" id="saveButton"
+                                        class="btn btn-primary btn-custom hidden w-100">Save</button>
                                 </div>
                             </form>
                         </div>

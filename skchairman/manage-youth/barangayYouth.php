@@ -38,11 +38,11 @@ $error = '';
     <link href="../assets/css/style.css" rel="stylesheet">
 
     <style>
-        img.profile-photo-md {
+        /* img.profile-photo-md {
             height: 50px;
             width: 50px;
             border-radius: 50%;
-        }
+        } */
 
         .friend-list .friend-card {
             border-radius: 4px;
@@ -66,6 +66,8 @@ $error = '';
             height: 80px;
             width: 80px;
             border-radius: 50%;
+            background-color: #fff;
+
         }
 
         .text-green {
@@ -83,6 +85,7 @@ $error = '';
             object-fit: fill;
             display: block;
             margin: 0 auto;
+
         }
     </style>
 </head>
@@ -122,8 +125,9 @@ $error = '';
                                     <img src="../assets/img/project-header.png" alt="profile-cover"
                                         class="img-responsive cover custom-image">
                                     <div class="card-info">
-                                        <img src="<?php echo ($youth['sex'] == 'female') ? '../assets/img/female-avatar.gif' : '../assets/img/male-avatar.gif'; ?>"
-                                            alt="user" class="profile-photo-lg">
+                                        <img src="<?php echo !empty($youth['youth_image']) ? '../../uploads/img/' . htmlspecialchars($youth['youth_image']) : ($youth['sex'] == 'female' ? '../assets/img/female-avatar.gif' : '../assets/img/male-avatar.gif'); ?>"
+                                            alt="user" id="profileImage" class="profile-photo-lg"
+                                            style="border: 3px solid #012970;">
                                         <div class="friend-info">
                                             <h5 class="mt-1">
                                                 <a href="#" class="profile-link">
