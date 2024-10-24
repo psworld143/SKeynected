@@ -88,9 +88,23 @@ if ($youthId) {
         opacity: 1;
     }
 
+    .profile-photo-lg {
+        border: 3px solid #012970;
+        border-radius: 50%;
+    }
+
     .bi-camera {
         font-size: 24px;
         margin-bottom: 8px;
+    }
+
+    .btn-custom {
+        width: auto;
+        padding: 0.375rem 0.75rem;
+    }
+
+    .hidden {
+        display: none;
     }
 </style>
 
@@ -112,47 +126,36 @@ if ($youthId) {
             </nav>
         </div>
         <section class="section profile">
-            <style>
-                btn-custom {
-                    width: auto;
-                    padding: 0.375rem 0.75rem;
-                }
-
-                .hidden {
-                    display: none;
-                }
-            </style>
             <?php if ($responseData): ?>
                 <div class="row">
                     <div class="col-xl-4">
                         <div class="card">
-                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                                <div class="position-relative" style="cursor: pointer;">
-                                    <!-- Hidden file input -->
-                                    <input type="file" id="profileImageUpload" style="display: none;" accept="image/*"
-                                        onchange="handleImageUpload(this)">
-
-                                    <!-- Profile image with hover overlay -->
-                                    <div class="profile-image-container"
-                                        onclick="document.getElementById('profileImageUpload').click()">
-                                        <img src="../assets/img/profile.png" alt="Profile" class="rounded-circle"
-                                            id="profileImage">
-                                        <div class="image-overlay rounded-circle">
-                                            <i class="bi bi-camera"></i>
-                                            <div>Update Photo</div>
+                            <form action="process/uploadImage.php" method="post">
+                                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                                    <div class="position-relative" style="cursor: pointer;">
+                                        <input type="hidden" name="youth_id" value="<?= $youthId ?>">
+                                        <input type="file" id="profileImageUpload" name="youthImage" style="display: none;"
+                                            accept="image/*" onchange="handleImageUpload(this)">
+                                        <div class="profile-image-container"
+                                            onclick="document.getElementById('profileImageUpload').click()">
+                                            <img src="<?php echo !empty($responseData['youth_image']) ? htmlspecialchars($responseData['youth_image']) : ($responseData['sex'] == 'female' ? '../assets/img/female-avatar.gif' : '../assets/img/male-avatar.gif'); ?>"
+                                                alt="user" id="profileImage" class="profile-photo-lg">
+                                            <div class="image-overlay rounded-circle">
+                                                <i class="bi bi-camera"></i>
+                                                <div>Update Photo</div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <h2 class="text-center">
+                                        <?= htmlspecialchars($responseData['firstname'] . ' ' . $responseData['middlename'] . ' ' . $responseData['lastname']) ?>
+                                    </h2>
+                                    <div class="social-links mt-2">
+                                        <a href="#" class="facebook"><i class="bi bi-facebook"></i>
+                                            <?= htmlspecialchars($responseData['fbname']) ?></a>
+                                    </div>
+                                    <button id="saveButton" class="btn btn-primary btn-custom hidden">Save</button>
                                 </div>
-                                <h2 class="text-center">
-                                    <?= htmlspecialchars($responseData['firstname'] . ' ' . $responseData['middlename'] . ' ' . $responseData['lastname']) ?>
-                                </h2>
-                                <div class="social-links mt-2">
-                                    <a href="#" class="facebook"><i class="bi bi-facebook"></i>
-                                        <?= htmlspecialchars($responseData['fbname']) ?></a>
-                                </div>
-                                <!-- Save button initially hidden -->
-                                <button id="saveButton" class="btn btn-primary btn-custom hidden">Save</button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                     <script>

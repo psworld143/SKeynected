@@ -84,4 +84,15 @@ class youthController
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function updateYouthImage($youth_id, $youth_image)
+    {
+        $query = "UPDATE survey_responses SET youth_image = :youth_image WHERE response_id = :response_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':response_id', $youth_id, PDO::PARAM_INT);
+        $stmt->bindParam(':youth_image', $youth_image, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
+
 }

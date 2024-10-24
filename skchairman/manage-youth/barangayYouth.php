@@ -122,13 +122,14 @@ $error = '';
                                     <img src="../assets/img/project-header.png" alt="profile-cover"
                                         class="img-responsive cover custom-image">
                                     <div class="card-info">
-                                        <img src="../assets/img/profile.png" alt="user" class="profile-photo-lg">
+                                        <img src="<?php echo ($youth['sex'] == 'female') ? '../assets/img/female-avatar.gif' : '../assets/img/male-avatar.gif'; ?>"
+                                            alt="user" class="profile-photo-lg">
                                         <div class="friend-info">
-                                            <h5 class="mt-1"><a href="#"
-                                                    class="profile-link"><?php echo $youth['firstname'] . ' ' . $youth['lastname']; ?></a>
+                                            <h5 class="mt-1">
+                                                <a href="#" class="profile-link">
+                                                    <?php echo $youth['firstname'] . ' ' . $youth['middlename'] . ' ' . $youth['lastname']; ?>
+                                                </a>
                                             </h5>
-                                            <a href="#" class="pull-right text-green">Barangay
-                                                <?php echo $barangay['name']; ?> Youth</a>
                                         </div>
                                     </div>
                                 </div>
