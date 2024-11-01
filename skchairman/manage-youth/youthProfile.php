@@ -106,6 +106,31 @@ if ($youthId) {
     .hidden {
         display: none;
     }
+
+    .form-step {
+        display: none;
+    }
+
+    .form-step:first-of-type {
+        display: block;
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .progress {
+        height: 0.5rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .step-title {
+        color: #0d6efd;
+        margin-bottom: 1.5rem;
+    }
 </style>
 
 <body>
@@ -380,49 +405,136 @@ if ($youthId) {
                     <div class="modal-body">
                         <form id="updateForm" method="POST">
                             <input type="hidden" name="update_youth" value="1">
-                            <!-- Personal Information -->
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label for="firstname" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstname" name="firstname"
-                                        value="<?= htmlspecialchars($responseData['firstname']) ?>">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="middlename" class="form-label">Middle Name</label>
-                                    <input type="text" class="form-control" id="middlename" name="middlename"
-                                        value="<?= htmlspecialchars($responseData['middlename']) ?>">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="lastname" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastname" name="lastname"
-                                        value="<?= htmlspecialchars($responseData['lastname']) ?>">
+
+                            <!-- Progress bar -->
+                            <div class="progress mb-4">
+                                <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20"
+                                    aria-valuemin="0" aria-valuemax="100">Step 1 of 5</div>
+                            </div>
+
+                            <!-- Step 1: Personal Information -->
+                            <div class="form-step">
+                                <h4 class="mb-3">Personal Information</h4>
+                                <!-- Your existing Step 1 fields here -->
+
+                                <div class="d-flex justify-content-end mt-3">
+                                    <button type="button" class="btn btn-primary next-step">Next</button>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="age" class="form-label">Age</label>
-                                    <input type="number" class="form-control" id="age" name="age"
-                                        value="<?= htmlspecialchars($responseData['age']) ?>">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="sex" class="form-label">Sex</label>
-                                    <select class="form-select" id="sex" name="sex">
-                                        <option value="Male" <?= $responseData['sex'] == 'Male' ? 'selected' : '' ?>>Male
-                                        </option>
-                                        <option value="Female" <?= $responseData['sex'] == 'Female' ? 'selected' : '' ?>>
-                                            Female</option>
-                                    </select>
+
+                            <!-- Step 2: Demographic Information -->
+                            <div class="form-step">
+                                <h4 class="mb-3">Demographic Information</h4>
+                                <!-- Your existing Step 2 fields here -->
+
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                    <button type="button" class="btn btn-primary next-step">Next</button>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
+
+                            <!-- Step 3: Classification -->
+                            <div class="form-step">
+                                <h4 class="mb-3">Classification</h4>
+                                <!-- Your existing Step 3 fields here -->
+
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                    <button type="button" class="btn btn-primary next-step">Next</button>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Education -->
+                            <div class="form-step">
+                                <h4 class="mb-3">Education</h4>
+                                <!-- Your existing Step 4 fields here -->
+
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                    <button type="button" class="btn btn-primary next-step">Next</button>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Additional Information -->
+                            <div class="form-step">
+                                <h4 class="mb-3">Additional Information</h4>
+                                <!-- Your existing Step 5 fields here -->
+
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
+        <style>
+            .form-step {
+                display: none;
+            }
+
+            .form-step:first-of-type {
+                display: block;
+            }
+
+            .modal-body {
+                padding: 2rem;
+            }
+
+            .progress {
+                height: 0.5rem;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                let currentStep = 0;
+                const formSteps = document.querySelectorAll(".form-step");
+                const progressBar = document.querySelector(".progress-bar");
+
+                function updateProgressBar(step) {
+                    const progress = ((step + 1) / formSteps.length) * 100;
+                    progressBar.style.width = progress + "%";
+                    progressBar.textContent = `Step ${step + 1} of ${formSteps.length}`;
+                }
+
+                function showStep(step) {
+                    formSteps.forEach((formStep, index) => {
+                        formStep.style.display = index === step ? "block" : "none";
+                    });
+                    updateProgressBar(step);
+                }
+
+                function nextStep() {
+                    if (currentStep < formSteps.length - 1) {
+                        currentStep++;
+                        showStep(currentStep);
+                    }
+                }
+
+                function prevStep() {
+                    if (currentStep > 0) {
+                        currentStep--;
+                        showStep(currentStep);
+                    }
+                }
+
+                // Initialize first step
+                showStep(currentStep);
+
+                // Add event listeners for next and previous buttons
+                document.querySelectorAll(".next-step").forEach(button => {
+                    button.addEventListener("click", nextStep);
+                });
+
+                document.querySelectorAll(".prev-step").forEach(button => {
+                    button.addEventListener("click", prevStep);
+                });
+            });
+        </script>
     </main>
 
 
@@ -437,5 +549,6 @@ if ($youthId) {
     <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="../assets/js/main.js"></script>
 </body>
+
 
 </html>
