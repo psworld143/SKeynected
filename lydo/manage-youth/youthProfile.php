@@ -10,7 +10,7 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 
 $youthController = new youthController();
 
-$youthId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$youthId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
 $responseData = [];
 if ($youthId) {
@@ -60,6 +60,80 @@ if ($youthId) {
     .survey-value {
         margin-bottom: 0.5rem;
     }
+
+    .card-header {
+        background-color: #012970;
+        color: white;
+    }
+
+    .profile-image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .profile-image-container:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .profile-photo-lg {
+        border: 3px solid #012970;
+        border-radius: 50%;
+    }
+
+    .bi-camera {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .btn-custom {
+        width: auto;
+        padding: 0.375rem 0.75rem;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .form-step {
+        display: none;
+    }
+
+    .form-step:first-of-type {
+        display: block;
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .progress {
+        height: 0.5rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .step-title {
+        color: #0d6efd;
+        margin-bottom: 1.5rem;
+    }
 </style>
 
 <body>
@@ -84,34 +158,51 @@ if ($youthId) {
                 <div class="row">
                     <div class="col-xl-4">
                         <div class="card">
-                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                                <img src="../assets/img/profile.png" alt="Profile" class="rounded-circle">
-                                <h2><?= htmlspecialchars($responseData['firstname'] . ' ' . $responseData['middlename'] . ' ' . $responseData['lastname']) ?></h2>
-                                <h3>Barangay <?= htmlspecialchars($responseData['barangay_name']) ?> Youth</h3>
-                                <div class="social-links mt-2">
-                                    <a href="#" class="facebook"><i class="bi bi-facebook"></i> <?= htmlspecialchars($responseData['fbname']) ?></a>
+                            <form action="process/uploadImage.php" method="post" enctype="multipart/form-data">
+                                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                                    <div class="position-relative" style="cursor: pointer;">
+                                        <!-- <input type="hidden" name="youth_id" value="<?= $youthId ?>">
+                                        <input type="file" id="profileImageUpload" name="youthImage" style="display: none;"
+                                            accept="image/*" onchange="handleImageUpload(this)"> -->
+                                        <div class="profile-image-container"
+                                            onclick="document.getElementById('profileImageUpload').click()">
+                                            <img src="<?php echo !empty($responseData['youth_image']) ? '../../uploads/img/' . htmlspecialchars($responseData['youth_image']) : ($responseData['sex'] == 'female' ? '../assets/img/female-avatar.gif' : '../assets/img/male-avatar.gif'); ?>"
+                                                alt="user" id="profileImage" class="profile-photo-lg">
+                                            <!-- <div class="image-overlay rounded-circle">
+                                                <i class="bi bi-camera"></i>
+                                                <div>Update Photo</div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <h2 class="text-center">
+                                        <?= htmlspecialchars($responseData['firstname'] . ' ' . $responseData['middlename'] . ' ' . $responseData['lastname']) ?>
+                                    </h2>
+                                    <div class="social-links mt-2">
+                                        <a href="#" class="facebook"><i class="bi bi-facebook"></i>
+                                            <?= htmlspecialchars($responseData['fbname']) ?></a>
+                                    </div>
+                                    <button type="submit" id="saveButton"
+                                        class="btn btn-primary btn-custom hidden w-100">Save</button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
                     <div class="col-xl-8">
-
                         <div class="card">
-
+                            <div class="card-header text-center mb-2">
+                                <h5>Youth Details</h5>
+                            </div>
                             <div class="card-body pt-3">
-                                <div class="flex-end">
-                                    <button type="button" class="btn btn-primary btn-update" data-bs-toggle="modal" data-bs-target="#updateModal">
-                                        Update Details
-                                    </button>
-                                </div>
-                                <h5 class="card-title">Youth Details</h5>
+
                                 <div class="row">
                                     <div class="col-md-6 survey-section">
                                         <h6 class="survey-section-title">Personal Information</h6>
                                         <div class="survey-item">
                                             <div class="survey-label">Full Name</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['firstname'] . ' ' . $responseData['middlename'] . ' ' . $responseData['lastname']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['firstname'] . ' ' . $responseData['middlename'] . ' ' . $responseData['lastname']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Age</div>
@@ -123,11 +214,13 @@ if ($youthId) {
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Address</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['address']) ?></div>
+                                            <div class="survey-value"><?= htmlspecialchars($responseData['address']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Phone</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['phoneno']) ?></div>
+                                            <div class="survey-value"><?= htmlspecialchars($responseData['phoneno']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Facebook Name</div>
@@ -139,19 +232,24 @@ if ($youthId) {
                                         <h6 class="survey-section-title">Demographic Information</h6>
                                         <div class="survey-item">
                                             <div class="survey-label">Barangay</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['barangay_name']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['barangay_name']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Civil Status</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['civil_status']) ?></div>
+                                            <div class="survey-value"><?= htmlspecialchars($responseData['civil_status']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Religion</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['religion']) ?></div>
+                                            <div class="survey-value"><?= htmlspecialchars($responseData['religion']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Ethnicity</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['ethnicity']) ?></div>
+                                            <div class="survey-value"><?= htmlspecialchars($responseData['ethnicity']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Date of Birth</div>
@@ -159,7 +257,9 @@ if ($youthId) {
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Place of Birth</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['place_of_birth']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['place_of_birth']) ?>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -168,15 +268,20 @@ if ($youthId) {
                                         <h6 class="survey-section-title">Classification</h6>
                                         <div class="survey-item">
                                             <div class="survey-label">Age Classification</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['age_classification']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['age_classification']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Gender Preference</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['gender_pref']) ?></div>
+                                            <div class="survey-value"><?= htmlspecialchars($responseData['gender_pref']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Youth Classification</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['youth_classification']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['youth_classification']) ?>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -185,25 +290,34 @@ if ($youthId) {
                                         <h6 class="survey-section-title">Education</h6>
                                         <div class="survey-item">
                                             <div class="survey-label">Highest Educational Attainment</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['educational_attainment']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['educational_attainment']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Technical/Vocational Course</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['tech_voc']) ?></div>
+                                            <div class="survey-value"><?= htmlspecialchars($responseData['tech_voc']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Currently Studying</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['still_studying']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['still_studying']) ?>
+                                            </div>
                                         </div>
                                         <?php if ($responseData['still_studying'] == 'Yes'): ?>
                                             <div class="survey-item">
                                                 <div class="survey-label">Current Grade Level</div>
-                                                <div class="survey-value"><?= htmlspecialchars($responseData['grade_level_if_studying']) ?></div>
+                                                <div class="survey-value">
+                                                    <?= htmlspecialchars($responseData['grade_level_if_studying']) ?>
+                                                </div>
                                             </div>
                                         <?php else: ?>
                                             <div class="survey-item">
                                                 <div class="survey-label">Reason for Not Studying</div>
-                                                <div class="survey-value"><?= htmlspecialchars($responseData['if_no_studying']) ?></div>
+                                                <div class="survey-value">
+                                                    <?= htmlspecialchars($responseData['if_no_studying']) ?>
+                                                </div>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -213,25 +327,34 @@ if ($youthId) {
                                         <h6 class="survey-section-title">Additional Information</h6>
                                         <div class="survey-item">
                                             <div class="survey-label">Any Disability</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['disability']) ?></div>
+                                            <div class="survey-value"><?= htmlspecialchars($responseData['disability']) ?>
+                                            </div>
                                         </div>
                                         <?php if ($responseData['disability'] == 'Yes'): ?>
                                             <div class="survey-item">
                                                 <div class="survey-label">Disability Specification</div>
-                                                <div class="survey-value"><?= htmlspecialchars($responseData['disability_spec']) ?></div>
+                                                <div class="survey-value">
+                                                    <?= htmlspecialchars($responseData['disability_spec']) ?>
+                                                </div>
                                             </div>
                                         <?php endif; ?>
                                         <div class="survey-item">
                                             <div class="survey-label">Have Children</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['have_any_child']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['have_any_child']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Registered Voter</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['registered_voter']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['registered_voter']) ?>
+                                            </div>
                                         </div>
                                         <div class="survey-item">
                                             <div class="survey-label">Organization Involvement</div>
-                                            <div class="survey-value"><?= htmlspecialchars($responseData['have_involvement']) ?></div>
+                                            <div class="survey-value">
+                                                <?= htmlspecialchars($responseData['have_involvement']) ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -257,27 +380,33 @@ if ($youthId) {
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <label for="firstname" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstname" name="firstname" value="<?= htmlspecialchars($responseData['firstname']) ?>">
+                                    <input type="text" class="form-control" id="firstname" name="firstname"
+                                        value="<?= htmlspecialchars($responseData['firstname']) ?>">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="middlename" class="form-label">Middle Name</label>
-                                    <input type="text" class="form-control" id="middlename" name="middlename" value="<?= htmlspecialchars($responseData['middlename']) ?>">
+                                    <input type="text" class="form-control" id="middlename" name="middlename"
+                                        value="<?= htmlspecialchars($responseData['middlename']) ?>">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="lastname" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastname" name="lastname" value="<?= htmlspecialchars($responseData['lastname']) ?>">
+                                    <input type="text" class="form-control" id="lastname" name="lastname"
+                                        value="<?= htmlspecialchars($responseData['lastname']) ?>">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="age" class="form-label">Age</label>
-                                    <input type="number" class="form-control" id="age" name="age" value="<?= htmlspecialchars($responseData['age']) ?>">
+                                    <input type="number" class="form-control" id="age" name="age"
+                                        value="<?= htmlspecialchars($responseData['age']) ?>">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="sex" class="form-label">Sex</label>
                                     <select class="form-select" id="sex" name="sex">
-                                        <option value="Male" <?= $responseData['sex'] == 'Male' ? 'selected' : '' ?>>Male</option>
-                                        <option value="Female" <?= $responseData['sex'] == 'Female' ? 'selected' : '' ?>>Female</option>
+                                        <option value="Male" <?= $responseData['sex'] == 'Male' ? 'selected' : '' ?>>Male
+                                        </option>
+                                        <option value="Female" <?= $responseData['sex'] == 'Female' ? 'selected' : '' ?>>
+                                            Female</option>
                                     </select>
                                 </div>
                             </div>

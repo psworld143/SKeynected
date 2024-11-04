@@ -415,8 +415,51 @@ if ($youthId) {
                             <!-- Step 1: Personal Information -->
                             <div class="form-step">
                                 <h4 class="mb-3">Personal Information</h4>
-                                <!-- Your existing Step 1 fields here -->
-
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstname" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstname" name="firstname"
+                                            value="<?= htmlspecialchars($responseData['firstname']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="middlename" class="form-label">Middle Name</label>
+                                        <input type="text" class="form-control" id="middlename" name="middlename"
+                                            value="<?= htmlspecialchars($responseData['middlename']) ?>">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastname" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastname" name="lastname"
+                                            value="<?= htmlspecialchars($responseData['lastname']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="age" name="age"
+                                            value="<?= htmlspecialchars($responseData['age']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="sex" class="form-label">Sex</label>
+                                        <select class="form-control" id="sex" name="sex" required>
+                                            <option value="male" <?= $responseData['sex'] == 'male' ? 'selected' : '' ?>>
+                                                Male</option>
+                                            <option value="female" <?= $responseData['sex'] == 'female' ? 'selected' : '' ?>>Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="address" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="address" name="address"
+                                            value="<?= htmlspecialchars($responseData['address']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phoneno" class="form-label">Phone</label>
+                                        <input type="text" class="form-control" id="phoneno" name="phoneno"
+                                            value="<?= htmlspecialchars($responseData['phoneno']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fbname" class="form-label">Facebook Name</label>
+                                        <input type="text" class="form-control" id="fbname" name="fbname"
+                                            value="<?= htmlspecialchars($responseData['fbname']) ?>">
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-end mt-3">
                                     <button type="button" class="btn btn-primary next-step">Next</button>
                                 </div>
@@ -425,10 +468,41 @@ if ($youthId) {
                             <!-- Step 2: Demographic Information -->
                             <div class="form-step">
                                 <h4 class="mb-3">Demographic Information</h4>
-                                <!-- Your existing Step 2 fields here -->
-
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="barangay_name" class="form-label">Barangay</label>
+                                        <input type="text" class="form-control" id="barangay_name" name="barangay_name"
+                                            value="<?= htmlspecialchars($responseData['barangay_name']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="civil_status" class="form-label">Civil Status</label>
+                                        <input type="text" class="form-control" id="civil_status" name="civil_status"
+                                            value="<?= htmlspecialchars($responseData['civil_status']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="religion" class="form-label">Religion</label>
+                                        <input type="text" class="form-control" id="religion" name="religion"
+                                            value="<?= htmlspecialchars($responseData['religion']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="ethnicity" class="form-label">Ethnicity</label>
+                                        <input type="text" class="form-control" id="ethnicity" name="ethnicity"
+                                            value="<?= htmlspecialchars($responseData['ethnicity']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="dob" class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" id="dob" name="dob"
+                                            value="<?= htmlspecialchars($responseData['dob']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="place_of_birth" class="form-label">Place of Birth</label>
+                                        <input type="text" class="form-control" id="place_of_birth"
+                                            name="place_of_birth"
+                                            value="<?= htmlspecialchars($responseData['place_of_birth']) ?>" required>
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-between mt-3">
-                                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                    <button type="button" class="btn btn-secondary prev-step me-2">Previous</button>
                                     <button type="button" class="btn btn-primary next-step">Next</button>
                                 </div>
                             </div>
@@ -436,10 +510,30 @@ if ($youthId) {
                             <!-- Step 3: Classification -->
                             <div class="form-step">
                                 <h4 class="mb-3">Classification</h4>
-                                <!-- Your existing Step 3 fields here -->
-
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="age_classification" class="form-label">Age Classification</label>
+                                        <input type="text" class="form-control" id="age_classification"
+                                            name="age_classification"
+                                            value="<?= htmlspecialchars($responseData['age_classification']) ?>"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="gender_pref" class="form-label">Gender Preference</label>
+                                        <input type="text" class="form-control" id="gender_pref" name="gender_pref"
+                                            value="<?= htmlspecialchars($responseData['gender_pref']) ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="youth_classification" class="form-label">Youth
+                                            Classification</label>
+                                        <input type="text" class="form-control" id="youth_classification"
+                                            name="youth_classification"
+                                            value="<?= htmlspecialchars($responseData['youth_classification']) ?>"
+                                            required>
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-between mt-3">
-                                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                    <button type="button" class="btn btn-secondary prev-step me-2">Previous</button>
                                     <button type="button" class="btn btn-primary next-step">Next</button>
                                 </div>
                             </div>
@@ -447,10 +541,46 @@ if ($youthId) {
                             <!-- Step 4: Education -->
                             <div class="form-step">
                                 <h4 class="mb-3">Education</h4>
-                                <!-- Your existing Step 4 fields here -->
-
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="educational_attainment" class="form-label">Highest Educational
+                                            Attainment</label>
+                                        <input type="text" class="form-control" id="educational_attainment"
+                                            name="educational_attainment"
+                                            value="<?= htmlspecialchars($responseData['educational_attainment']) ?>"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tech_voc" class="form-label">Technical/Vocational Course</label>
+                                        <input type="text" class="form-control" id="tech_voc" name="tech_voc"
+                                            value="<?= htmlspecialchars($responseData['tech_voc']) ?>">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="still_studying" class="form-label">Currently Studying</label>
+                                        <select class="form-control" id="still_studying" name="still_studying" required>
+                                            <option value="Yes" <?= $responseData['still_studying'] == 'Yes' ? 'selected' : '' ?>>Yes</option>
+                                            <option value="No" <?= $responseData['still_studying'] == 'No' ? 'selected' : '' ?>>No</option>
+                                        </select>
+                                    </div>
+                                    <?php if ($responseData['still_studying'] == 'Yes'): ?>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="grade_level_if_studying" class="form-label">Current Grade
+                                                Level</label>
+                                            <input type="text" class="form-control" id="grade_level_if_studying"
+                                                name="grade_level_if_studying"
+                                                value="<?= htmlspecialchars($responseData['grade_level_if_studying']) ?>">
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="if_no_studying" class="form-label">Reason for Not Studying</label>
+                                            <input type="text" class="form-control" id="if_no_studying"
+                                                name="if_no_studying"
+                                                value="<?= htmlspecialchars($responseData['if_no_studying']) ?>">
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                                 <div class="d-flex justify-content-between mt-3">
-                                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                    <button type="button" class="btn btn-secondary prev-step me-2">Previous</button>
                                     <button type="button" class="btn btn-primary next-step">Next</button>
                                 </div>
                             </div>
@@ -458,10 +588,47 @@ if ($youthId) {
                             <!-- Step 5: Additional Information -->
                             <div class="form-step">
                                 <h4 class="mb-3">Additional Information</h4>
-                                <!-- Your existing Step 5 fields here -->
-
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="disability" class="form-label">Any Disability</label>
+                                        <select class="form-control" id="disability" name="disability" required>
+                                            <option value="Yes" <?= $responseData['disability'] == 'Yes' ? 'selected' : '' ?>>Yes</option>
+                                            <option value="No" <?= $responseData['disability'] == 'No' ? 'selected' : '' ?>>No</option>
+                                        </select>
+                                    </div>
+                                    <?php if ($responseData['disability'] == 'Yes'): ?>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="disability_spec" class="form-label">Disability Specification</label>
+                                            <input type="text" class="form-control" id="disability_spec"
+                                                name="disability_spec"
+                                                value="<?= htmlspecialchars($responseData['disability_spec']) ?>">
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="have_any_child" class="form-label">Have Children</label>
+                                        <select class="form-control" id="have_any_child" name="have_any_child" required>
+                                            <option value="Yes" <?= $responseData['have_any_child'] == 'Yes' ? 'selected' : '' ?>>Yes</option>
+                                            <option value="No" <?= $responseData['have_any_child'] == 'No' ? 'selected' : '' ?>>No</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="registered_voter" class="form-label">Registered Voter</label>
+                                        <select class="form-control" id="registered_voter" name="registered_voter"
+                                            required>
+                                            <option value="Yes" <?= $responseData['registered_voter'] == 'Yes' ? 'selected' : '' ?>>Yes</option>
+                                            <option value="No" <?= $responseData['registered_voter'] == 'No' ? 'selected' : '' ?>>No</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="have_involvement" class="form-label">Organization
+                                            Involvement</label>
+                                        <input type="text" class="form-control" id="have_involvement"
+                                            name="have_involvement"
+                                            value="<?= htmlspecialchars($responseData['have_involvement']) ?>" required>
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-between mt-3">
-                                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                                    <button type="button" class="btn btn-secondary prev-step me-2">Previous</button>
                                     <button type="submit" class="btn btn-success">Save Changes</button>
                                 </div>
                             </div>

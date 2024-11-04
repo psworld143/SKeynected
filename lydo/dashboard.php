@@ -119,26 +119,38 @@ include_once './core/SessionController.php';
           <h5 class="card-title">Demographic View</h5>
           <div class="row">
             <div class="col-lg-6">
-              <div id="barangayChart" style="min-height: 400px;"></div>
+              <div class="card">
+                <div id="barangayChart" style="min-height: 400px;"></div>
+              </div>
             </div>
             <div class="col-lg-6">
-              <div id="youthChart" style="min-height: 400px;"></div>
-            </div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-lg-6">
-              <div id="sexChart" style="min-height: 400px;"></div>
-            </div>
-            <div class="col-lg-6">
-              <div id="ageChart" style="min-height: 400px;"></div>
+              <div class="card">
+                <div id="youthChart" style="min-height: 400px;"></div>
+              </div>
             </div>
           </div>
           <div class="row mt-2">
             <div class="col-lg-6">
-              <div id="genderPrefChart" style="min-height: 400px;"></div>
+              <div class="card">
+                <div id="sexChart" style="min-height: 400px;"></div>
+              </div>
             </div>
             <div class="col-lg-6">
-              <div id="civilStatusChart" style="min-height: 400px;"></div>
+              <div class="card">
+                <div id="ageChart" style="min-height: 400px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-lg-6">
+              <div class="card">
+                <div id="genderPrefChart" style="min-height: 400px;"></div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div id="civilStatusChart" style="min-height: 400px;"></div>
+              </div>
             </div>
           </div>
 
