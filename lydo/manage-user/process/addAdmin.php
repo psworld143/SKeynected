@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mname = htmlspecialchars(trim($_POST['mname'] ?? ''));
     $username = htmlspecialchars(trim($_POST['username'] ?? ''));
     $email = htmlspecialchars(trim($_POST['email'] ?? ''));
-    $role = $_POST['role'] ?? null;
+    $role = $_POST['role'] ?? 'admin';
     $password = $_POST['password'] ?? null;
 
     if (empty($fname) || empty($lname) || empty($username) || empty($email)) {
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['error'] = "Failed to add admin account!";
         }
 
-       
+
         header("Location: " . $base_url . "adminTables.php");
         exit;
     }

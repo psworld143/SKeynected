@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2024 at 06:33 AM
+-- Generation Time: Nov 05, 2024 at 07:10 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -44,8 +44,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `firstname`, `lastname`, `middlename`, `username`, `email`, `password`, `role`, `created_at`) VALUES
-(8, 'test', 'test', 'test', 'test123', 'test@gmail.com', '$2y$10$A4LoYe1YXvDdCDKrkvEvre..eFkwpVR6e.je3p3lCjEUWpczM3/3i', 'admin', '2024-10-16 02:36:24'),
-(15, 'Keyan Andy', 'Fajanoy', 'Delgado', 'St4ckkk', 'keyanandydelgado@gmail.com', '$2y$10$wd1iqSB6wl/9d7ZFnQUcge1EGcetG.bXXwPeL4paTvyGvgJfvy6AS', 'admin', '2024-10-16 04:41:41');
+(8, 'test', 'test', 'test', 'admin', 'test@gmail.com', '$2y$10$A4LoYe1YXvDdCDKrkvEvre..eFkwpVR6e.je3p3lCjEUWpczM3/3i', 'admin', '2024-10-16 02:36:24'),
+(16, 'Hannah', 'Hannah', 'Hannah', 'hannah_admin', 'hannahadmin@gmail.com', '$2y$10$mw8K8maGv6f22MHhyGTt7eOzNZGHuiXvLe5S18WMx4ua59KCgs3FO', 'admin', '2024-11-05 06:09:15');
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,8 @@ INSERT INTO `barangays` (`id`, `name`, `barangay_image_path`) VALUES
 (7, 'Kalkam', ''),
 (8, 'Linan', ''),
 (9, 'Barangay haha', ''),
-(10, 'qkweoad', 'wp10117165-macos-dark-wallpapers.png');
+(10, 'qkweoad', 'wp10117165-macos-dark-wallpapers.png'),
+(11, 'Test Barangay', '456092376_3829581300702293_359530944713219398_n.jpg');
 
 -- --------------------------------------------------------
 
@@ -111,14 +112,6 @@ CREATE TABLE `liquidation` (
   `barangay_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `liquidation`
---
-
-INSERT INTO `liquidation` (`id`, `material_id`, `project_id`, `material_name`, `quantity`, `amount`, `or_number`, `or_image_path`, `status`, `created_at`, `updated_at`, `barangay_id`) VALUES
-(31, 32, 36, 'qwe', 5, 100.00, NULL, '../../uploads/or_images/or_image_6710dc266e50a7.40051464_pigpen.png', 'approved', '2024-10-17 09:43:02', '2024-10-18 02:46:28', NULL),
-(34, 32, 36, 'qwe', 5, 100.00, NULL, '../../../uploads/or_images/or_image_6711c3b6c34cf3.04416461_LYDO-logo.png', 'closed', '2024-10-18 02:11:02', '2024-10-18 02:46:33', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -134,13 +127,6 @@ CREATE TABLE `materials` (
   `total` decimal(10,2) GENERATED ALWAYS AS (cast(regexp_replace(`amount`,'[^0-9.]','') as decimal(10,0)) * cast(regexp_replace(`quantity`,'[^0-9.]','') as decimal(10,0))) STORED,
   `or_number` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `materials`
---
-
-INSERT INTO `materials` (`material_id`, `project_id`, `material_name`, `quantity`, `amount`, `or_number`) VALUES
-(32, 36, 'qwe', '5', '100', NULL);
 
 -- --------------------------------------------------------
 
@@ -168,13 +154,6 @@ CREATE TABLE `projects` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status_description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `projects`
---
-
-INSERT INTO `projects` (`project_id`, `project_name`, `project_code`, `project_description`, `project_duration`, `status`, `hearing_schedule`, `selected_project_name`, `specific_job`, `operations`, `total_cost`, `proposal_file_path`, `created_at`, `materials`, `barangay_id`, `sk_member_id`, `updated_at`, `status_description`) VALUES
-(36, 'Test', 'SKP-2862', 'qwe', 2, 'hearing', '2024-10-19', NULL, 'cement', '2', 500.00, 'uploads/PA-Approval-Sheet.docx', '2024-10-17 09:19:34', NULL, 5, 20, '2024-10-18 03:23:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -242,8 +221,8 @@ CREATE TABLE `sk_members` (
 --
 
 INSERT INTO `sk_members` (`id`, `name`, `username`, `email`, `password`, `role`, `position`, `age`, `gender`, `civil_status`, `birth_date`, `contact`, `term`, `status`, `barangay_id`) VALUES
-(20, 'Jener Kevin Ogatis', 'jener_sk', 'jenerogatis@gmail.com', '$2y$10$QkcKGINBHkNmgGGaCeTz6ulXG7D96LXl4DRWXMplBstE6wIYwrtkC', 'skchairman', 'SK Chairman', 0, 'Male', NULL, NULL, NULL, NULL, 'Active', 5),
-(33, 'TEST', 'worker', 'forschoolonly2224@gmail.com', '$2y$10$yb5u34RI3mvlOae7UsTzEezvbQTX4RclsgTiOj81RZjOxLiqqpzOi', 'secretary', 'SK Secretary', 0, 'Male', NULL, NULL, NULL, NULL, 'Active', 5);
+(37, 'Hannah', 'hannah123', 'hannah@gmail.com', '$2y$10$8bdeMHyNzHI4xJdQwwfvBevelMvGGqi7PqeWBcMAc.hZdaByQBVlG', 'skchairman', 'SK Chairman', 0, 'Male', NULL, NULL, NULL, NULL, 'Active', 11),
+(38, 'Hannah Secretary', 'hannah_sec', 'hannah123@gmail.com', '$2y$10$RGWwGd34wrTBLXyqrdCaC.lTemgN0HK15mTdugbFiijNlvdu3RKEC', 'sksecretary', 'SK Secretary', 0, 'Male', NULL, NULL, NULL, NULL, 'Active', 11);
 
 -- --------------------------------------------------------
 
@@ -262,7 +241,7 @@ CREATE TABLE `survey_responses` (
   `age` int(11) NOT NULL,
   `dob` date NOT NULL,
   `school_youth` enum('yes','no') NOT NULL,
-  `age_classification` enum('male','female','other') NOT NULL,
+  `age_classification` varchar(255) NOT NULL,
   `civil_status` enum('single','married','widowed','separated','divorced') NOT NULL,
   `phoneno` varchar(15) DEFAULT NULL,
   `place_of_birth` varchar(255) NOT NULL,
@@ -285,13 +264,6 @@ CREATE TABLE `survey_responses` (
   `youth_image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `survey_responses`
---
-
-INSERT INTO `survey_responses` (`response_id`, `barangay_id`, `lastname`, `firstname`, `middlename`, `address`, `sex`, `age`, `dob`, `school_youth`, `age_classification`, `civil_status`, `phoneno`, `place_of_birth`, `religion`, `ethnicity`, `fbname`, `youth_classification`, `gender_pref`, `educational_attainment`, `tech_voc`, `still_studying`, `grade_level_if_studying`, `if_no_studying`, `disability`, `disability_spec`, `have_any_child`, `registered_voter`, `have_involvement`, `created_at`, `youth_image`) VALUES
-(7, 5, 'Fajanoy', 'Keyan Andy', 'Delgado', 'Prk. Sampaguita', 'male', 22, '2024-10-24', 'yes', 'male', 'single', '09262408442', 'Manila', 'Catholic', 'tagalog', 'Keyan Andy Delgado', 'out-school', 'boy', '4th-year-college', NULL, 'yes', '4th-year-college', NULL, 'N/A', NULL, NULL, 'yes', 'no', '2024-10-24 05:23:16', 'plus.png');
-
 -- --------------------------------------------------------
 
 --
@@ -308,17 +280,6 @@ CREATE TABLE `tasks` (
   `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tasks`
---
-
-INSERT INTO `tasks` (`id`, `project_id`, `name`, `description`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 36, 'Design Homepage', 'Create and design the main homepage for the project', 'pending', '2024-10-22 09:37:12', '2024-10-22 11:37:10'),
-(2, 36, 'QWE', 'QWE\r\n                                                                ', 'pending', '2024-10-22 09:37:12', NULL),
-(3, 36, 'KANSKD', 'AMSLDMQWLEJ[\n                                                                ', 'in_progress', '2024-10-22 09:37:12', '2024-10-22 11:19:26'),
-(4, 36, 'HAHA', 'AISDJAISJD\r\n                                                                ', 'pending', '2024-10-22 09:56:15', NULL),
-(5, 36, 'new tasl', 'iasid\r\n                                                                ', 'completed', '2024-10-22 10:55:29', '2024-10-23 09:14:18');
-
 -- --------------------------------------------------------
 
 --
@@ -332,13 +293,6 @@ CREATE TABLE `updates` (
   `message` text DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `updates`
---
-
-INSERT INTO `updates` (`id`, `project_id`, `task_id`, `message`, `timestamp`) VALUES
-(1, 36, 1, 'Initial wireframe completed for homepage', '2024-10-22 09:02:37');
 
 --
 -- Indexes for dumped tables
@@ -442,13 +396,13 @@ ALTER TABLE `updates`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `barangays`
 --
 ALTER TABLE `barangays`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `disbursements`
@@ -460,19 +414,19 @@ ALTER TABLE `disbursements`
 -- AUTO_INCREMENT for table `liquidation`
 --
 ALTER TABLE `liquidation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `materials`
 --
 ALTER TABLE `materials`
-  MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `project_progress`
@@ -490,19 +444,19 @@ ALTER TABLE `purok`
 -- AUTO_INCREMENT for table `sk_members`
 --
 ALTER TABLE `sk_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `survey_responses`
 --
 ALTER TABLE `survey_responses`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `updates`
