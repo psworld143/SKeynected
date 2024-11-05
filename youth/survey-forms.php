@@ -219,18 +219,20 @@ $barangays = $barangay->getBarangay();
                                 <div class="d-flex mt-2 mb-2">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="ageClassification" id="male"
-                                            value="male" required>
+                                            value="CHILD YOUTH (15-17 YEARS OLD)" required>
                                         <label class="form-check-label" for="male">CHILD YOUTH (15-17 YEARS OLD)</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="ageClassification"
-                                            id="female" value="female" required>
+                                            id="female" value="CORE YOUTH (18-24 YEARS
+                                            OLD)" required>
                                         <label class="form-check-label" for="female">CORE YOUTH (18-24 YEARS
                                             OLD)</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="ageClassification" id="other"
-                                            value="other" required>
+                                            value="ADULT YOUTH (25-30 YEARS
+                                            OLD)" required>
                                         <label class="form-check-label" for="other">ADULT YOUTH (25-30 YEARS
                                             OLD)</label>
                                     </div>
@@ -334,12 +336,12 @@ $barangays = $barangay->getBarangay();
                                 </select>
                                 <label for="" class="form-label">If Technical/Vocational, please specify. <br> (If none
                                     please put N/A)</label>
-                                <input type="text" name="techVoc" id="" class="form-control"
+                                <input type="text" name="tech_voc" id="" class="form-control"
                                     placeholder="Technical/Vocational">
 
                                 <label for="" class="form-label">Still Studying?</label>
                                 <select name="stillStudying" id="" class="form-control" placeholder="Still Studying?">
-                                    <option value="yes">Yes</option>
+                                    <option value="yes">Yesoption>
                                     <option value="no">No</option>
                                 </select>
 
@@ -366,9 +368,12 @@ $barangays = $barangay->getBarangay();
                                     placeholder="Reason for stopping">
 
                                 <div style="margin-top: 45px;">
-                                    <label for="" class="form-label">Do You Have Any Disability?</label>
-                                    <input type="text" name="disability" id="" class="form-control"
-                                        placeholder="Disability">
+                                    <label for="disability" class="form-label">Do You Have Any Disability?</label>
+                                    <select name="disability" id="disability" class="form-control">
+                                        <option value="N/A">N/A</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
                                 </div>
 
                                 <label for="" class="form-label">If Yes, Please Specify</label>

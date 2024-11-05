@@ -403,9 +403,9 @@ if ($youthId) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="updateForm" method="POST">
-                            <input type="hidden" name="update_youth" value="1">
-
+                        <form id="updateForm" method="POST" action="./process/updateYouth.php">
+                            <!-- <input type="hidden" name="update_youth" value="1"> -->
+                            <input type="hidden" name="youth_id" value="<?= $youthId ?>">
                             <!-- Progress bar -->
                             <div class="progress mb-4">
                                 <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20"
@@ -442,7 +442,9 @@ if ($youthId) {
                                             <option value="male" <?= $responseData['sex'] == 'male' ? 'selected' : '' ?>>
                                                 Male</option>
                                             <option value="female" <?= $responseData['sex'] == 'female' ? 'selected' : '' ?>>Female</option>
+                                            <option value="others" <?= $responseData['sex'] == 'others' ? 'selected' : '' ?>>Others</option>
                                         </select>
+
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="address" class="form-label">Address</label>
@@ -472,12 +474,17 @@ if ($youthId) {
                                     <div class="col-md-6 mb-3">
                                         <label for="barangay_name" class="form-label">Barangay</label>
                                         <input type="text" class="form-control" id="barangay_name" name="barangay_name"
-                                            value="<?= htmlspecialchars($responseData['barangay_name']) ?>" required>
+                                            value="<?= htmlspecialchars($responseData['barangay_id']) ?>" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="civil_status" class="form-label">Civil Status</label>
-                                        <input type="text" class="form-control" id="civil_status" name="civil_status"
-                                            value="<?= htmlspecialchars($responseData['civil_status']) ?>" required>
+                                        <select name="civilStatus" id="civilStatus" class="form-control" required>
+                                            <option value="single" <?= $responseData['civil_status'] == 'single' ? 'selected' : '' ?>>Single</option>
+                                            <option value="married" <?= $responseData['civil_status'] == 'married' ? 'selected' : '' ?>>Married</option>
+                                            <option value="widowed" <?= $responseData['civil_status'] == 'widowed' ? 'selected' : '' ?>>Widowed</option>
+                                            <option value="separated" <?= $responseData['civil_status'] == 'separated' ? 'selected' : '' ?>>Separated</option>
+                                            <option value="divorced" <?= $responseData['civil_status'] == 'divorced' ? 'selected' : '' ?>>Divorced</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="religion" class="form-label">Religion</label>
@@ -486,8 +493,20 @@ if ($youthId) {
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="ethnicity" class="form-label">Ethnicity</label>
-                                        <input type="text" class="form-control" id="ethnicity" name="ethnicity"
-                                            value="<?= htmlspecialchars($responseData['ethnicity']) ?>" required>
+                                        <select class="form-control" id="ethnicity" name="ethnicity" required>
+                                            <option value="tagalog" <?= $responseData['ethnicity'] == 'tagalog' ? 'selected' : '' ?>>Tagalog</option>
+                                            <option value="bisaya" <?= $responseData['ethnicity'] == 'bisaya' ? 'selected' : '' ?>>Bisaya</option>
+                                            <option value="ilocano" <?= $responseData['ethnicity'] == 'ilocano' ? 'selected' : '' ?>>Ilocano</option>
+                                            <option value="bicolano" <?= $responseData['ethnicity'] == 'bicolano' ? 'selected' : '' ?>>Bicolano</option>
+                                            <option value="waray" <?= $responseData['ethnicity'] == 'waray' ? 'selected' : '' ?>>Waray</option>
+                                            <option value="pangasinense" <?= $responseData['ethnicity'] == 'pangasinense' ? 'selected' : '' ?>>Pangasinense</option>
+                                            <option value="kapampangan" <?= $responseData['ethnicity'] == 'kapampangan' ? 'selected' : '' ?>>Kapampangan</option>
+                                            <option value="maranao" <?= $responseData['ethnicity'] == 'maranao' ? 'selected' : '' ?>>Maranao</option>
+                                            <option value="maguindanao" <?= $responseData['ethnicity'] == 'maguindanao' ? 'selected' : '' ?>>Maguindanao</option>
+                                            <option value="tausug" <?= $responseData['ethnicity'] == 'tausug' ? 'selected' : '' ?>>Tausug</option>
+                                            <option value="other" <?= $responseData['ethnicity'] == 'other' ? 'selected' : '' ?>>Others</option>
+                                        </select>
+
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="dob" class="form-label">Date of Birth</label>
@@ -513,23 +532,38 @@ if ($youthId) {
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="age_classification" class="form-label">Age Classification</label>
-                                        <input type="text" class="form-control" id="age_classification"
-                                            name="age_classification"
-                                            value="<?= htmlspecialchars($responseData['age_classification']) ?>"
+                                        <select class="form-control" id="age_classification" name="age_classification"
                                             required>
+                                            <option value="CHILD YOUTH (15-17 YEARS OLD)"
+                                                <?= $responseData['age_classification'] == 'CHILD YOUTH (15-17 YEARS OLD)' ? 'selected' : '' ?>>CHILD YOUTH (15-17 YEARS OLD)</option>
+                                            <option value="CORE YOUTH (18-24 YEARS OLD)"
+                                                <?= $responseData['age_classification'] == 'CORE YOUTH (18-24 YEARS OLD)' ? 'selected' : '' ?>>CORE YOUTH (18-24 YEARS OLD)</option>
+                                            <option value="ADULT YOUTH (25-30 YEARS OLD)"
+                                                <?= $responseData['age_classification'] == 'ADULT YOUTH (25-30 YEARS OLD)' ? 'selected' : '' ?>>ADULT YOUTH (25-30 YEARS OLD)</option>
+                                        </select>
+
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="gender_pref" class="form-label">Gender Preference</label>
-                                        <input type="text" class="form-control" id="gender_pref" name="gender_pref"
-                                            value="<?= htmlspecialchars($responseData['gender_pref']) ?>" required>
+                                        <select class="form-control" id="gender_pref" name="gender_pref" required>
+                                            <option value="boy" <?= $responseData['gender_pref'] == 'boy' ? 'selected' : '' ?>>Boy</option>
+                                            <option value="girl" <?= $responseData['gender_pref'] == 'girl' ? 'selected' : '' ?>>Girl</option>
+                                            <option value="others" <?= $responseData['gender_pref'] == 'others' ? 'selected' : '' ?>>Others</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="youth_classification" class="form-label">Youth
                                             Classification</label>
-                                        <input type="text" class="form-control" id="youth_classification"
-                                            name="youth_classification"
-                                            value="<?= htmlspecialchars($responseData['youth_classification']) ?>"
-                                            required>
+                                        <select class="form-control" id="youth_classification"
+                                            name="youth_classification" required>
+                                            <option value="in-school"
+                                                <?= $responseData['youth_classification'] == 'in-school' ? 'selected' : '' ?>>In-School Youth</option>
+                                            <option value="out-school"
+                                                <?= $responseData['youth_classification'] == 'out-school' ? 'selected' : '' ?>>Out-of-School Youth</option>
+                                            <option value="postgrad"
+                                                <?= $responseData['youth_classification'] == 'postgrad' ? 'selected' : '' ?>>Post-Graduate</option>
+                                        </select>
+
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
@@ -545,39 +579,114 @@ if ($youthId) {
                                     <div class="col-md-6 mb-3">
                                         <label for="educational_attainment" class="form-label">Highest Educational
                                             Attainment</label>
-                                        <input type="text" class="form-control" id="educational_attainment"
-                                            name="educational_attainment"
-                                            value="<?= htmlspecialchars($responseData['educational_attainment']) ?>"
-                                            required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="tech_voc" class="form-label">Technical/Vocational Course</label>
-                                        <input type="text" class="form-control" id="tech_voc" name="tech_voc"
-                                            value="<?= htmlspecialchars($responseData['tech_voc']) ?>">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="still_studying" class="form-label">Currently Studying</label>
-                                        <select class="form-control" id="still_studying" name="still_studying" required>
-                                            <option value="Yes" <?= $responseData['still_studying'] == 'Yes' ? 'selected' : '' ?>>Yes</option>
-                                            <option value="No" <?= $responseData['still_studying'] == 'No' ? 'selected' : '' ?>>No</option>
+                                        <select class="form-control" id="educational_attainment"
+                                            name="educational_attainment" required onchange="toggleVocationalField()">
+                                            <option value="pre-school"
+                                                <?= $responseData['educational_attainment'] == 'pre-school' ? 'selected' : '' ?>>Pre-School</option>
+                                            <option value="elementary"
+                                                <?= $responseData['educational_attainment'] == 'elementary' ? 'selected' : '' ?>>Elementary</option>
+                                            <option value="7th-grade"
+                                                <?= $responseData['educational_attainment'] == '7th-grade' ? 'selected' : '' ?>>7th Grade</option>
+                                            <option value="high-school"
+                                                <?= $responseData['educational_attainment'] == 'high-school' ? 'selected' : '' ?>>High School</option>
+                                            <option value="1st-year-college"
+                                                <?= $responseData['educational_attainment'] == '1st-year-college' ? 'selected' : '' ?>>1st Year College</option>
+                                            <option value="2nd-year-college"
+                                                <?= $responseData['educational_attainment'] == '2nd-year-college' ? 'selected' : '' ?>>2nd Year College</option>
+                                            <option value="3rd-year-college"
+                                                <?= $responseData['educational_attainment'] == '3rd-year-college' ? 'selected' : '' ?>>3rd Year College</option>
+                                            <option value="4th-year-college"
+                                                <?= $responseData['educational_attainment'] == '4th-year-college' ? 'selected' : '' ?>>4th Year College</option>
+                                            <option value="vocational"
+                                                <?= $responseData['educational_attainment'] == 'vocational' ? 'selected' : '' ?>>Vocational</option>
+                                            <option value="bachelor-degree"
+                                                <?= $responseData['educational_attainment'] == 'bachelor-degree' ? 'selected' : '' ?>>Bachelor's Degree</option>
+                                            <option value="master-degree"
+                                                <?= $responseData['educational_attainment'] == 'master-degree' ? 'selected' : '' ?>>Master's Degree</option>
+                                            <option value="doctoral-degree"
+                                                <?= $responseData['educational_attainment'] == 'doctoral-degree' ? 'selected' : '' ?>>Doctoral Degree</option>
                                         </select>
                                     </div>
-                                    <?php if ($responseData['still_studying'] == 'Yes'): ?>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="grade_level_if_studying" class="form-label">Current Grade
-                                                Level</label>
-                                            <input type="text" class="form-control" id="grade_level_if_studying"
-                                                name="grade_level_if_studying"
-                                                value="<?= htmlspecialchars($responseData['grade_level_if_studying']) ?>">
-                                        </div>
-                                    <?php else: ?>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="if_no_studying" class="form-label">Reason for Not Studying</label>
-                                            <input type="text" class="form-control" id="if_no_studying"
-                                                name="if_no_studying"
-                                                value="<?= htmlspecialchars($responseData['if_no_studying']) ?>">
-                                        </div>
-                                    <?php endif; ?>
+
+                                    <div class="col-md-6 mb-3" id="tech_voc_container"
+                                        style="display: <?= $responseData['educational_attainment'] == 'vocational' ? 'block' : 'none' ?>;">
+                                        <label for="techVoc" class="form-label">If Technical/Vocational, please specify.
+                                            <br>(If none please put N/A)</label>
+                                        <input type="text" class="form-control" id="techVoc" name="tech_voc"
+                                            value="<?= htmlspecialchars($responseData['tech_voc'] ?? 'N/A') ?>"
+                                            placeholder="Technical/Vocational">
+                                    </div>
+                                    <script>
+                                        function toggleVocationalField() {
+                                            var educationalAttainmentSelect = document.getElementById('educational_attainment');
+                                            var techVocContainer = document.getElementById('tech_voc_container');
+                                            if (educationalAttainmentSelect.value === 'vocational') {
+                                                techVocContainer.style.display = 'block';
+                                            } else {
+                                                techVocContainer.style.display = 'none';
+                                            }
+                                        }
+                                    </script>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="still_studying" class="form-label">Currently Studying</label>
+                                        <select class="form-control" id="still_studying" name="still_studying" required
+                                            onchange="toggleStudyingFields()">
+                                            <option value="yes" <?= $responseData['still_studying'] == 'yes' ? 'selected' : '' ?>>Yes</option>
+                                            <option value="no" <?= $responseData['still_studying'] == 'no' ? 'selected' : '' ?>>No</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3" id="reason_not_studying_container"
+                                        style="display: <?= $responseData['still_studying'] == 'no' ? 'block' : 'none' ?>;">
+                                        <label for="if_no_studying" class="form-label">Reason for Not Studying</label>
+                                        <input type="text" class="form-control" id="if_no_studying"
+                                            name="if_no_studying"
+                                            value="<?= htmlspecialchars($responseData['if_no_studying'] ?? 'N/A') ?>">
+                                    </div>
+                                    <div class="col-md-6 mb-3" id="grade_level_container"
+                                        style="display: <?= $responseData['still_studying'] == 'yes' ? 'block' : 'none' ?>;">
+                                        <label for="GradeLevelIfStudying" class="form-label">If Yes, What Grade/Year
+                                            Level If NO, please select N/A</label>
+                                        <select name="GradeLevelIfStudying" id="GradeLevelIfStudying"
+                                            class="form-control" placeholder="Grade/Year Level">
+                                            <option value="N/A" <?= $responseData['grade_level_if_studying'] == 'N/A' ? 'selected' : '' ?>>N/A</option>
+                                            <option value="grade-1"
+                                                <?= $responseData['grade_level_if_studying'] == 'grade-1' ? 'selected' : '' ?>>Grade 1</option>
+                                            <option value="grade-2"
+                                                <?= $responseData['grade_level_if_studying'] == 'grade-2' ? 'selected' : '' ?>>Grade 2</option>
+                                            <option value="grade-3"
+                                                <?= $responseData['grade_level_if_studying'] == 'grade-3' ? 'selected' : '' ?>>Grade 3</option>
+                                            <option value="grade-4"
+                                                <?= $responseData['grade_level_if_studying'] == 'grade-4' ? 'selected' : '' ?>>Grade 4</option>
+                                            <option value="grade-5"
+                                                <?= $responseData['grade_level_if_studying'] == 'grade-5' ? 'selected' : '' ?>>Grade 5</option>
+                                            <option value="grade-6"
+                                                <?= $responseData['grade_level_if_studying'] == 'grade-6' ? 'selected' : '' ?>>Grade 6</option>
+                                            <option value="1st-year-college"
+                                                <?= $responseData['grade_level_if_studying'] == '1st-year-college' ? 'selected' : '' ?>>1st Year College</option>
+                                            <option value="2nd-year-college"
+                                                <?= $responseData['grade_level_if_studying'] == '2nd-year-college' ? 'selected' : '' ?>>2nd Year College</option>
+                                            <option value="3rd-year-college"
+                                                <?= $responseData['grade_level_if_studying'] == '3rd-year-college' ? 'selected' : '' ?>>3rd Year College</option>
+                                            <option value="4th-year-college"
+                                                <?= $responseData['grade_level_if_studying'] == '4th-year-college' ? 'selected' : '' ?>>4th Year College</option>
+                                        </select>
+                                    </div>
+
+                                    <script>
+                                        function toggleStudyingFields() {
+                                            var stillStudyingSelect = document.getElementById('still_studying');
+                                            var gradeLevelContainer = document.getElementById('grade_level_container');
+                                            var reasonNotStudyingContainer = document.getElementById('reason_not_studying_container');
+                                            if (stillStudyingSelect.value === 'yes') {
+                                                gradeLevelContainer.style.display = 'block';
+                                                reasonNotStudyingContainer.style.display = 'none';
+                                            } else {
+                                                gradeLevelContainer.style.display = 'none';
+                                                reasonNotStudyingContainer.style.display = 'block';
+                                            }
+                                        }
+                                    </script>
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
                                     <button type="button" class="btn btn-secondary prev-step me-2">Previous</button>
@@ -591,19 +700,33 @@ if ($youthId) {
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="disability" class="form-label">Any Disability</label>
-                                        <select class="form-control" id="disability" name="disability" required>
-                                            <option value="Yes" <?= $responseData['disability'] == 'Yes' ? 'selected' : '' ?>>Yes</option>
-                                            <option value="No" <?= $responseData['disability'] == 'No' ? 'selected' : '' ?>>No</option>
+                                        <select class="form-control" id="disability" name="disability" required
+                                            onchange="toggleDisabilitySpec()">
+                                            <option value="N/A" <?= $responseData['disability'] == 'N/A' ? 'selected' : '' ?>>N/A</option>
+                                            <option value="yes" <?= $responseData['disability'] == 'yes' ? 'selected' : '' ?>>Yes</option>
+                                            <option value="no" <?= $responseData['disability'] == 'no' ? 'selected' : '' ?>>No</option>
                                         </select>
                                     </div>
-                                    <?php if ($responseData['disability'] == 'Yes'): ?>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="disability_spec" class="form-label">Disability Specification</label>
-                                            <input type="text" class="form-control" id="disability_spec"
-                                                name="disability_spec"
-                                                value="<?= htmlspecialchars($responseData['disability_spec']) ?>">
-                                        </div>
-                                    <?php endif; ?>
+                                    <div class="col-md-6 mb-3" id="disability_spec_container"
+                                        style="display: <?= $responseData['disability'] == 'yes' ? 'block' : 'none' ?>;">
+                                        <label for="disability_spec" class="form-label">If Yes, Please Specify the
+                                            Disability</label>
+                                        <input type="text" class="form-control" id="disability_spec"
+                                            name="disability_spec"
+                                            value="<?= htmlspecialchars($responseData['disability_spec'] ?? 'N/A') ?>">
+                                    </div>
+
+                                    <script>
+                                        function toggleDisabilitySpec() {
+                                            var disabilitySelect = document.getElementById('disability');
+                                            var disabilitySpecContainer = document.getElementById('disability_spec_container');
+                                            if (disabilitySelect.value === 'yes') {
+                                                disabilitySpecContainer.style.display = 'block';
+                                            } else {
+                                                disabilitySpecContainer.style.display = 'none';
+                                            }
+                                        }
+                                    </script>
                                     <div class="col-md-6 mb-3">
                                         <label for="have_any_child" class="form-label">Have Children</label>
                                         <select class="form-control" id="have_any_child" name="have_any_child" required>
